@@ -1,0 +1,120 @@
+/* Đặt kích thước hộp */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/* Đặt nền cho toàn bộ trang */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: url('../images/background/background-register.jpg') no-repeat center center; /* Đặt ảnh nền cho toàn bộ trang */
+    background-size: cover; /* Phủ toàn bộ trang */
+}
+
+/* Đặt nền cho phần tử chứa form */
+.container {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 300px; /* Chiều rộng của form */
+    padding: 20px;
+    text-align: center;
+    margin: 50px auto; /* Căn giữa form */
+    background-color: rgba(255, 255, 255, 0.4); /* Màu nền bán trong suốt */
+}
+
+/* Tiêu đề form đăng nhập */
+h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+}
+
+/* Nhãn và các trường nhập liệu */
+label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    font-size: 12px;
+    color: #333;
+    text-align: left;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #555;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+    border-color: #4CAF50;
+    outline: none;
+}
+
+/* Nút submit và clear */
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+button,
+input[type="submit"] {
+    width: 48%;
+    padding: 8px 0;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+button:hover,
+input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+button:active,
+input[type="submit"]:active {
+    background-color: #3e8e41;
+}
+
+/* Logo nằm dưới cùng */
+.logo-bottom {
+    margin-top: 20px;
+}
+
+.logo-bottom img {
+    width: 60px;
+    height: auto;
+}
+
+/* Dòng chữ và liên kết đăng ký */
+p {
+    margin: 15px 0;
+    color: rgb(70, 60, 60);
+    font-size: 16px;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}

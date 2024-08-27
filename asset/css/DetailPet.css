@@ -1,0 +1,60 @@
+/* Định dạng cho modal */
+.modal {
+    display: none; /* Ẩn modal khi chưa được mở */
+    position: fixed; /* Đặt modal ở vị trí cố định */
+    z-index: 1000; /* Đặt modal lên trên các phần tử khác */
+    left: 0;
+    top: 0;
+    width: 100%; /* Chiếm toàn bộ chiều rộng của viewport */
+    height: 100%; /* Chiếm toàn bộ chiều cao của viewport */
+    overflow: auto; /* Cho phép cuộn nếu nội dung quá lớn */
+    background-color: rgba(0, 0, 0, 0.5); /* Màu nền mờ đen */
+}
+
+/* Định dạng cho nội dung modal */
+.modal-content {
+    background-color: #fff; /* Nền trắng cho nội dung modal */
+    margin: 15% auto; /* Đặt margin tự động từ trên xuống và căn giữa */
+    padding: 20px; /* Khoảng cách bên trong modal */
+    border: 1px solid #888; /* Viền cho modal */
+    width: 40%; /* Chiếm 80% chiều rộng của viewport */
+    max-width: 600px; /* Chiều rộng tối đa của modal */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Đổ bóng cho modal */
+    border-radius: 10px; /* Bo góc cho modal */
+}
+
+/* Định dạng cho ảnh trong modal */
+.modal-img {
+    max-width: 100%; /* Đặt chiều rộng tối đa của ảnh bằng với chiều rộng của modal */
+    height: auto; /* Đặt chiều cao tự động để duy trì tỷ lệ ảnh */
+    border-radius: 5px; /* Bo góc cho ảnh */
+    display: block; /* Hiển thị ảnh như một khối */
+    margin: 0 auto; /* Căn giữa ảnh */
+}
+
+/* Định dạng cho tiêu đề modal */
+.modal-title {
+    font-size: 24px; /* Kích thước chữ cho tiêu đề */
+    margin-bottom: 10px; /* Khoảng cách phía dưới tiêu đề */
+}
+
+/* Định dạng cho các thông tin khác trong modal */
+.modal-price, .modal-sale-price, .modal-quantity, .modal-description {
+    margin: 10px 0; /* Khoảng cách giữa các đoạn văn */
+    font-size: 18px; /* Kích thước chữ cho các thông tin */
+}
+
+/* Định dạng cho nút đóng modal */
+.close {
+    color: #aaa; /* Màu chữ cho nút đóng */
+    float: right; /* Đặt nút đóng ở góc trên bên phải */
+    font-size: 28px; /* Kích thước chữ cho nút đóng */
+    font-weight: bold; /* Đậm chữ cho nút đóng */
+}
+
+.close:hover,
+.close:focus {
+    color: black; /* Đổi màu chữ khi rê chuột qua hoặc nhấn vào nút đóng */
+    text-decoration: none; /* Xóa gạch dưới cho nút đóng */
+    cursor: pointer; /* Đặt con trỏ chuột thành hình bàn tay khi rê qua nút đóng */
+}

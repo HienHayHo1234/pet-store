@@ -1,0 +1,109 @@
+/* Đặt kích thước hộp */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/* Đặt nền cho toàn bộ trang */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: url('../images/background/background-register.jpg') no-repeat center center; /* Đặt ảnh nền cho toàn bộ trang */
+    background-size: cover; /* Phủ toàn bộ trang */
+}
+
+/* Đặt nền cho phần tử chứa form với độ trong suốt */
+.container {
+    background: rgba(255, 255, 255, 0.4); /* Màu nền trắng với độ trong suốt 80% */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 300px; /* Chiều rộng của form */
+    padding: 20px;
+    text-align: center;
+    margin: 50px auto; /* Căn giữa form */
+}
+
+/* Tiêu đề form đăng ký */
+h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+}
+
+/* Nhãn và các trường nhập liệu */
+label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    font-size: 12px;
+    color: #333;
+    text-align: left;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #555;
+    background-color: #fff; /* Màu nền trắng cho trường nhập liệu */
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+    border-color: #4CAF50;
+    outline: none;
+}
+
+/* Nút submit và clear */
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+button {
+    width: 48%;
+    padding: 8px 0;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4CAF50; /* Màu nền nút */
+    color: white; /* Màu chữ nút */
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+button:active {
+    background-color: #3e8e41;
+}
+
+/* Dòng chữ "Or" và logo */
+p {
+    margin: 15px 0;
+    color: #666;
+    font-size: 12px;
+}
+
+a img {
+    width: 40px;
+    height: auto;
+    transition: transform 0.3s;
+}
+
+a img:hover {
+    transform: scale(1.1);
+}
