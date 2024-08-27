@@ -49,10 +49,16 @@ if (isset($_GET['action']) && $_GET['action'] === 'getPetDetails' && isset($_GET
         <p class="modal-sale-price">Giá khuyến mãi: </p>
         <p class="modal-quantity">Số lượng còn lại: </p>
         <p class="modal-description">Mô tả: </p>
+        <div class="modal-buttons">
+            <!-- Nút giỏ hàng -->
+            <button class="add-to-cart" onclick="addToPet('<?php echo htmlspecialchars($pet['id'], ENT_QUOTES, 'UTF-8'); ?>')">Giỏ hàng</button>
+        </div>
     </div>
-
 </div>
+
+
 
 </body>
 </html>
+<link rel="stylesheet" href="../asset/css/DetailPet.css">
 
