@@ -13,7 +13,6 @@ function addToPet(petId) {
 
     // Hiển thị popup thông báo
     showPopup("Đã thêm vào giỏ hàng!");
-    displayCartIcon();
 }
 
 // Hàm hiển thị cửa sổ popup
@@ -29,15 +28,6 @@ function showPopup(message) {
     }, 2000);
 }
 
-function displayCartIcon() {
-    let cartIcon = document.querySelector('.new-icon-cart');
-    if (!cartIcon) {
-        cartIcon = document.createElement('img');
-        cartIcon.className = 'new-icon-cart';
-        cartIcon.src = '../asset/images/icon/new-cart.png';
-        document.querySelector('.nav-cart').appendChild(cartIcon);
-    }
-}
 // Hàm xóa sản phẩm khỏi giỏ hàng
 function removeFromCart(petId) {
     // Select the invoice-item div element associated with the petId
