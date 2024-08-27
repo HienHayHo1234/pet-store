@@ -48,8 +48,6 @@ try {
     <!-- -----------bảng invoice -------------->
     <div class="invoice-flex">
         <?php if (!empty($cartItems)): ?>
-        <script> displayCartIcon() </script>
-
         <div class="title-invoice-flex">
             <input type="checkbox" class="checkbox-all-btn-cart" data-id="<?php echo htmlspecialchars($item['id']); ?>"
             onclick="toggleSelectAll(this)">
