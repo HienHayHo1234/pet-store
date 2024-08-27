@@ -6,12 +6,14 @@ function addToPet(petId) {
 
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
-            // Hiển thị popup thông báo
-            showPopup("Đã thêm vào giỏ hàng!");
         }
     };
 
     xhr.send("action=add&pet_id=" + encodeURIComponent(petId));
+
+    // Hiển thị popup thông báo
+    showPopup("Đã thêm vào giỏ hàng!");
+    displayCartIcon();
 }
 
 // Hàm hiển thị cửa sổ popup
@@ -27,15 +29,15 @@ function showPopup(message) {
     }, 2000);
 }
 
-// Hàm đóng cửa sổ popup khi nhấn nút "X"
-function closePopup() {
-    var popup = document.getElementById('popup-notification');
-    popup.style.display = 'none';
+function displayCartIcon() {
+    let cartIcon = document.querySelector('.new-icon-cart');
+    if (!cartIcon) {
+        cartIcon = document.createElement('img');
+        cartIcon.className = 'new-icon-cart';
+        cartIcon.src = '../asset/images/icon/new-cart.png';
+        document.querySelector('.nav-cart').appendChild(cartIcon);
+    }
 }
-
-// Thêm sự kiện cho nút "X" để đóng popup
-document.getElementById('popup-close').addEventListener('click', closePopup);
-
 // Hàm xóa sản phẩm khỏi giỏ hàng
 function removeFromCart(petId) {
     // Select the invoice-item div element associated with the petId
@@ -55,7 +57,12 @@ function removeFromCart(petId) {
                 try {
                     const response = JSON.parse(xhr.responseText);
                     if (response.success) {
-                        console.log('Sản phẩm đã bị xóa thành công.');
+                        // Kiểm tra nếu không còn sản phẩm nào thì reload lại trang
+                        const remainingItems = document.querySelectorAll('.invoice-item');
+                        if (remainingItems.length === 0) {
+                            location.reload();
+                        }
+                        updateTotalAmount();
                     }
                 } catch (e) {
                     console.error('Error parsing JSON response:', e);
@@ -64,14 +71,6 @@ function removeFromCart(petId) {
         };
 
         xhr.send("action=remove&pet_id=" + encodeURIComponent(petId));
-
-        updateTotalAmount();
-
-        // Kiểm tra nếu không còn sản phẩm nào thì reload lại trang
-        const remainingItems = document.querySelectorAll('.invoice-item');
-        if (remainingItems.length === 0) {
-            location.reload();
-        }
     }
 }
 
