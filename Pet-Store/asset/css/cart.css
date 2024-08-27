@@ -144,6 +144,7 @@
     background: linear-gradient(to bottom, #6b6e94, #8c8f9a); /* Warmer medium blue gradient */
     color: #ffedd8; /* Warm light color */
     border: 2px solid #9a8c98; /* Warmer dark border */
+    transform: scale(1.05); /* Tăng nhẹ kích thước khi hover */
 }
 
 .order-summary {
@@ -161,7 +162,7 @@
 }
 
 .btn-order-pet, .btn-cancel-pet {
-    flex: 1;
+    flex: 1.5;
     margin-right: 1vb;
     padding: 1vb 0.9vb;
     font-size: 2vb;
@@ -175,6 +176,7 @@
 
 .btn-order-pet:hover, .btn-cancel-pet:hover {
     background: linear-gradient(to bottom, #d9480f, #b9461b); /* Darker warm orange on hover */
+    transform: scale(1.05); /* Tăng nhẹ kích thước khi hover */
 }
 
 .cnt-buy {

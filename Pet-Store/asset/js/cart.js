@@ -6,13 +6,35 @@ function addToPet(petId) {
 
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
-            location.reload();
+            // Hiển thị popup thông báo
+            showPopup("Đã thêm vào giỏ hàng!");
         }
     };
 
     xhr.send("action=add&pet_id=" + encodeURIComponent(petId));
-    window("Đã thêm vào giỏ hàng!");
 }
+
+// Hàm hiển thị cửa sổ popup
+function showPopup(message) {
+    var popup = document.getElementById('popup-notification');
+    var popupMessage = document.getElementById('popup-message');
+    popupMessage.textContent = message;
+    popup.style.display = 'block';
+
+    // Tự động ẩn popup sau 5 giây
+    setTimeout(function() {
+        popup.style.display = 'none';
+    }, 2000);
+}
+
+// Hàm đóng cửa sổ popup khi nhấn nút "X"
+function closePopup() {
+    var popup = document.getElementById('popup-notification');
+    popup.style.display = 'none';
+}
+
+// Thêm sự kiện cho nút "X" để đóng popup
+document.getElementById('popup-close').addEventListener('click', closePopup);
 
 // Hàm xóa sản phẩm khỏi giỏ hàng
 function removeFromCart(petId) {
@@ -71,23 +93,6 @@ function removeFromCart(petId) {
     };
 }
 
-// Khởi tạo tiền ban đầu
-let totalAmountSelect = 0;
-let totalAmountStart = 0;
-
-// Hàm khởi tạo tổng tiền ban đầu khi trang tải
-function initializeTotalAmount() {
-    const totalAmountElement = document.querySelector('.total-amount');
-    if (totalAmountElement) {
-        totalAmountStart = parseInt(totalAmountElement.textContent.replace(/[^0-9]/g, ''), 10);
-    }
-}
-
-// Khởi tạo tổng tiền ban đầu khi trang được tải
-window.onload = function() {
-    initializeTotalAmount();
-};
-
 // Cập nhật tổng tiền
 function updateTotalAmount() {
     // Cập nhật tổng tiền trong .order-summary
@@ -105,6 +110,21 @@ function updateTotalAmount() {
         // Cập nhật tổng tiền mới vào phần tử .total-amount
         totalAmountElement.innerText = totalAmount.toLocaleString('vi-VN') + 'đ';
     }
+}
+
+function updateTotalAmountSelected() {
+    let totalAmount = 0;
+    let checkboxes = document.querySelectorAll('.checkbox-btn-cart:checked');
+
+    checkboxes.forEach(checkbox => {
+        if (checkbox.checked) {
+            let invoiceItem = checkbox.closest('.invoice-item');
+            let totalPrice = parseFloat(invoiceItem.querySelector('.totalPrice').textContent.replace(/\D/g, '')); // Lấy tổng giá từ .totalPrice
+            totalAmount += totalPrice;
+        }
+    });
+
+    document.querySelector('.total-amount').innerText = totalAmount.toLocaleString('vi-VN') + 'đ';
 }
 
 // Đảm bảo chỉ gắn sự kiện một lần cho các nút cộng trừ
@@ -133,6 +153,7 @@ function handleMinusClick() {
         quantitySpan.textContent = quantity;
         updateQuantity(itemId, quantity);
         updateInvoice(itemId, quantity);
+        updateInvoiceCheck(itemId);
     }
 }
 
@@ -145,8 +166,8 @@ function handlePlusClick() {
     quantitySpan.textContent = quantity;
     updateQuantity(itemId, quantity);
     updateInvoice(itemId, quantity);
+    updateInvoiceCheck(itemId);
 }
-
 
 function updateInvoice(itemId, quantity) {
     const invoiceItem = document.querySelector(`.totalPrice[data-id="${itemId}"]`);
@@ -155,17 +176,22 @@ function updateInvoice(itemId, quantity) {
     const totalPrice = pricePerItem * quantity;
     invoiceItem.innerText = `Tổng giá: ${totalPrice.toLocaleString('vi-VN')}đ`;
 
-    // Cập nhật tổng tiền trong .order-summary
-    const allInvoiceItems = document.querySelectorAll('.totalPrice');
-    let totalAmount = 0;
-
-    allInvoiceItems.forEach(item => {
-        const itemPrice = parseInt(item.innerText.replace(/[^0-9]/g, ''), 10);
-        totalAmount += itemPrice;
+    // Kiểm tra nếu không có checkbox nào được chọn
+    const allCheckboxes = document.querySelectorAll('.checkbox-btn-cart');
+            
+    let anyChecked = false;
+    allCheckboxes.forEach(cb => {
+        if (cb.checked) {
+            anyChecked = true;
+        }
     });
 
-    totalAmountStart = totalAmount;
-    updateTotalAmount(totalAmount);
+    if (!anyChecked) {
+        // Cập nhật tổng tiền mới vào phần tử .total-amount
+        updateTotalAmount();
+    } else {
+        updateTotalAmountSelected();
+    }
 }
     
 
@@ -184,7 +210,6 @@ function updateInvoiceCheck(petId) {
         if (priceParagraph) {
             priceParagraph.innerText = 'Giá: ' + totalPrice.toLocaleString('vi-VN') + 'đ';
         }
-        document.querySelector('.total-amount').innerText = selectedTotalAmount.toLocaleString('vi-VN') + 'đ';
     }
 }
 
@@ -193,8 +218,6 @@ function updateInvoiceCheck(petId) {
 // Chọn tất cả select box
 function toggleSelectAll(selectAllCheckbox) {
     const checkboxes = document.querySelectorAll('.checkbox-btn-cart');
-    const totalAmountElement = document.querySelector('.total-amount');
-    let totalAmount = 0;
 
     if (selectAllCheckbox.checked) {
         // Nếu chọn "Tất cả"
@@ -203,30 +226,19 @@ function toggleSelectAll(selectAllCheckbox) {
                 checkbox.checked = true; // Đánh dấu checkbox là đã chọn
                 selectItem(checkbox.getAttribute('data-id')); // Thực hiện hành động thêm vào danh sách đã chọn
             } 
-            const invoiceItem = document.querySelector(`.invoice-item[data-id="${checkbox.getAttribute('data-id')}"]`);
-            if (invoiceItem) {
-                const totalPriceElement = invoiceItem.querySelector('.totalPrice');
-                const totalPrice = parseInt(totalPriceElement.textContent.replace(/[^0-9]/g, ''), 10);
-                totalAmount += totalPrice; // Cộng dồn giá trị của tất cả các sản phẩm đã chọn
-            }
         });
+
+        updateTotalAmountSelected();
     } else {
         // Nếu bỏ chọn "Tất cả"
         checkboxes.forEach(checkbox => {
             checkbox.checked = false; // Bỏ chọn tất cả các checkbox
             selectItem(checkbox.getAttribute('data-id')); // Thực hiện hành động loại bỏ khỏi danh sách đã chọn
         });
-        totalAmountSelect = 0;
-        totalAmount = totalAmountStart; // Đặt tổng tiền về 0 khi bỏ chọn tất cả
+
+        updateTotalAmount();
     }
-
-    // Cập nhật tổng tiền mới
-    totalAmountElement.innerText = totalAmount.toLocaleString('vi-VN') + 'đ';
-    totalAmount = 0;
 }
-
-
-
 
 // hàm tạo item selected
 function selectItem(petId) {
@@ -273,18 +285,26 @@ function selectItem(petId) {
             // Thêm invoiceCheckItem vào trong container truck
             invoiceCheckDiv.appendChild(invoiceCheckItem);
             invoiceCheckDiv.style.display = 'flex';
-            // Thêm hiệu ứng rơi xuống
+
+            updateTotalAmountSelected();
         }
     } else {
         // Xóa div khỏi truck
         if (invoiceCheckItem) {
-            // Thêm hiệu ứng bay ngược lên
+            // nút chọn tất cả
+            const checkBoxAll = document.querySelector('.checkbox-all-btn-cart');
+
+            checkBoxAll.checked = false;
 
             // Xóa div khỏi truck khi hiệu ứng kết thúc
             invoiceCheckDiv.removeChild(invoiceCheckItem);
 
-            // Kiểm tra nếu không có checkbox nào được chọn, ẩn truck
+            // cập nhật lại tổng tiền
+            updateTotalAmountSelected();
+
+            // Kiểm tra nếu không có checkbox nào được chọn
             const allCheckboxes = document.querySelectorAll('.checkbox-btn-cart');
+            
             let anyChecked = false;
             allCheckboxes.forEach(cb => {
                 if (cb.checked) {
@@ -294,6 +314,7 @@ function selectItem(petId) {
 
             if (!anyChecked) {
                 // Cập nhật tổng tiền mới vào phần tử .total-amount
+                updateTotalAmount();
             }
         }
     }
