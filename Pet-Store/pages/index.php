@@ -20,6 +20,13 @@
         
         <main >
             <?php require_once("main.php"); ?>
+            
+            <!-- Popup Notification -->
+            <div id="popup-notification" class="popup-notification">
+                <span id="popup-close" class="popup-close">&times;</span>
+                <p id="popup-message"></p>
+            </div>
+
         </main>
     </body>
     
