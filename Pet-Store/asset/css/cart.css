@@ -178,7 +178,7 @@
     background: linear-gradient(to bottom, #d9480f, #b9461b); /* Darker warm orange on hover */
     transform: scale(1.05); /* Tăng nhẹ kích thước khi hover */
 }
-
+/*--------------------------- không thấy sản phâm ----------------------- */
 .cnt-buy {
     display: flex;
     width: 70%;
@@ -221,6 +221,7 @@
     background: linear-gradient(to bottom, #062c4f, #031d3a); /* Màu nền khi click */
     transform: scale(0.95); /* Giảm nhẹ kích thước khi click */
 }
+
 
 /*---------------------------- khung check ----------------*/
 .invoice-check-flex {
