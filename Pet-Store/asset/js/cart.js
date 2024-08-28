@@ -13,6 +13,8 @@ function addToPet(petId) {
 
     // Hiển thị popup thông báo
     showPopup("Đã thêm vào giỏ hàng!");
+
+    checkCartItems();
 }
 
 // Hàm hiển thị cửa sổ popup
