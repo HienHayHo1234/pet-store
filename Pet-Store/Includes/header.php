@@ -54,7 +54,7 @@
     </ul>
     
     <ul class="nav-right">
-        <li class="nav-cart">
+        <li class="dropdown-btn">
             <a class="text-cart" href="../pages/index.php?page=cart">
                 <img src="../asset/images/icon/cart-ico.png" alt="Cart Icon" />
                 Giỏ hàng
@@ -63,7 +63,7 @@
         |
         <li class="dropdown">
             <div class="dropdown-btn">
-            <a href="">
+            <a class="text-cart">
                 <img src="../asset/images/icon/user.png" alt="User Icon" />
                 Tài khoản
             </a>

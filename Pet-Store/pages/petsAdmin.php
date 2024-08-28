@@ -57,11 +57,13 @@ try {
                 </div>
                 <div class="row">
                     <label for="gender-<?php echo htmlspecialchars($pet['id']); ?>">Giới tính:</label>
-                    <select class="edit-gender" id="gender-<?php echo htmlspecialchars($pet['id']); ?>">
-                        <option value="0" <?php echo $pet['gender'] === '0' ? 'selected' : ''; ?>>Nữ</option>
-                        <option value="1" <?php echo $pet['gender'] === '1' ? 'selected' : ''; ?>>Nam</option>
-                    </select>
+                    <input name="gender" type="radio" value="1" <?php echo intval($pet['gender']) === 1 ? 'checked' : ''; ?> /> Đực
+                    <input name="gender" type="radio" value="0" <?php echo intval($pet['gender']) === 0 ? 'checked' : ''; ?> /> Cái
+
+
+                    
                 </div>
+                
                 <div class="row">
                     <label for="description-<?php echo htmlspecialchars($pet['id']); ?>">Mô tả:</label>
                     <textarea class="edit-description" id="description-<?php echo htmlspecialchars($pet['id']); ?>"
