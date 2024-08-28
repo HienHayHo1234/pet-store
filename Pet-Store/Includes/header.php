@@ -70,8 +70,7 @@
             </div>
             <div class="dropdown-content">
                 <a href="" onclick="openLoginModal(); return false;">
-                            <img class="circle-button" src="../asset/images/icon/user.png" alt="Login">
-                            
+                            <img class="circle-button" src="../asset/images/icon/user.png" alt="Login" style="font-size:10px">                  
                             Đăng nhập
                         </a>
                 <a href="../pages/index.php?page=dog">

@@ -3,7 +3,7 @@
     min-height: 80vh;
     margin-top: 62px;
     padding: 2vb;
-    background: linear-gradient(to right, #2e2d3c, #3a3a4f); /* Warmer dark blue gradient */
+    background: rgb(255,250,245); /* Warmer dark blue gradient */
 }
 
 @media (max-width: 768px) {
@@ -29,7 +29,7 @@
     flex: 9;
     font-size: 6vb;
     font-style: italic;
-    color: #ffedd8; /* Warm light color */
+    color: black    ; /* Warm light color */
 }
 
 .invoice-flex {
@@ -53,7 +53,7 @@
     gap: 5%;
     padding: 1vb;
     border-radius: 10px;
-    background: linear-gradient(to bottom, #3f3d56, #4a4a6e); /* Warm dark blue to deep blue-gray gradient */
+    background: rgb(255, 221, 186); /* Warm dark blue to deep blue-gray gradient */
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3); /* Subtle shadow */
     position: relative;
     align-items: center;
@@ -68,7 +68,7 @@
     width: 10%;
     height: 20%;
     cursor: pointer;
-    background: linear-gradient(to bottom, #6b6e94, #8c8f9a); /* Warmer medium blue gradient */
+    background: rgb(255,250,245); /* Warmer medium blue gradient */
     border: 2px solid #9a8c98; /* Warmer dark border */
     border-radius: 5px;
     position: relative;
@@ -87,7 +87,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: #ffffff; /* Màu trắng cho dấu tích */
+    color: black; /* Màu trắng cho dấu tích */
     font-size: 16px;
 }
 
@@ -115,13 +115,13 @@
     font-size: 4vb !important;
     font-weight: bold;
     margin: 0 0 10px 0;
-    color: #ffedd8; /* Warm light color */
+    color: black; /* Warm light color */
 }
 
 .invoice-text p {
     margin: 0;
     font-size: 3vb;
-    color: #f5f5f5; /* Màu chữ trắng ngà */
+    color: black;
     display: flex;
     align-items: center;
 }
@@ -141,8 +141,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(to bottom, #6b6e94, #8c8f9a); /* Warmer medium blue gradient */
-    color: #ffedd8; /* Warm light color */
+    background: rgb(255,250,245); /* Warmer medium blue gradient */
+    color: black; /* Warm light color */
     border: 2px solid #9a8c98; /* Warmer dark border */
     transform: scale(1.05); /* Tăng nhẹ kích thước khi hover */
 }
@@ -157,7 +157,7 @@
 .total-amount {
     font-size: 3vb;
     font-weight: bold;
-    color: #f5f5f5; /* Màu chữ trắng ngà */
+    color: black; /* Màu chữ trắng ngà */
     margin-left: 10px;
 }
 
@@ -171,11 +171,12 @@
     border-radius: 20px;
     cursor: pointer;
     transition: background 0.3s;
-    background: linear-gradient(to bottom, #ff8c42, #d9480f); /* Warm orange gradient */
+    background: rgb(255,250,245); /* Warm orange gradient */
+    color: black;
 }
 
 .btn-order-pet:hover, .btn-cancel-pet:hover {
-    background: linear-gradient(to bottom, #d9480f, #b9461b); /* Darker warm orange on hover */
+    background: rgb(255,250,245); /* Darker warm orange on hover */
     transform: scale(1.05); /* Tăng nhẹ kích thước khi hover */
 }
 /*--------------------------- không thấy sản phâm ----------------------- */
@@ -188,8 +189,8 @@
 
 .btn-pets-buy {
     display: inline-block;
-    background: linear-gradient(to bottom, #0f3460, #0a2a47); /* Dark blue gradient */
-    color: #ffffff; /* Màu chữ trắng */
+    background: rgb(255,250,245); /* Dark blue gradient */
+    color: black; /* Màu chữ trắng */
     border: none;
     padding: 10px 20px;
     border-radius: 8px;
@@ -236,7 +237,7 @@
     position: sticky;
     top: 10vh;
     display: flex;
-    background: linear-gradient(to bottom, #4a475a, #3a3748); /* Warmer deep blue-gray gradient */
+    background: rgb(255,250,245); /* Warmer deep blue-gray gradient */
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3); /* Subtle shadow */
     flex-direction: column;
     justify-content: center;
@@ -253,14 +254,14 @@
 }
 
 .invoice-check-item {
-    padding: 5px;
+    padding: 5px;   
     font-weight: bold;
     display: flex;
     align-items: center;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3); /* Subtle shadow */
     border-radius: 10px;
-    background: linear-gradient(to bottom, #6b6e94, #5b5f7e); /* Warmer medium blue gradient */
-    color: #ffedd8; /* Warm light color for text */
+    background: rgb(255, 221, 186); /* Warmer medium blue gradient */
+    color: black; /* Warm light color for text */
     transition: transform 0.5s ease-in-out;
     transform: translateY(0);
     position: relative;
