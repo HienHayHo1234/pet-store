@@ -22,6 +22,24 @@ if (!isset($_SESSION['logged_in']) || !$_SESSION['logged_in']) {
 
 $username = $_SESSION['username'];
 
+// Cập nhật thông tin nếu form được gửi
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $new_email = $_POST['email'];
+    // Thêm các thông tin khác nếu cần
+
+    $sql = "UPDATE users SET email = :email WHERE username = :username";
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(':email', $new_email);
+    $stmt->bindParam(':username', $username);
+
+    if ($stmt->execute()) {
+        echo "Cập nhật thông tin thành công!";
+    } else {
+        echo "Có lỗi xảy ra, vui lòng thử lại.";
+    }
+}
+
+// Lấy thông tin người dùng
 $sql = "SELECT * FROM users WHERE username = :username";
 $stmt = $conn->prepare($sql);
 $stmt->bindParam(':username', $username);
@@ -40,9 +58,15 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
 <body>
     <h2>Thông Tin Tài Khoản</h2>
     <?php if ($user): ?>
-        <p><strong>Tên đăng nhập:</strong> <?php echo htmlspecialchars($user['username']); ?></p>
-        <p><strong>Email:</strong> <?php echo htmlspecialchars($user['email']); ?></p>
-        <!-- Hiển thị thêm thông tin khác nếu cần -->
+        <form method="post">
+            <p><strong>Tên đăng nhập:</strong> <?php echo htmlspecialchars($user['username']); ?></p>
+            <p>
+                <strong>Email:</strong> 
+                <input type="email" name="email" value="<?php echo htmlspecialchars($user['email']); ?>">
+            </p>
+            <!-- Thêm các trường thông tin khác nếu cần -->
+            <button type="submit">Lưu thay đổi</button>
+        </form>
     <?php else: ?>
         <p>Không tìm thấy thông tin người dùng.</p>
     <?php endif; ?>

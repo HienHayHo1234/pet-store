@@ -40,8 +40,6 @@
 </section>
 
 
-
-<!-- <h2>Loại Thú Cưng</h2> -->
 <section class="pet">
     <div>
         <h2>Chó</h2>
@@ -58,12 +56,15 @@
         <a href="index.php?page=parrot"><img src="../asset/images/parrot/head.png" alt="Vẹt"></a>
         <h3>Chim là loài vật nuôi đáng yêu và đáng eu</h3>
     </div>
+
 </section>
 
+
+
 <section id="product">
-        <!-- <h2>Thú Cưng Cháy Hàng</h2> -->
+        <h1>Thú Cưng Cháy Hàng</h1>
     <?php require_once("hot.php"); ?>
-    <!-- <h2>Thú Cưng</h2> -->
+    <h1>Thú Cưng</h1>
     <?php require_once("pets.php"); ?>
 </section>
 <script src="../asset/js/banner.js"></script>

@@ -1,18 +1,6 @@
 <?php
 // Khai báo các thông số kết nối cơ sở dữ liệu
-$host = "localhost";
-$dbname = "pet-store";
-$username = "root";
-$password = "";
-
-$showLoginModal = false; // Biến để kiểm soát hiển thị modal
-
-try {
-    $conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Kết nối thất bại: " . $e->getMessage());
-}
+require '../config/config.php';
 
 // Xử lý form đăng ký
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -37,11 +25,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "Tài khoản hoặc email đã tồn tại. Vui lòng <a href='index.php'>đăng nhập</a>.";
         } else {
             // Lưu mật khẩu không mã hóa
-            $sql = "INSERT INTO users (username, email, password) VALUES (:username, :email, :password)";
+            $sql = "INSERT INTO users (username, email, pass) VALUES (:username, :email, :pass)";
             $stmt = $conn->prepare($sql);
             $stmt->bindParam(':username', $username);
             $stmt->bindParam(':email', $email);
-            $stmt->bindParam(':password', $password); // Lưu mật khẩu trực tiếp
+            $stmt->bindParam(':pass', $password); // Lưu mật khẩu trực tiếp
 
             if ($stmt->execute()) {
                 // Redirect đến trang index.php với query string
@@ -54,3 +42,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
+
+<link rel="stylesheet" href="../asset/css/register.css">
+<!-- Modal Form Đăng Ký -->
+<div id="registerModal" class="modal" style="display:none">
+    <div class="modal-content">
+        <span id="closeRegisterModalButton" class="close">&times;</span>
+        <!-- Mũi tên quay lại form đăng nhập -->
+        <span id="backToLogin" class="back-arrow">&#8592; Quay lại</span> 
+        <h2>Đăng Ký</h2>
+        <form action="register.php" method="post" class ="form-register">
+            <label for="register-username">Tên đăng nhập</label>
+            <input type="text" id="register-username" name="username" required><br>
+            <label for="register-email">Email</label><br>
+            <input type="email" id="register-email" name="email" required><br>
+            <label for="register-password">Mật khẩu</label><br>
+            <input type="password" id="register-password" name="password" required><br>
+            <label for="register-confirmPassword">Xác nhận mật khẩu</label><br>
+            <input type="password" id="register-confirmPassword" name="confirmPassword" required><br>
+            <div class="button-container">
+                <button type="submit" name = "btn1">Gửi</button>
+                <button type="reset">Xóa</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="../asset/js/register.js"></script>

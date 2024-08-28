@@ -1,53 +1,34 @@
-<?php
-session_start();
+<link rel="stylesheet" href="../asset/css/login.css">
 
-// Khai báo các thông số kết nối cơ sở dữ liệu
-$host = "localhost";
-$dbname = "pet-store";
-$username = "root";
-$password = "";
+<!-- Modal Form Đăng Nhập -->
+<div id="loginModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span onclick="closeLoginModal()" id="closeLoginModalButton" class="close">&times;</span>
+        <h2>Đăng Nhập</h2>
+        <form id="loginForm" class="form-login">
+            <div class="form-group">
+                <label for="login-username">Tên đăng nhập:</label>
+                <input type="text" id="login-username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="login-password">Mật khẩu:</label>
+                <input type="password" id="login-password" name="password" required>
+            </div>
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" name="status"> Ghi nhớ đăng nhập
+                </label>
+            </div>
+            <hr>
+            <div class="button-container">
+                <input type="submit" value="Đăng Nhập">
+                <button type="reset">Xóa</button>
+            </div>
+            <div id="error-message" class="error"></div>
+            <p>Chưa có tài khoản? <a href="#" onclick="openRegisterModal(); return false;">Đăng ký</a></p>
+            <p><a href="#" onclick="openForgotPasswordModal(); return false;">Quên mật khẩu?</a></p>
+        </form>
+    </div>
+</div>
 
-try {
-    $conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password, [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_EMULATE_PREPARES => false,
-    ]);
-} catch (PDOException $e) {
-    echo json_encode(['error' => 'Lỗi kết nối cơ sở dữ liệu.']);
-    exit();
-}
-
-// Xử lý form đăng nhập
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = trim($_POST['username']);
-    $password = trim($_POST['password']);
-
-    // Kiểm tra dữ liệu đầu vào
-    if (empty($username) || empty($password)) {
-        echo json_encode(['error' => 'Vui lòng nhập đầy đủ thông tin.']);
-    } else {
-        try {
-            // Kiểm tra thông tin đăng nhập
-            $sql = "SELECT * FROM users WHERE username = :username";
-            $stmt = $conn->prepare($sql);
-            $stmt->bindParam(':username', $username);
-            $stmt->execute();
-            $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            if ($user) {
-                // Kiểm tra mật khẩu
-                if (password_verify($password, $user['password'])) {
-                    $_SESSION['logged_in'] = true;
-                    $_SESSION['username'] = $username;
-                    echo json_encode(['success' => true]);
-                } else {
-                    echo json_encode(['error' => 'Mật khẩu không đúng.']);
-                }
-            } else {
-                echo json_encode(['error' => 'Tên đăng nhập không tồn tại.']);
-            }
-        } catch (PDOException $e) {
-            echo json_encode(['error' => 'Lỗi khi truy vấn cơ sở dữ liệu.']);
-        }
-    }
-}
+<script src="../asset/js/login.js"></script>

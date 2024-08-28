@@ -39,7 +39,7 @@ h2 {
     font-size: 20px; /* Giảm kích thước tiêu đề */
 }
 
-form {
+.form-register {
     display: flex;
     flex-direction: column;
 }

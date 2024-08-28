@@ -13,7 +13,7 @@ function checkCartItems() {
 }
 
 function displayCartIcon() {
-    let cartIcon = document.querySelector('.new-cart');
+    let cartIcon = document.querySelector('.new-icon-cart');
     if (!cartIcon) {
         cartIcon = document.createElement('img');
         cartIcon.className = 'new-icon-cart';

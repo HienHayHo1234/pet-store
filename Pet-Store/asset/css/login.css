@@ -1,8 +1,13 @@
+
 /* Styles for the Login Modal */
 .modal {
-
+    width: 50vb;
+    height: 30vb;
     position: fixed;
+    top : 0;
+    right: 30vb;
     z-index: 1000; /* Đảm bảo modal nằm trên cùng */
+
 }
 
 .modal-content {
@@ -12,14 +17,14 @@
     padding: 20px;
     border: 1px solid #888; /* Đường viền modal */
     width: 80%; /* Chiều rộng modal */
-    max-width: 500px; /* Chiều rộng tối đa */
     border-radius: 10px; /* Bo góc modal */
+    color:black;
 }
 
 .close {
     position: absolute;
     top: 10px;
-    right: 25px;
+    right: 35px;
     color: #000;
     font-size: 35px;
     font-weight: bold;
