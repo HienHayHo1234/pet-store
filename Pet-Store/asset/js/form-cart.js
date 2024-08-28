@@ -3,13 +3,23 @@ function showOrderForm(productId) {
     var orderForm = document.getElementById('orderForm');
     orderForm.style.display = '';
     // Gán giá trị productId vào hidden input
-    document.getElementById('productId').value = productId;
+    updateTotalPriceForm(productId);
     // Cuộn trang đến form đặt hàng
     orderForm.scrollIntoView({
         behavior: 'smooth'
     });
 }
-
+function showOrderAllForm() {
+    // Hiển thị form đặt hàng
+    var orderForm = document.getElementById('orderForm');
+    orderForm.style.display = '';
+    // Gán giá trị productId vào hidden input
+    updateTotalPriceAllForm();
+    // Cuộn trang đến form đặt hàng
+    orderForm.scrollIntoView({
+        behavior: 'smooth'
+    });
+}
 function btnClose() {
     var orderForm = document.getElementById('orderForm');
     orderForm.style.display = 'none';
@@ -24,9 +34,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const name = document.getElementById('name').value.trim();
         const address = document.getElementById('address').value.trim();
         const phone = document.getElementById('phone').value.trim();
-        const product = document.getElementById('product').value;
 
-        if (name && address && phone  && product) {
+        if (name && address && phone) {
             infoMessage.style.display = 'none';
             formCompleteMessage.style.display = 'block';
             submitButton.style.display = 'inline-block';
@@ -39,25 +48,46 @@ document.addEventListener('DOMContentLoaded', function() {
 
     form.addEventListener('input', validateForm);
 });
-function updateTotalPrice() {
-    var productSelect = document.getElementById('product');
-    var selectedOption = productSelect.options[productSelect.selectedIndex];
-    var totalAmount = 0;
+function updateTotalPriceForm(petId) {
+    // Select the invoice item based on the item ID
+    const invoiceItem = document.querySelector(`.invoice-item[data-id="${petId}"]`);
 
-    if (selectedOption.value === "all") {
-        // Nếu chọn "Chọn hết", tính tổng tiền của tất cả sản phẩm
-        var textPrices = document.querySelectorAll('.text-price');
-        textPrices.forEach(function(textPrice) {
-            var amount = parseInt(textPrice.innerText.replace(/\D/g, '')); // Lấy giá trị số từ text-price
-            totalAmount += amount;
-        });
+    if (invoiceItem) {
+        // Extract the pet name
+        const nameElement = invoiceItem.querySelector('.name-pet-cart');
+        const name = nameElement ? nameElement.textContent : 'Unknown Pet';
+
+        // Update the name in the form
+        const nameFormElement = document.getElementById('name-invoice-form');
+        const nameInFormElement = document.querySelector('.total-amount.nameInForm');
+
+        nameInFormElement.style.display = '';
+        nameFormElement.innerText = name;
+
+        // Select and parse the total price
+        const invoiceItemPrice = invoiceItem.querySelector('.totalPrice');
+        if (invoiceItemPrice) {
+            const totalPrice = parseInt(invoiceItemPrice.innerText.replace(/[^0-9]/g, ''), 10);
+
+            // Update the total amount in the form
+            document.getElementById('total-amount-form').innerText = totalPrice.toLocaleString('vi-VN') + 'đ';
+        }
     } else {
-        // Nếu chọn một sản phẩm cụ thể
-        var price = selectedOption.getAttribute('data-price');
-        var quantity = selectedOption.getAttribute('data-quantity');
-        totalAmount = (parseInt(price) || 0) * (parseInt(quantity) || 1);
+        console.error(`No invoice item found for petId: ${petId}`);
     }
-
-    // Hiển thị tổng số tiền
-    document.getElementById('totalAmount').innerText = totalAmount.toLocaleString('vi-VN') + 'đ';
 }
+
+function updateTotalPriceAllForm() {
+    // Select the total amount element
+    const totalAmountElement = document.querySelector('.order-summary .total-amount');
+
+    if (totalAmountElement) {
+        // Extract the total price value
+        const totalPriceText = totalAmountElement.innerText.replace(/[^0-9]/g, ''); // Remove non-numeric characters
+        const totalPrice = parseInt(totalPriceText, 10); // Convert to integer
+
+        // Update the total amount in the form
+        document.getElementById('total-amount-form').innerText = totalPrice.toLocaleString('vi-VN') + 'đ';
+    }
+}
+

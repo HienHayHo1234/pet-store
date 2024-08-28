@@ -3,7 +3,7 @@
     min-height: 80vh;
     margin-top: 62px;
     padding: 2vb;
-    background: linear-gradient(to right, #2e2d3c, #3a3a4f); /* Warmer dark blue gradient */
+    background: linear-gradient(to right, #f8f8e6, #f8f4dd); /* Beige gradient */
 }
 
 @media (max-width: 768px) {
@@ -29,7 +29,7 @@
     flex: 9;
     font-size: 6vb;
     font-style: italic;
-    color: #ffedd8; /* Warm light color */
+    color: #4c2f0d; /* Warm light color */
 }
 
 .invoice-flex {
@@ -53,7 +53,7 @@
     gap: 5%;
     padding: 1vb;
     border-radius: 10px;
-    background: linear-gradient(to bottom, #3f3d56, #4a4a6e); /* Warm dark blue to deep blue-gray gradient */
+    background: linear-gradient(to bottom, #fff6ea, #f6ebcc); /* Beige complement gradient */
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3); /* Subtle shadow */
     position: relative;
     align-items: center;
@@ -68,7 +68,7 @@
     width: 10%;
     height: 20%;
     cursor: pointer;
-    background: linear-gradient(to bottom, #6b6e94, #8c8f9a); /* Warmer medium blue gradient */
+    background: linear-gradient(to bottom, #8c8f9a, #6b6e94); /* Warmer medium blue gradient */
     border: 2px solid #9a8c98; /* Warmer dark border */
     border-radius: 5px;
     position: relative;
@@ -77,7 +77,7 @@
 }
 
 .checkbox-btn-cart:checked {
-    background: linear-gradient(to bottom, #ff6b6b, #ff3b3b); /* Warm coral red gradient */
+    background: linear-gradient(to bottom, #ff3b3b, #ff6b6b); /* Warm coral red gradient */
     border-color: #ff6b6b; /* Warm coral red border */
 }
 
@@ -87,7 +87,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: #ffffff; /* Màu trắng cho dấu tích */
+    color: #ffffff; /* White for checkmark */
     font-size: 16px;
 }
 
@@ -99,7 +99,6 @@
 .image-container > .imgInvoice {
     width: 100%;
     height: 20vb;
-    object-fit: cover;
     border-radius: 10%;
 }
 
@@ -121,7 +120,7 @@
 .invoice-text p {
     margin: 0;
     font-size: 3vb;
-    color: #f5f5f5; /* Màu chữ trắng ngà */
+    color: #8b1414; /* Off-white text color */
     display: flex;
     align-items: center;
 }
@@ -141,23 +140,26 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(to bottom, #6b6e94, #8c8f9a); /* Warmer medium blue gradient */
+    background: linear-gradient(to bottom, #8c8f9a, #6b6e94); /* Warmer medium blue gradient */
     color: #ffedd8; /* Warm light color */
     border: 2px solid #9a8c98; /* Warmer dark border */
-    transform: scale(1.05); /* Tăng nhẹ kích thước khi hover */
+    transform: scale(1.05); /* Slightly increase size on hover */
 }
 
 .order-summary {
-    font-size: larger;
-    font-weight: bold;
-    color: #e94560; /* Màu đỏ nhạt */
     padding: 10px;
 }
 
-.total-amount {
-    font-size: 3vb;
+.order-summary>p {
+    font-size: larger;
     font-weight: bold;
-    color: #f5f5f5; /* Màu chữ trắng ngà */
+    color: #e94560; /* Light red color */
+}
+
+.order-summary .total-amount {
+    font-size: 4vb;
+    font-weight: bold;
+    color: #583535; /* Off-white text color */
     margin-left: 10px;
 }
 
@@ -171,13 +173,14 @@
     border-radius: 20px;
     cursor: pointer;
     transition: background 0.3s;
-    background: linear-gradient(to bottom, #ff8c42, #d9480f); /* Warm orange gradient */
+    background: linear-gradient(to bottom, #d9480f, #ff8c42); /* Warm orange gradient */
 }
 
 .btn-order-pet:hover, .btn-cancel-pet:hover {
-    background: linear-gradient(to bottom, #d9480f, #b9461b); /* Darker warm orange on hover */
-    transform: scale(1.05); /* Tăng nhẹ kích thước khi hover */
+    background: linear-gradient(to bottom, #b9461b, #d9480f); /* Darker warm orange on hover */
+    transform: scale(1.05); /* Slightly increase size on hover */
 }
+
 /*--------------------------- không thấy sản phâm ----------------------- */
 .cnt-buy {
     display: flex;
@@ -188,8 +191,8 @@
 
 .btn-pets-buy {
     display: inline-block;
-    background: linear-gradient(to bottom, #0f3460, #0a2a47); /* Dark blue gradient */
-    color: #ffffff; /* Màu chữ trắng */
+    background: linear-gradient(to bottom, #e7e7b5, #fffbb7); /* Beige gradient */
+    color: #333; /* Dark text color for contrast */
     border: none;
     padding: 10px 20px;
     border-radius: 8px;
@@ -200,10 +203,11 @@
 }
 
 .btn-pets-buy a {
-    color: inherit; /* Đảm bảo màu chữ từ nút được kế thừa */
+    color: inherit; /* Ensure text color is inherited */
     text-decoration: none;
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 .btn-pets-buy img {
@@ -213,15 +217,14 @@
 }
 
 .btn-pets-buy:hover {
-    background: linear-gradient(to bottom, #1a508b, #143b6a); /* Màu nền khi hover */
-    transform: scale(1.05); /* Tăng nhẹ kích thước khi hover */
+    background: linear-gradient(to bottom, #d8cfc4, #c5bba0); /* Beige complement gradient for hover */
+    transform: scale(1.05); /* Slightly increase size on hover */
 }
 
 .btn-pets-buy:active {
-    background: linear-gradient(to bottom, #062c4f, #031d3a); /* Màu nền khi click */
-    transform: scale(0.95); /* Giảm nhẹ kích thước khi click */
+    background: linear-gradient(to bottom, #c5bba0, #d8cfc4); /* Slightly darker beige for active state */
+    transform: scale(0.95); /* Slightly decrease size on click */
 }
-
 
 /*---------------------------- khung check ----------------*/
 .invoice-check-flex {
@@ -236,7 +239,7 @@
     position: sticky;
     top: 10vh;
     display: flex;
-    background: linear-gradient(to bottom, #4a475a, #3a3748); /* Warmer deep blue-gray gradient */
+    background: linear-gradient(to bottom, #fffdd8, #f6f6da); /* Beige gradient to match cart-flex */
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3); /* Subtle shadow */
     flex-direction: column;
     justify-content: center;
@@ -259,8 +262,8 @@
     align-items: center;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3); /* Subtle shadow */
     border-radius: 10px;
-    background: linear-gradient(to bottom, #6b6e94, #5b5f7e); /* Warmer medium blue gradient */
-    color: #ffedd8; /* Warm light color for text */
+    background: linear-gradient(to bottom, #fffdd1, #e7e7ce); /* Beige gradient to match container */
+    color: #333; /* Darker color for better readability */
     transition: transform 0.5s ease-in-out;
     transform: translateY(0);
     position: relative;
@@ -274,7 +277,7 @@
     width: 12vb;
     height: 12vb;
     border-radius: 10px;
-    border: 2px solid #9a8c98; /* Warmer dark border */
+    border: 2px solid #e7e7ce; /* Light beige border to match background */
 }
 
 .invoice-check-item > p {
@@ -285,16 +288,16 @@
     padding: 1.5vb 3vb;
     font-size: 2.5vb;
     font-weight: bold;
-    color: white;
-    background: linear-gradient(to bottom, #d9480f, #c63c1e); /* Warmer orange button gradient */
+    color: #fff; /* White text for contrast */
+    background: linear-gradient(to bottom, #ff8c42, #d9480f); /* Warm orange gradient */
     border: none;
     border-radius: 30px;
     cursor: pointer;
-    transition: background 0.3s, transform 0.2s, box-shadow 0.3s; /* Added transition for shadow and scale */
+    transition: background 0.3s, transform 0.2s, box-shadow 0.3s; /* Transition for shadow and scale */
 }
 
 .btn-order-all:hover {
-    background: linear-gradient(to bottom, #c63c1e, #a54a1a); /* Darker warm orange on hover */
+    background: linear-gradient(to bottom, #d9480f, #c63c1e); /* Darker warm orange on hover */
     transform: scale(1.05); /* Slightly increase size on hover */
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); /* Add subtle shadow on hover */
 }
@@ -302,8 +305,6 @@
 .btn-order-all:active {
     transform: scale(0.95); /* Slightly decrease size on click */
 }
-
-
 
 /* -----------------CSS cho from đặt hàng------------------------- */
 .cart-form {
@@ -314,8 +315,8 @@
     left: 50%;
     transform: translate(-50%, -20%);
     display: flex;
-    z-index: 4;
-    background-color: rgb(144, 200, 232);
+    z-index: 101;
+    background-color: rgb(232, 234, 211);
     box-shadow: 0 10px 10px 5px rgba(84, 84, 84, 0);
 }
 .cart-form .text-chat {
@@ -326,13 +327,15 @@
     top: 50%;
     right: 2%;
     border-radius: 15px;
-    display: flex; /* Sử dụng Flexbox */
-    align-items: center; /* Căn giữa theo chiều dọc */
-    text-align: center; /* Đảm bảo chữ căn giữa nếu có nhiều dòng */
+    display: flex;
+    align-items: center; 
+    text-align: center; 
     padding: 10px;
-    color: white;
+    color: rgb(102, 25, 25);
     font-weight: bold;
+    font-size: 2.5vb;
     z-index: 3;
+
 }
 .cart-form .img-note {
     width: 45%;
@@ -346,7 +349,7 @@
 .order-form {
     width: 50%;
     border-radius: 5px;
-    background-color: rgb(65, 153, 204);
+    background-color: rgb(205, 210, 137);
     padding: 10px;
     color: white;
     top: 2%;
@@ -356,8 +359,9 @@
 .order-form label {
     margin-top: 10px;
     display: block;
-    color: white;
+    color: rgb(58, 14, 14);
     font-weight: bold;
+    font-size: 3vb;
 }
 
 .order-form input,
@@ -373,8 +377,10 @@
 /* Định dạng tiêu đề form */
 .order-form h2 {
     margin-bottom: 10px;
-    color: white;
+    color: rgb(58, 14, 14);
     text-align: center;
+    background-color: transparent;
+    font-size: 5vb;
 }
 /* nút đóng */
 .btn-close {
@@ -389,23 +395,33 @@
 .btn-submit {
     margin: 4% auto;
     width: 30%;
-    background-color: transparent;
+    background-color: transparent !important;
     border: none;
     padding: 0;
     border-radius: 10px;
+    display: flex;
+    justify-content: center; /* Center the image within the button */
+    align-items: center; /* Center the image vertically */
 }
 
-.btn-submit>img {
+.btn-submit > img {
     width: 100%;
     display: block;
-    background-color: rgb(216, 184, 184);
+    background-color: rgb(244, 211, 211); /* Light beige color */
     border-radius: 10px;
+    transition: background-color 0.3s, transform 0.3s; /* Smooth transition for hover effects */
 }
-.btn-submit>img:hover {
-    background-color: rgb(188, 153, 153);
+
+.btn-submit > img:hover {
+    background-color: rgb(220, 182, 182); /* Darker beige color */
+    transform: scale(1.2); /* Correct scale value (1.2 instead of 1.2x) */
 }
+
+
 .total-amount {
     font-size: 1.5rem;
+    color: #f72626 !important;
+    margin-top: 5% !important;
 }
 
 /* Định dạng khi form kích thước nhỏ */

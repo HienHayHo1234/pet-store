@@ -1,3 +1,14 @@
+body{
+    font-family: Courier;
+    text-align: center;
+    background-color: rgb(255,250,245);
+    margin: 0;
+    
+}   
+main{
+    margin-top: 62px;
+    min-height: 80vh;
+}
 
 h2, h1 {
     font-size: 2em;
@@ -38,19 +49,6 @@ h2, h1 {
 .dropdown:hover .dropdown-content {
     display: block;
     opacity: 1;
-}
-
-
-body{
-    font-family: Courier;
-    text-align: center;
-    background-color: rgb(255,250,245);
-    margin: 0;
-    
-}   
-main{
-    margin-top: 62px;
-    min-height: 80vh;
 }
 
 .logo-container {
@@ -100,6 +98,7 @@ ul {
 .nav-center {
     justify-content: center;
     display: flex;
+    flex: 1.5;
 }
 
 .nav-right {
