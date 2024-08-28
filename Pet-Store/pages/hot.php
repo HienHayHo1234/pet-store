@@ -19,7 +19,7 @@ try {
 }
 ?>
 <link rel="stylesheet" href="../asset/css/hot.css">
-<link rel="stylesheet" href="../asset/css/pets.css">
+
 <div class="pets-grid">
     <?php if (!empty($pets)): ?>
         <?php foreach ($pets as $pet): ?>

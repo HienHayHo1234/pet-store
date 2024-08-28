@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="../asset/css/banner.css">
 <link rel="stylesheet" href="../asset/css/pets.css">
 <section>
-    <div class="slider-container">
+    <!-- <div class="slider-container">
             <div class="slider" id="slider">
                 <div class="slide"><img src="../asset/images/banner/2.jpg" alt="Image 1"></div>
                 <div class="slide"><img src="../asset/images/banner/3.jpg" alt="Image 2"></div>
@@ -12,9 +12,34 @@
             <button class="arrow left-arrow" id="prevBtn">&#10094;</button>
             <button class="arrow right-arrow" id="nextBtn">&#10095;</button>
             <div class="indicators" id="indicators"></div>
+    </div> -->
+
+        <div class="banner">
+            <img src="../asset/images/banner/dau.jpg" alt="Image 1">
+        </div>
+
+    <div class="text">
+        CUNG CẤP NHỮNG LOẠI THÚ CƯNG 
+        CỰC KÌ ĐA DẠNG VÀ DỄ THƯƠNG
+        <button class="buy-now">XEM NGAY</button>
     </div>
+</div>
+
+
+
+<script>
+    window.addEventListener('scroll', function() {
+    let scrollPosition = window.scrollY;
+    let banner = document.querySelector('.banner img');
+
+    // Điều chỉnh vị trí của ảnh khi cuộn
+    banner.style.transform = `translateY(${scrollPosition * -0.1}px)`; /* Tốc độ cuộn chậm hơn */
+});
+
+</script>
 </section>
-<h2>Loại Thú Cưng</h2>
+
+
 <section class="pet">
     <div>
         <h2>Chó</h2>
@@ -31,12 +56,15 @@
         <a href="index.php?page=parrot"><img src="../asset/images/parrot/head.png" alt="Vẹt"></a>
         <h3>Chim là loài vật nuôi đáng yêu và đáng eu</h3>
     </div>
+
 </section>
 
+
+
 <section id="product">
-    <h2>Thú Cưng Cháy Hàng</h2>
+        <h1>Thú Cưng Cháy Hàng</h1>
     <?php require_once("hot.php"); ?>
-    <h2>Thú Cưng</h2>
+    <h1>Thú Cưng</h1>
     <?php require_once("pets.php"); ?>
 </section>
 <script src="../asset/js/banner.js"></script>

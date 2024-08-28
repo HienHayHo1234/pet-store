@@ -5,8 +5,8 @@
     gap: 20px;
     padding: 20px 80px 80px 80px;
     z-index: 100;
+    background-color: rgb(255,250,245);
 }
-
 @media (max-width: 1300px) {
     .pets-grid {
         grid-template-columns: repeat(3, 1fr);
@@ -34,9 +34,7 @@
     text-align: center;
     box-shadow: 0px 3px 10px 5px rgba(0, 0, 0, 0.3); /* Điều chỉnh box-shadow để phù hợp với màu nền mới */
     padding: 3px;
-    background-color: #4a475a; /* Warmer deep blue-gray */
     transition: transform 0.3s;
-    border-radius: 20px;
 }
 
 .container-pets:hover {
@@ -46,7 +44,6 @@
 .container-pets>img {
     width: 100%;
     height: 75%;
-    border-radius: 20px 20px 0 0;
 }
 
 .row {
@@ -55,7 +52,7 @@
 
 .name-pet {
     margin: 0;
-    font-size: 30px;
+    font-size: 27px;
     font-weight: bold;
     color: #ff8c42; /* Warm orange */
     text-align: center;
@@ -81,35 +78,34 @@
     width: 130px;
     height: 50px;
     padding: 5px;
-    background-color: #ff8c42; /* Warm orange */
+    background-color: #18004d; /* Light warm gray */
+    color: white; /* Warm coral red */
     margin: 20px auto;
-    color: white;
-    border-radius: 30px;
     font-weight: bold;
     vertical-align: middle;
-    box-shadow: 0 4px #999; /* Optionally remove this */
     top: -100px;
 }
 
-.heart {
-    right: 3%;
-    top: -130px;
-    border-radius: 40px;
-}
+
 
 .heart, .button {
     border: none;
-    background-color: #f5f5f5; /* Light warm gray */
-    color: #ff6b6b; /* Warm coral red */
+    background-color: rgba(255, 250, 245, 0.7); /* Light warm gray */
+    color: #18004d; /* Warm coral red */
     font-size: 20px;
     cursor: pointer;
     transition: color 0.3s, transform 0.3s;
     position: absolute; /* Positioned relative to the container */
 }
-
+.heart {
+    right: 3%;
+    top: -130px;
+    border-radius: 40px;
+    color: #ff6b6b;
+}
 .heart:hover, .button:hover {
-    color: #ffffff; /* White color on hover */
-    background-color: #ff8c42; /* Warm orange */
+    color:white ; /* White color on hover */
+    background-color:#18004d; /* Warm orange */
     transform: scale(1.1); /* Increase size on hover */
 }
 
@@ -118,8 +114,8 @@
 }
 
 .text-price {
-    font-size: 22px;
-    color: #ff8c42; /* Warm orange */
+    font-size: 17px;
+    color: black; /* Warm orange */
     text-align: center;
     margin-top: 5px;
     font-style: italic;
@@ -134,12 +130,13 @@
     position: absolute;
     bottom: 2%;
     left: 2%;
+
 }
 
 div .view-details {
     border: none;
-    background-color: #f5f5f5; /* Light warm gray */
-    color: #ff6b6b; /* Warm coral red */
+    background-color: rgba(255, 250, 245, 0.7);
+    color: #18004d;
     font-size: 20px;
     cursor: pointer;
     transition: color 0.3s, transform 0.3s;
@@ -148,17 +145,16 @@ div .view-details {
     height: 50px;
     padding: 5px;
     margin: 20px auto;
-    border-radius: 30px;
     font-weight: bold;
     vertical-align: middle;
-    box-shadow: 0 4px #999; /* Optionally remove this */
     top: -100px;
     left: 2%;
+
 }
 
 div .view-details:hover {
-    color: #ffffff; /* White color on hover */
-    background-color: #ff8c42; /* Warm orange */
+    color:white; /* White color on hover */
+    background-color:#18004d; /* Warm orange */
     transform: scale(1.1); /* Increase size on hover */
 }
 
@@ -197,8 +193,3 @@ div .view-details:hover {
 .popup-notification .popup-close {
     font-size: 24px;
 }
-
-.popup-notification button:hover, .popup-notification .popup-close:hover {
-    color: #45a049;
-}
-

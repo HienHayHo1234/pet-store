@@ -50,7 +50,6 @@ if (isset($_GET['action']) && $_GET['action'] === 'getPetDetails' && isset($_GET
         <p class="modal-quantity">Số lượng còn lại: </p>
         <p class="modal-description">Mô tả: </p>
     </div>
-
 </div>
 
 </body>

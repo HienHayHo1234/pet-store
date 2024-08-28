@@ -7,14 +7,14 @@
     <ul class="nav-left">
         <li>
             <a href="../pages/index.php">
-                <img src="../asset/images/icon/home-ico.png" alt="Home Icon" />
+                <!-- <img src="../asset/images/icon/home-ico.png" alt="Home Icon" /> -->
                 Trang Chủ
             </a>
         </li>|
 
         <li class="dropdown">
             <a class="dropdown-btn">
-                <img src="../asset/images/icon/pet-ico.png" alt="Pet Icon" />
+                <!-- <img src="../asset/images/icon/pet-ico.png" alt="Pet Icon" /> -->
                 Thú Cưng 
             </a>
             <div class="dropdown-content">
@@ -35,7 +35,7 @@
         |
         <li>
             <a href="../pages/index.php?page=about">
-                <img src="../asset/images/icon/about-ico.png" alt="About Icon" />
+                <!-- <img src="../asset/images/icon/about-ico.png" alt="About Icon" /> -->
                 Giới Thiệu
             </a>
         </li>
@@ -48,6 +48,7 @@
                 <input name="tukhoa" id="tukhoa" type="text" placeholder="Tìm kiếm" />
                 <input name="btntim" id="btntim" type="image" src="../asset/images/icon/search.png" alt="Search Button">
             </form>
+
         </li>
         
     </ul>
@@ -60,11 +61,29 @@
             </a>
         </li>
         |
-        <li>
-            <a href="../pages/login.php">
+        <li class="dropdown">
+            <div class="dropdown-btn">
+            <a href="">
                 <img src="../asset/images/icon/user.png" alt="User Icon" />
                 Tài khoản
             </a>
+            </div>
+            <div class="dropdown-content">
+                <a href="" onclick="openLoginModal(); return false;">
+                            <img class="circle-button" src="../asset/images/icon/user.png" alt="Login">
+                            
+                            Đăng nhập
+                        </a>
+                <a href="../pages/index.php?page=dog">
+                    <img src="../asset/images/icon/dog-ico.png" alt="Dog Icon" style="vertical-align: middle;" />
+                    Chó
+                </a>
+                <a href="../pages/index.php?page=parrot">
+                    <img src="../asset/images/icon/parrot-ico.png" alt="Parrot Icon" style="vertical-align: middle;" />
+                    Vẹt
+                </a>
+            </div>
         </li>
     </ul>
+
 </nav>

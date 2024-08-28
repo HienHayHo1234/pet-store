@@ -17,7 +17,7 @@
     margin: 15% auto; /* Đặt margin tự động từ trên xuống và căn giữa */
     padding: 20px; /* Khoảng cách bên trong modal */
     border: 1px solid #888; /* Viền cho modal */
-    width: 40%; /* Chiếm 80% chiều rộng của viewport */
+    width: 80%; /* Chiếm 80% chiều rộng của viewport */
     max-width: 600px; /* Chiều rộng tối đa của modal */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Đổ bóng cho modal */
     border-radius: 10px; /* Bo góc cho modal */
