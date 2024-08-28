@@ -26,6 +26,9 @@ switch ($page) {
     case "about":
         require_once "about.php";
         break;
+    case "profile":
+        require_once "profile.php";
+        break;
     default:
         require_once "start.php";
         break;

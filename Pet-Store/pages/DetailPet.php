@@ -40,18 +40,23 @@ if (isset($_GET['action']) && $_GET['action'] === 'getPetDetails' && isset($_GET
 </head>
 <body>
 </div>
-<div id="modal" class="modal">
-    <div class="modal-content">
-        <span class="close">&times;</span>
+<div id="modal" class="modals">
+    <div class="modals-content">
+        <span class="close-detail">&times;</span>
         <h2 class="modal-title"></h2>
         <img class="modal-img" src="" alt="">
         <p class="modal-price">Giá: </p>
         <p class="modal-sale-price">Giá khuyến mãi: </p>
         <p class="modal-quantity">Số lượng còn lại: </p>
         <p class="modal-description">Mô tả: </p>
+        <div class="modal-buttons">
+            <!-- Nút giỏ hàng -->
+            <button class="add-to-cart" onclick="addToPet('<?php echo htmlspecialchars($pet['id'], ENT_QUOTES, 'UTF-8'); ?>')">Giỏ hàng</button>
+        </div>
     </div>
 </div>
 
+
+
 </body>
 </html>
-
