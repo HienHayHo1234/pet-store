@@ -1,5 +1,5 @@
 /* Định dạng cho modal */
-.modal {
+.modals {
     display: none; /* Ẩn modal khi chưa được mở */
     position: fixed; /* Đặt modal ở vị trí cố định */
     z-index: 1000; /* Đặt modal lên trên các phần tử khác */
@@ -12,7 +12,7 @@
 }
 
 /* Định dạng cho nội dung modal */
-.modal-content {
+.modals-content {
     background-color: #fff; /* Nền trắng cho nội dung modal */
     margin: 5% auto; /* Đặt margin từ trên xuống và căn giữa */
     padding: 20px; /* Khoảng cách bên trong modal */

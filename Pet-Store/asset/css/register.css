@@ -1,109 +1,101 @@
-/* Đặt kích thước hộp */
-*,
-*::before,
-*::after {
-    box-sizing: border-box;
+/* Styles for the Login Modal */
+.modal {
+    position: fixed;
+    z-index: 1000; /* Đảm bảo modal nằm trên cùng */
+    top: 10px; /* Đặt modal ở gần top */
+    right: 10px; /* Đặt modal ở gần right */
 }
 
-/* Đặt nền cho toàn bộ trang */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background: url('../images/background/background-register.jpg') no-repeat center center; /* Đặt ảnh nền cho toàn bộ trang */
-    background-size: cover; /* Phủ toàn bộ trang */
+.modal-content {
+    position: relative;
+    background-color: #fff; /* Màu nền của modal */
+    padding: 15px;
+    border: 1px solid #888; /* Đường viền modal */
+    width: 300px; /* Chiều rộng modal thu gọn */
+    max-width: 90%; /* Chiều rộng tối đa, để tương thích với màn hình nhỏ */
+    border-radius: 10px; /* Bo góc modal */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Thêm bóng đổ để modal nổi bật */
 }
 
-/* Đặt nền cho phần tử chứa form với độ trong suốt */
-.container {
-    background: rgba(255, 255, 255, 0.4); /* Màu nền trắng với độ trong suốt 80% */
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 300px; /* Chiều rộng của form */
-    padding: 20px;
-    text-align: center;
-    margin: 50px auto; /* Căn giữa form */
-}
-
-/* Tiêu đề form đăng ký */
-h2 {
-    font-size: 24px;
+.close {
+    position: absolute;
+    top: 5px; /* Căn chỉnh lại vị trí nút close */
+    right: 10px; /* Căn chỉnh lại vị trí nút close */
+    color: #000;
+    font-size: 25px; /* Giảm kích thước nút close */
     font-weight: bold;
-    color: #333;
-    margin-bottom: 15px;
-    text-transform: uppercase;
+    cursor: pointer;
 }
 
-/* Nhãn và các trường nhập liệu */
+.close:hover,
+.close:focus {
+    color: red;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+h2 {
+    margin-top: 0;
+    font-size: 20px; /* Giảm kích thước tiêu đề */
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
 label {
-    display: block;
-    margin-bottom: 6px;
-    font-weight: 600;
-    font-size: 12px;
-    color: #333;
-    text-align: left;
+    margin: 5px 0; /* Giảm khoảng cách giữa các nhãn */
+    font-size: 14px; /* Giảm kích thước chữ của label */
 }
 
 input[type="text"],
-input[type="email"],
-input[type="password"] {
-    width: 100%;
+input[type="password"],
+input[type="email"] {
     padding: 8px;
-    margin-bottom: 12px;
+    margin-bottom: 8px; /* Giảm khoảng cách giữa các trường nhập liệu */
     border: 1px solid #ddd;
     border-radius: 5px;
-    font-size: 14px;
-    color: #555;
-    background-color: #fff; /* Màu nền trắng cho trường nhập liệu */
+    font-size: 14px; /* Giảm kích thước chữ trong input */
 }
 
-input[type="text"]:focus,
-input[type="email"]:focus,
-input[type="password"]:focus {
-    border-color: #4CAF50;
-    outline: none;
-}
-
-/* Nút submit và clear */
 .button-container {
     display: flex;
-    justify-content: space-between;
-    margin-top: 15px;
+    justify-content: flex-end; /* Đẩy nút sang bên phải */
 }
 
+input[type="submit"],
 button {
-    width: 48%;
-    padding: 8px 0;
-    font-size: 14px;
+    padding: 8px 16px;
     border: none;
     border-radius: 5px;
-    background-color: #4CAF50; /* Màu nền nút */
-    color: white; /* Màu chữ nút */
+    background-color: #007bff;
+    color: #fff;
     cursor: pointer;
-    margin-right: 5px;
+    font-size: 14px; /* Giảm kích thước chữ trên nút */
 }
 
+input[type="submit"]:hover,
 button:hover {
-    background-color: #45a049;
+    background-color: #0056b3;
 }
 
-button:active {
-    background-color: #3e8e41;
-}
-
-/* Dòng chữ "Or" và logo */
 p {
-    margin: 15px 0;
-    color: #666;
-    font-size: 12px;
+    margin-top: 15px; /* Giảm khoảng cách trên của đoạn văn */
+    font-size: 12px; /* Giảm kích thước chữ của đoạn văn */
+    text-align: center; /* Căn giữa nội dung đoạn văn */
+}
+.back-arrow {
+    cursor: pointer;
+    color: #007bff;
+    font-size: 18px;
+    font-weight: bold;
+    position: absolute;
+    top: 15px;
+    left: 10px;
+    text-decoration: none;
 }
 
-a img {
-    width: 40px;
-    height: auto;
-    transition: transform 0.3s;
-}
-
-a img:hover {
-    transform: scale(1.1);
+.back-arrow:hover {
+    color: #0056b3;
 }

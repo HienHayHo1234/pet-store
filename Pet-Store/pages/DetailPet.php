@@ -40,12 +40,12 @@ if (isset($_GET['action']) && $_GET['action'] === 'getPetDetails' && isset($_GET
 </head>
 <body>
 </div>
-<div id="modal" class="modal">
-    <div class="modal-content">
+<div id="modal" class="modals">
+    <div class="modals-content">
         <span class="close">&times;</span>
-        <h2 class="modal-title"></h2>
-        <img class="modal-img" src="" alt="">
-        <p class="modal-price">Giá: </p>
+        <h2 class="modals-title"></h2>
+        <img class="modals-img" src="" alt="">
+        <p class="modals-price">Giá: </p>
         <p class="modal-sale-price">Giá khuyến mãi: </p>
         <p class="modal-quantity">Số lượng còn lại: </p>
         <p class="modal-description">Mô tả: </p>
