@@ -39,24 +39,22 @@ if (isset($_GET['action']) && $_GET['action'] === 'getPetDetails' && isset($_GET
     <link href="../asset/css/DetailPet.css" rel="stylesheet">
 </head>
 <body>
-</div>
-<div id="modal" class="modals">
-    <div class="modals-content">
-        <span class="close-detail">&times;</span>
-        <h2 class="modal-title"></h2>
-        <img class="modal-img" src="" alt="">
-        <p class="modal-price">Giá: </p>
-        <p class="modal-sale-price">Giá khuyến mãi: </p>
-        <p class="modal-quantity">Số lượng còn lại: </p>
-        <p class="modal-description">Mô tả: </p>
-        <div class="modal-buttons">
-            <!-- Nút giỏ hàng -->
-            <button class="add-to-cart" onclick="addToPet('<?php echo htmlspecialchars($pet['id'], ENT_QUOTES, 'UTF-8'); ?>')">Giỏ hàng</button>
+<div id="modal" class="custom-modal">
+    <div class="custom-modal-content">
+        <div>
+            <img class="custom-modal-img" src="<?php echo htmlspecialchars($pet['image'] ?? ''); ?>" alt="<?php echo htmlspecialchars($pet['name'] ?? ''); ?>">
         </div>
+        <div>
+            <h1 class="custom-modal-title"><?php echo htmlspecialchars($pet['name'] ?? ''); ?></h1>
+
+            <p class="custom-modal-price">Giá: <?php echo number_format($pet['custom-modal-price'], 0, ',', '.'); ?>đ</p>
+            <p class="custom-modal-sale-price">Giá khuyến mãi: <?php echo number_format($pet['custom-modal-sale-price'], 0, ',', '.'); ?>đ</p>
+            <p class="custom-modal-quantity">Số lượng còn lại: <?php echo htmlspecialchars($pet['quantity'] ?? ''); ?></p>
+            <p class="custom-modal-description">Mô tả: <?php echo htmlspecialchars($pet['description'] ?? ''); ?></p>
+            <button class="add-to-cart" onclick="addToPet('<?php echo htmlspecialchars($pet['id'] ?? ''); ?>');  goToCart()">Giỏ hàng</button>
+        </div>
+        <span class="custom-close">&times;</span>   
     </div>
 </div>
-
-
-
 </body>
 </html>

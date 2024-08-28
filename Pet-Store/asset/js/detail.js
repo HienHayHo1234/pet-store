@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Đóng modal khi nhấp vào nút đóng
-    document.querySelector('#modal .close-detail').addEventListener('click', function () {
+    document.querySelector('#modal .custom-close').addEventListener('click', function () {
         document.querySelector('#modal').style.display = 'none';
     });
 
@@ -39,12 +39,12 @@ function openDetailModal(petId) {
                     alert(data.error);
                 } else {
                     // Cập nhật thông tin vào modal
-                    document.querySelector('#modal .modal-title').innerText = data.name;
-                    document.querySelector('#modal .modal-img').src = data.urlImg;
-                    document.querySelector('#modal .modal-price').innerText = `Giá: ${data.price.toLocaleString()}đ`;
-                    document.querySelector('#modal .modal-sale-price').innerText = `Giá khuyến mãi: ${data.priceSale.toLocaleString()}đ`;
-                    document.querySelector('#modal .modal-quantity').innerText = `Số lượng còn lại: ${data.quantity}`;
-                    document.querySelector('#modal .modal-description').innerText = `Mô tả: ${data.description}`;
+                    document.querySelector('#modal .custom-modal-title').innerText = data.name;
+                    document.querySelector('#modal .custom-modal-img').src = data.urlImg;
+                    document.querySelector('#modal .custom-modal-price').innerText = `Giá: ${data.price.toLocaleString()}đ`;
+                    document.querySelector('#modal .custom-modal-sale-price').innerText = `Giá khuyến mãi: ${data.priceSale.toLocaleString()}đ`;
+                    document.querySelector('#modal .custom-modal-quantity').innerText = `Số lượng còn lại: ${data.quantity}`;
+                    document.querySelector('#modal .custom-modal-description').innerText = `Mô tả: ${data.description}`;
 
                     // Hiển thị modal
                     document.querySelector('#modal').style.display = 'block';
@@ -63,4 +63,9 @@ function openDetailModal(petId) {
         console.error('Network error occurred');
         alert('Có lỗi xảy ra khi gửi yêu cầu.');
     };
+}
+
+function goToCart() {
+    location.href = "index.php?page=cart";
+    location.href.reload();
 }
