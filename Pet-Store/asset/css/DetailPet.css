@@ -42,7 +42,6 @@
     padding: 10px 20px; /* Khoảng cách bên trong nút */
     font-size: 16px; /* Kích thước chữ */
     font-weight: bold; /* Đậm chữ */
-    border-radius: 8px; /* Bo góc cho nút */
     cursor: pointer; /* Hiển thị con trỏ bàn tay khi rê qua nút */
     transition: background-color 0.3s; /* Hiệu ứng chuyển màu nền */
 }

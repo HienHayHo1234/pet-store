@@ -1,120 +1,84 @@
-/* Đặt kích thước hộp */
-*,
-*::before,
-*::after {
-    box-sizing: border-box;
+/* Styles for the Login Modal */
+.modal {
+
+    position: fixed;
+    z-index: 1000; /* Đảm bảo modal nằm trên cùng */
 }
 
-/* Đặt nền cho toàn bộ trang */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background: url('../images/background/background-register.jpg') no-repeat center center; /* Đặt ảnh nền cho toàn bộ trang */
-    background-size: cover; /* Phủ toàn bộ trang */
-}
-
-/* Đặt nền cho phần tử chứa form */
-.container {
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 300px; /* Chiều rộng của form */
+.modal-content {
+    position: relative;
+    background-color: #fff; /* Màu nền của modal */
+    margin: 15% auto; /* Căn giữa theo chiều dọc */
     padding: 20px;
-    text-align: center;
-    margin: 50px auto; /* Căn giữa form */
-    background-color: rgba(255, 255, 255, 0.4); /* Màu nền bán trong suốt */
+    border: 1px solid #888; /* Đường viền modal */
+    width: 80%; /* Chiều rộng modal */
+    max-width: 500px; /* Chiều rộng tối đa */
+    border-radius: 10px; /* Bo góc modal */
 }
 
-/* Tiêu đề form đăng nhập */
-h2 {
-    font-size: 24px;
+.close {
+    position: absolute;
+    top: 10px;
+    right: 25px;
+    color: #000;
+    font-size: 35px;
     font-weight: bold;
-    color: #333;
-    margin-bottom: 15px;
-    text-transform: uppercase;
+    cursor: pointer;
 }
 
-/* Nhãn và các trường nhập liệu */
+.close:hover,
+.close:focus {
+    color: red;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+h2 {
+    margin-top: 0;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
 label {
-    display: block;
-    margin-bottom: 6px;
-    font-weight: 600;
-    font-size: 12px;
-    color: #333;
-    text-align: left;
+    margin: 10px 0 5px;
 }
 
 input[type="text"],
-input[type="email"],
-input[type="password"] {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 12px;
+input[type="password"],
+input[type="email"] {
+    padding: 10px;
+    margin-bottom: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
-    font-size: 14px;
-    color: #555;
 }
 
-input[type="text"]:focus,
-input[type="email"]:focus,
-input[type="password"]:focus {
-    border-color: #4CAF50;
-    outline: none;
-}
-
-/* Nút submit và clear */
 .button-container {
     display: flex;
     justify-content: space-between;
-    margin-top: 15px;
+    gap: 10px; /* Tạo khoảng cách giữa các nút */
 }
 
-button,
-input[type="submit"] {
-    width: 48%;
-    padding: 8px 0;
-    font-size: 14px;
+input[type="submit"],
+button {
+    flex: 1; /* Để các nút có cùng chiều rộng */
+    padding: 10px 20px;
     border: none;
     border-radius: 5px;
-    background-color: #4CAF50;
-    color: white;
+    background-color: #007bff;
+    color: #fff;
     cursor: pointer;
-    margin-right: 5px;
+    text-align: center; /* Căn chữ ở giữa nút */
 }
 
-button:hover,
-input[type="submit"]:hover {
-    background-color: #45a049;
+input[type="submit"]:hover,
+button:hover {
+    background-color: #0056b3;
 }
 
-button:active,
-input[type="submit"]:active {
-    background-color: #3e8e41;
-}
 
-/* Logo nằm dưới cùng */
-.logo-bottom {
-    margin-top: 20px;
-}
-
-.logo-bottom img {
-    width: 60px;
-    height: auto;
-}
-
-/* Dòng chữ và liên kết đăng ký */
 p {
-    margin: 15px 0;
-    color: rgb(70, 60, 60);
-    font-size: 16px;
-}
-
-a {
-    color: black;
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
+    margin-top: 20px;
 }

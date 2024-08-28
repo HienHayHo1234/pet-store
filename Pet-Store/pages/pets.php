@@ -43,6 +43,3 @@ try {
         <p>Chưa có sản phẩm nào.</p>
     <?php endif; ?>
 </div>
-<?php include 'DetailPet.php'; ?>
-
-<script src="../asset/js/detail.js"></script>
