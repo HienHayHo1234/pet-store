@@ -1,60 +1,96 @@
-/* Định dạng cho modal */
-.modal {
-    display: none; /* Ẩn modal khi chưa được mở */
-    position: fixed; /* Đặt modal ở vị trí cố định */
-    z-index: 1000; /* Đặt modal lên trên các phần tử khác */
+/* Định dạng cho custom modal */
+.custom-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
     left: 0;
-    top: 0;
-    width: 100%; /* Chiếm toàn bộ chiều rộng của viewport */
-    height: 100%; /* Chiếm toàn bộ chiều cao của viewport */
-    overflow: auto; /* Cho phép cuộn nếu nội dung quá lớn */
-    background-color: rgba(0, 0, 0, 0.5); /* Màu nền mờ đen */
+    top: 0; 
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(255, 250, 245,0.2)
 }
 
-/* Định dạng cho nội dung modal */
-.modal-content {
-    background-color: #fff; /* Nền trắng cho nội dung modal */
-    margin: 15% auto; /* Đặt margin tự động từ trên xuống và căn giữa */
-    padding: 20px; /* Khoảng cách bên trong modal */
-    border: 1px solid #888; /* Viền cho modal */
-    width: 80%; /* Chiếm 80% chiều rộng của viewport */
-    max-width: 600px; /* Chiều rộng tối đa của modal */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Đổ bóng cho modal */
-    border-radius: 10px; /* Bo góc cho modal */
+/* Định dạng cho nội dung custom modal */
+
+.custom-modal-content {
+    display: flex;
+    background-color: rgba(255, 250, 245);
+    margin: 5% auto; /* Điều chỉnh khoảng cách từ trên và dưới */
+    padding: 20px;
+    border: 1px solid black;
+    width: 80%;
+    height: 60%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Thêm bóng cho cửa sổ popup */
+
 }
 
-/* Định dạng cho ảnh trong modal */
-.modal-img {
-    max-width: 100%; /* Đặt chiều rộng tối đa của ảnh bằng với chiều rộng của modal */
-    height: auto; /* Đặt chiều cao tự động để duy trì tỷ lệ ảnh */
-    border-radius: 5px; /* Bo góc cho ảnh */
-    display: block; /* Hiển thị ảnh như một khối */
-    margin: 0 auto; /* Căn giữa ảnh */
+
+/* Định dạng cho ảnh trong custom modal */
+.custom-modal-img {
+    height: 100%;
+    width: 300px;
+    display: block;
+    margin: 0 auto;
 }
 
-/* Định dạng cho tiêu đề modal */
-.modal-title {
-    font-size: 24px; /* Kích thước chữ cho tiêu đề */
-    margin-bottom: 10px; /* Khoảng cách phía dưới tiêu đề */
+/* Định dạng cho tiêu đề custom modal */
+.custom-modal-title {
+    font-size: 45px;
+    margin-bottom: 10px;
+    color: #ff8c42; /* Warm orange */
+    
+}   
+.custom-modal-price{
+    text-decoration: line-through;
+    color: rgb(128, 128, 128);
 }
 
-/* Định dạng cho các thông tin khác trong modal */
-.modal-price, .modal-sale-price, .modal-quantity, .modal-description {
-    margin: 10px 0; /* Khoảng cách giữa các đoạn văn */
-    font-size: 18px; /* Kích thước chữ cho các thông tin */
+/* Định dạng cho các thông tin khác trong custom modal */
+.custom-modal-price, .custom-modal-sale-price, .custom-modal-quantity, .custom-modal-description {
+    margin: 10px 0;
+    font-size: 24px;
+    font-weight: bold;
+    
+    
+}
+.custom-modal-sale-price{
+    color: #ff6b6b; 
+    
+}
+/* Định dạng cho nút đóng custom modal */
+.custom-close {
+    color: #ff0000;
+    float: right;
+    font-size: 50px;
+    font-weight: bold;
 }
 
-/* Định dạng cho nút đóng modal */
-.close {
-    color: #aaa; /* Màu chữ cho nút đóng */
-    float: right; /* Đặt nút đóng ở góc trên bên phải */
-    font-size: 28px; /* Kích thước chữ cho nút đóng */
-    font-weight: bold; /* Đậm chữ cho nút đóng */
+.custom-close:hover,
+.custom-close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+.add-to-cart {
+    background-color:#18004d; /* Warm orange */
+    border: none; /* Xóa viền của nút */
+    color: white; /* Màu chữ */
+    padding: 10px 20px; /* Khoảng cách nội dung với các cạnh */
+    text-align: center; /* Căn giữa nội dung */
+    text-decoration: none; /* Xóa gạch dưới */
+    display: inline-block; /* Hiển thị nút thành inline-block */
+    font-size: 16px; /* Kích thước chữ */
+    margin: 4px 2px; /* Khoảng cách quanh nút */
+    cursor: pointer; /* Hiển thị con trỏ chuột khi di chuột qua nút */
+    border-radius: 5px; /* Bo tròn các góc của nút */
+    transition: background-color 0.3s ease; /* Hiệu ứng chuyển màu nền khi hover */
 }
 
-.close:hover,
-.close:focus {
-    color: black; /* Đổi màu chữ khi rê chuột qua hoặc nhấn vào nút đóng */
-    text-decoration: none; /* Xóa gạch dưới cho nút đóng */
-    cursor: pointer; /* Đặt con trỏ chuột thành hình bàn tay khi rê qua nút đóng */
+.add-to-cart:hover {
+    background-color:#4900e6; /* Warm orange */
+}
+
+.add-to-cart:focus {
+    outline: none; /* Xóa viền khi nút được chọn */
 }
