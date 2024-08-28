@@ -1,64 +1,49 @@
 
-
-.slider-container {
-    margin-top: 60px;
-    position: relative;
-    width: 100%;
+.banner {
+    position: fixed;
+    top: 50px;
+    left: 5%;
+    width: 90%;
+    z-index: -1;
     overflow: hidden;
-}
 
-.slider {
-    display: flex;
-    transition: transform 0.5s ease-in-out;
 }
-
-.slide {
-    min-width: 100%;
-}
-
-.slide img {
+.banner img {
     width: 100%;
-    height: 200px;
+    filter: blur(2px); /* Tạo hiệu ứng mờ cho ảnh */
+    transition: transform 0.2s ease-out; /* Hiệu ứng chuyển động mượt khi cuộn */
 }
 
-.arrow {
+.text {
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: rgba(0, 0, 0, 0.5);
-    color: white;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    font-size: 3.5rem;
+    background-color: rgba(255, 255, 255, 0.2);
+    font-weight: bold;
+    color: black;
+    padding: 20px;
+    text-align: center; /* Căn giữa văn bản và nút */
+    display: flex; /* Sử dụng flexbox để căn giữa */
+    flex-direction: column; /* Đặt các phần tử con theo chiều dọc */
+    align-items: center; /* Căn giữa các phần tử theo chiều ngang */
+}
+
+.buy-now {
+    font-family: Courier;
+    margin-top: 20px; /* Khoảng cách giữa văn bản và nút */
+    padding: 10px 20px; /* Padding cho nút */
+    font-size: 1.5rem; /* Kích thước chữ trên nút */
+    color: #fff;
+    background-color: #18004d; /* Màu nền của nút */
     border: none;
-
-    cursor: pointer;
-    z-index: 10;
+    cursor: pointer; /* Con trỏ chuột khi di chuột qua nút */
+    transition: background-color 0.3s; /* Hiệu ứng chuyển màu nền khi hover */
 }
 
-.left-arrow {
-    left: 10px;
-}
-
-.right-arrow {
-    right: 10px;
-}
-
-.indicators {
-    text-align: center;
-    position: absolute;
-    bottom: 10px;
-    width: 100%;
-    z-index: 10;
-}
-
-.indicators span {
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    margin: 0 5px;
-    background-color: rgba(0, 0, 0, 0.5);
-    border-radius: 50%;
-    cursor: pointer;
-}
-
-.indicators .active {
-    background-color: white;
+.buy-now:hover {
+    background-color: #ffffff; /* Màu nền của nút khi hover */
+    color: black;
 }

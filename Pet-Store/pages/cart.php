@@ -85,7 +85,24 @@ try {
             <?php endforeach; ?>
         </div>
         <?php else: ?>
-        <p style="font-size: larger">Không có sản phẩm nào trong giỏ hàng!</p>
+            <p style="font-size: 7vb">Không có sản phẩm nào trong giỏ hàng!</p>
+            <p style="font-size: 5vb">Hãy chọn một mục thú cưng bạn quan tâm</p>
+            <div class="cnt-buy">
+                <button class="btn-pets-buy"><a href="../pages/index.php?page=cat">
+                    <img src="../asset/images/icon/cat-ico.png" alt="Cat Icon" />
+                    Mèo
+                </a></button>
+                
+                <button class="btn-pets-buy"><a href="../pages/index.php?page=dog">
+                    <img src="../asset/images/icon/dog-ico.png" alt="Dog Icon" />
+                    Chó
+                </a></button>
+
+                <button class="btn-pets-buy"><a href="../pages/index.php?page=parrot">
+                    <img src="../asset/images/icon/parrot-ico.png" alt="Parrot Icon"/>
+                    Vẹt
+                </a></button>
+            </div>
         <?php endif; ?>
     </div>
 
