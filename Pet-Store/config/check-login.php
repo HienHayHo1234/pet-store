@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->bindParam(':username', $username);
             $stmt->execute();
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
-            
+             
 
             if ($user) {
                 // Kiểm tra mật khẩu
