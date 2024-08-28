@@ -3,7 +3,8 @@
     flex: 2;
 }
 .sidebar {
-    width: 250px;
+    width: 80%;
+    height: 80vh;
     background-color: #f4f4f4;
     padding: 20px;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);

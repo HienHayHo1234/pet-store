@@ -72,7 +72,7 @@ $logged_in = isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true;
                 Tài khoản
             </a>
             <div class="dropdown-content">
-                <a href="../pages/index.php?page=profile">
+                <a href="../pages/index.php?page=index_user">
                     <img src="../asset/images/icon/users.png" style="vertical-align: middle;" />
                     Thông tin tài khoản
                 </a>
