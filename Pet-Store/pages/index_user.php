@@ -1,6 +1,7 @@
 <link rel="stylesheet" href="../asset/css/user.css">
 <link rel="stylesheet" href="../asset/css/profile.css">
 
+
 <div class="container-index-user-flex">
     <div class="cnt-col">
         <div class="sidebar">
@@ -33,4 +34,21 @@
         }
         ?>
     </div>
+
+        <?php
+        // Lấy giá trị từ URL và làm sạch đầu vào
+        $pageuser = isset($_GET['pageuser']) ? htmlspecialchars($_GET['pageuser']) : '';
+
+        switch ($pageuser) {
+            case 'orders':
+                require_once 'orders.php';
+                break;
+            case 'change_password':
+                require_once 'change_password.php';
+                break;
+            default:
+                require_once 'profile.php';
+                break;
+        }
+        ?>
 </div>

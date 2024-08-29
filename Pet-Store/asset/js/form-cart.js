@@ -90,4 +90,3 @@ function updateTotalPriceAllForm() {
         document.getElementById('total-amount-form').innerText = totalPrice.toLocaleString('vi-VN') + 'đ';
     }
 }
-

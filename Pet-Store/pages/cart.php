@@ -159,10 +159,14 @@ try {
 
             <!-- nút gửi -->
             <button type="submit" class="btn-submit" style="display: none">
-                <img src="../asset/images/icon/take-form.png" alt="Gửi">
+                <img src="../asset/images/icon/take-form.png" alt="Gửi"
+                onclick="showPopupInvoice()">
             </button>
         </form>
     </div>
+    <div id="popup-notification-invoice" class="popup-notification">
+                <p id="popup-message-invoice"></p>
+            </div>
 </div>
 
 <script src="../asset/js/form-cart.js"></script>

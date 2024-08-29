@@ -29,6 +29,17 @@ function showPopup(message) {
         popup.style.display = 'none';
     }, 2000);
 }
+function showPopupInvoice() {
+    var popup = document.getElementById('popup-notification-invoice');
+    var popupMessage = document.getElementById('popup-message-invoice');
+    popupMessage.textContent = "Đã đặt hàng thành công!!";
+    popup.style.display = 'block';
+
+    // Tự động ẩn popup sau 5 giây
+    setTimeout(function() {
+        popup.style.display = 'none';
+    }, 2000);
+}
 
 // Hàm xóa sản phẩm khỏi giỏ hàng
 function removeFromCart(petId) {
