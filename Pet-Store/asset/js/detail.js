@@ -64,3 +64,8 @@ function openDetailModal(petId) {
         alert('Có lỗi xảy ra khi gửi yêu cầu.');
     };
 }
+
+function goToCart() {
+    location.href = "index.php?page=cart";
+    location.href.reload();
+}

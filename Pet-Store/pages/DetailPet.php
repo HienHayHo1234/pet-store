@@ -51,7 +51,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'getPetDetails' && isset($_GET
             <p class="custom-modal-sale-price">Giá khuyến mãi: <?php echo number_format($pet['custom-modal-sale-price'], 0, ',', '.'); ?>đ</p>
             <p class="custom-modal-quantity">Số lượng còn lại: <?php echo htmlspecialchars($pet['quantity'] ?? ''); ?></p>
             <p class="custom-modal-description">Mô tả: <?php echo htmlspecialchars($pet['description'] ?? ''); ?></p>
-            <button class="add-to-cart" onclick="addToPet('<?php echo htmlspecialchars($pet['id'] ?? ''); ?>')">Giỏ hàng</button>
+            <button class="add-to-cart" onclick="addToPet('<?php echo htmlspecialchars($pet['id'] ?? ''); ?>');  goToCart()">Giỏ hàng</button>
         </div>
         <span class="custom-close">&times;</span>   
     </div>
