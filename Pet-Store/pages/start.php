@@ -1,18 +1,6 @@
 <link rel="stylesheet" href="../asset/css/banner.css">
 <link rel="stylesheet" href="../asset/css/pets.css">
 <section>
-    <!-- <div class="slider-container">
-            <div class="slider" id="slider">
-                <div class="slide"><img src="../asset/images/banner/2.jpg" alt="Image 1"></div>
-                <div class="slide"><img src="../asset/images/banner/3.jpg" alt="Image 2"></div>
-                <div class="slide"><img src="../asset/images/banner/4.jpg" alt="Image 3"></div>
-                <div class="slide"><img src="../asset/images/banner/5.jpg" alt="Image 4"></div>
-                <div class="slide"><img src="../asset/images/banner/6.jpg" alt="Image 5"></div>
-            </div>
-            <button class="arrow left-arrow" id="prevBtn">&#10094;</button>
-            <button class="arrow right-arrow" id="nextBtn">&#10095;</button>
-            <div class="indicators" id="indicators"></div>
-    </div> -->
 
         <div class="banner">
             <img src="../asset/images/banner/dau.jpg" alt="Image 1">
@@ -21,11 +9,19 @@
     <div class="text">
         CUNG CẤP NHỮNG LOẠI THÚ CƯNG 
         CỰC KÌ ĐA DẠNG VÀ DỄ THƯƠNG
-        <button class="buy-now">XEM NGAY</button>
+        <a href="javascript:void(0);" onclick="scrollToMiddle()">
+            <button class="buy-now">XEM NGAY</button>
+        </a>
+        <script>
+            function scrollToMiddle() {
+                window.scrollTo({
+                top: document.body.scrollHeight / 5, // Cuộn đến giữa trang
+                behavior: 'smooth'  // Cuộn mượt mà
+            });
+            }
+        </script>
+
     </div>
-</div>
-
-
 
 <script>
     window.addEventListener('scroll', function() {

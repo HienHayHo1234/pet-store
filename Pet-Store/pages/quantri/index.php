@@ -41,7 +41,6 @@ require_once "functions.php";
                 <ul>
                     <li><a href="?page=pets_ds" class="text-white">Danh sách thú cưng</a></li>
                     <li><a href="?page=pets_them" class="text-white">Thêm thú cưng</a></li>
-                    <li><a href="?page=danhmucpets_ds" class="text-white">Danh sách danh mục thú cưng</a></li>
                     <li><a href="?page=danhmucpets_them" class="text-white">Thêm danh mục thú cưng</a></li>
                     <li><a href="?page=cart_items_ds" class="text-white">Danh sách giỏ hàng</a></li>
                 </ul>
