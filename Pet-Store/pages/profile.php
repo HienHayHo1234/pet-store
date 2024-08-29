@@ -48,8 +48,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->execute();
 
         // Redirect to index.php after successful update
-        header('Location: index.php');
-        exit();
     } catch (PDOException $e) {
         echo "Error updating information: " . $e->getMessage();
     }
@@ -64,7 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="content">
             
             <h2>Thông Tin Tài Khoản</h2>
-            <form class="profile" action="profile_action.php" method="post">
+            <form class="profile" action="" method="post">
                 <label for="username">Tên đăng nhập:</label>
                 <input type="text" id="username" name="username" value="<?php echo htmlspecialchars($user['username']); ?>" disabled>
 
@@ -79,9 +77,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <label for="dob">Ngày sinh:</label>
                 <input type="date" id="dob" name="dob" value="<?php echo htmlspecialchars($user['dob']); ?>">
-
-                <label for="password">Mật khẩu mới (nếu muốn thay đổi):</label>
-                <input type="password" id="password" name="password">
 
                 <button type="submit">Cập nhật thông tin</button>
             </form>

@@ -70,15 +70,13 @@ $logged_in = isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true;
             <div class="dropdown-btn">
             <a class="text-cart">
                 <img src="../asset/images/icon/user.png" alt="User Icon" />
-                Tài khoản
+                Tài khoản   
             </a>
             <div class="dropdown-content">
                 <a href="../pages/index.php?page=index_user">
-                    <img src="../asset/images/icon/users.png" style="vertical-align: middle;" />
                     Thông tin tài khoản
                 </a>
                 <a href="../pages/logout.php">
-                    <img src="../asset/images/icon/logout.png" style="vertical-align: middle;" />
                     Đăng xuất
                 </a>
             </div>
