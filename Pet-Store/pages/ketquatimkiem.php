@@ -71,14 +71,14 @@ function displayPet($urlImg, $name, $id, $price, $priceSale) {
                     <button class="view-details" data-id="<?php echo htmlspecialchars($id, ENT_QUOTES, 'UTF-8'); ?>">Chi tiết</button>
                     <button class="button order" onclick="addToPet('<?php echo htmlspecialchars($id, ENT_QUOTES, 'UTF-8'); ?>')">Giỏ hàng</button>
                 </div>
-                <p class="text-price">Giá: <span class="price"><?php echo number_format($pet['price'], 0, ',', '.'); ?>đ</span>
-                    <?php if (!empty($pet['priceSale'])): ?>
-                        ➱ <?php echo number_format($pet['priceSale'], 0, ',', '.'); ?>đ
-                    <?php endif; ?>
-                </p>
             </div>
-        <?php endforeach; ?>
-    <?php else: ?>
-        <p>Không tìm thấy kết quả nào.</p>
-    <?php endif; ?>
-</div>
+            <p class="text-price">Giá: <span class="price"><?php echo number_format($price, 0, ',', '.'); ?>đ</span>
+                <?php if (!empty($priceSale)) { ?>
+                    ➱ <?php echo number_format($priceSale, 0, ',', '.'); ?>đ
+                <?php } ?>
+            </p>
+        </div>
+    </div>
+    <?php
+}
+?>
