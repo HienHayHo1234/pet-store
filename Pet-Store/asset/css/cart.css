@@ -1,38 +1,44 @@
-/* Đặt .cart-flex với vị trí sticky và khoảng cách từ trên */
 .cart-flex {
     display: flex;
     min-height: 80vh;
-    margin-top: 70px;
+    margin-top: 62px;
     padding: 2vb;
+    background: linear-gradient(to right, #f8f8e6, #f8f4dd); /* Beige gradient */
 }
 
-/* Chỉnh kích thước để chia cột lưới theo size từng thiết bị */
 @media (max-width: 768px) {
     .cart-grid {
         flex-direction: column-reverse;
         justify-content: space-between;
     }
 }
+
 .title-invoice-flex {
     display: flex;
     margin: 1.5vb auto 6vb;
     width: 90%;
 }
+
 .checkbox-all-btn-cart {
     flex: 1;
+    width: 90%;
+    height: 60%;
 }
+
 .title-invoice {
     flex: 9;
     font-size: 6vb;
     font-style: italic;
+    color: #4c2f0d; /* Warm light color */
 }
 
-/* ----------------------------bảng hóa đơn ----------------------*/
 .invoice-flex {
     flex: 7.5;
     display: flex;
     position: relative;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .container-invoice-list {
@@ -45,9 +51,10 @@
 .invoice-item {
     display: flex;
     gap: 5%;
+    padding: 1vb;
     border-radius: 10px;
-    background-color: white;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(to bottom, #fff6ea, #f6ebcc); /* Beige complement gradient */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3); /* Subtle shadow */
     position: relative;
     align-items: center;
 }
@@ -60,29 +67,28 @@
     flex: 1;
     width: 10%;
     height: 20%;
-    cursor: pointer; /* Con trỏ chuột dạng tay khi hover */
-    /* appearance: none; */ /* Loại bỏ kiểu mặc định của checkbox */
-    background-color: #fff; /* Màu nền của checkbox */
-    border: 2px solid #ccc; /* Đường viền của checkbox */
-    border-radius: 5px; /* Bo góc cho checkbox */
-    position: relative; /* Để có thể sử dụng pseudo-element nếu cần */
-    outline: none; /* Loại bỏ viền mặc định khi checkbox được chọn */
-    transition: background-color 0.3s, border-color 0.3s; /* Hiệu ứng chuyển màu khi hover hoặc khi chọn */
+    cursor: pointer;
+    background: linear-gradient(to bottom, #8c8f9a, #6b6e94); /* Warmer medium blue gradient */
+    border: 2px solid #9a8c98; /* Warmer dark border */
+    border-radius: 5px;
+    position: relative;
+    outline: none;
+    transition: background 0.3s, border-color 0.3s;
 }
 
 .checkbox-btn-cart:checked {
-    background-color: #007bff; /* Màu nền khi checkbox được chọn */
-    border-color: #007bff; /* Đổi màu viền khi chọn */
+    background: linear-gradient(to bottom, #ff3b3b, #ff6b6b); /* Warm coral red gradient */
+    border-color: #ff6b6b; /* Warm coral red border */
 }
 
 .checkbox-btn-cart:checked::after {
-    content: '✔'; /* Thêm dấu kiểm khi checkbox được chọn */
+    content: '✔';
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: #fff; /* Màu dấu kiểm */
-    font-size: 16px; /* Kích thước dấu kiểm */
+    color: #ffffff; /* White for checkmark */
+    font-size: 16px;
 }
 
 .image-container {
@@ -90,17 +96,16 @@
     position: relative;
 }
 
-.image-container>.imgInvoice {
+.image-container > .imgInvoice {
     width: 100%;
     height: 20vb;
-    object-fit: cover;
     border-radius: 10%;
 }
 
 .invoice-text {
     display: flex;
     flex-direction: column;
-    flex: 4;
+    flex: 6;
     align-items: center;
     gap: 1vb;
 }
@@ -109,12 +114,13 @@
     font-size: 4vb !important;
     font-weight: bold;
     margin: 0 0 10px 0;
+    color: #ffedd8; /* Warm light color */
 }
 
 .invoice-text p {
     margin: 0;
     font-size: 3vb;
-    color: #333;
+    color: #8b1414; /* Off-white text color */
     display: flex;
     align-items: center;
 }
@@ -122,7 +128,7 @@
 .invoice-text p:last-child {
     margin-top: 5px;
     font-weight: bold;
-    color: #007bff;
+    color: #ff8c42; /* Warm orange tone */
 }
 
 .count > .quantity-btn {
@@ -130,57 +136,116 @@
     width: 3.5vb;
     height: 3.5vb;
     border-radius: 50%;
-    border: 2px solid #ccc;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(to bottom, #8c8f9a, #6b6e94); /* Warmer medium blue gradient */
+    color: #ffedd8; /* Warm light color */
+    border: 2px solid #9a8c98; /* Warmer dark border */
+    transform: scale(1.05); /* Slightly increase size on hover */
+}
+
+.order-summary {
+    padding: 10px;
+}
+
+.order-summary>p {
+    font-size: larger;
+    font-weight: bold;
+    color: #e94560; /* Light red color */
+}
+
+.order-summary .total-amount {
+    font-size: 4vb;
+    font-weight: bold;
+    color: #583535; /* Off-white text color */
+    margin-left: 10px;
+}
+
+.btn-order-pet, .btn-cancel-pet {
+    flex: 1.5;
+    margin-right: 1vb;
+    padding: 1vb 0.9vb;
+    font-size: 2vb;
+    font-weight: bold;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background 0.3s;
+    background: linear-gradient(to bottom, #d9480f, #ff8c42); /* Warm orange gradient */
+}
+
+.btn-order-pet:hover, .btn-cancel-pet:hover {
+    background: linear-gradient(to bottom, #b9461b, #d9480f); /* Darker warm orange on hover */
+    transform: scale(1.05); /* Slightly increase size on hover */
+}
+
+/*--------------------------- không thấy sản phâm ----------------------- */
+.cnt-buy {
+    display: flex;
+    width: 70%;
+    gap: 10%;
+    justify-content: center;
+}
+
+.btn-pets-buy {
+    display: inline-block;
+    background: linear-gradient(to bottom, #e7e7b5, #fffbb7); /* Beige gradient */
+    color: #333; /* Dark text color for contrast */
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.btn-pets-buy a {
+    color: inherit; /* Ensure text color is inherited */
+    text-decoration: none;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.order-summary {
-    font-size: larger;
-    font-weight: bold;
-    color: #2a5e96;
-    padding: 10px;
-}
-.total-amount {
-    font-size: 3vb;
-    font-weight: bold;
-    color: #d9534f;
-    margin-left: 10px;
-}
-.btn-order-pet, .btn-cancel-pet {
-    flex: 1;
-    margin-right: 1vb;
-    padding: 1vb 0.9vb;
-    font-size: 2vb;
-    font-weight: bold;
-    color: white;
-    background-color: #28a745;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+.btn-pets-buy img {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
 }
 
-/*--------------------- invoice-check ----------------------------- */
+.btn-pets-buy:hover {
+    background: linear-gradient(to bottom, #d8cfc4, #c5bba0); /* Beige complement gradient for hover */
+    transform: scale(1.05); /* Slightly increase size on hover */
+}
+
+.btn-pets-buy:active {
+    background: linear-gradient(to bottom, #c5bba0, #d8cfc4); /* Slightly darker beige for active state */
+    transform: scale(0.95); /* Slightly decrease size on click */
+}
+
+/*---------------------------- khung check ----------------*/
 .invoice-check-flex {
     flex: 3.5;
     position: relative;
     padding: 10px;
 }
+
 .invoice-check {
     height: 80vh;
     padding: 3%;
     position: sticky;
     top: 10vh;
     display: flex;
-    background-color: white;
-    box-shadow: 0px 2px 5px rgb(6 6 6 / 19%);
+    background: linear-gradient(to bottom, #fffdd8, #f6f6da); /* Beige gradient to match cart-flex */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3); /* Subtle shadow */
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
+
 .container-invoice-check {
     gap: 1vb;
     padding: 5px;
@@ -188,132 +253,58 @@
     overflow-y: auto;
     max-height: 80%;
     width: 100%;
-    
 }
+
 .invoice-check-item {
     padding: 5px;
     font-weight: bold;
     display: flex;
     align-items: center;
-    box-shadow: 0px 2px 5px rgb(6 6 6 / 19%);
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3); /* Subtle shadow */
     border-radius: 10px;
+    background: linear-gradient(to bottom, #fffdd1, #e7e7ce); /* Beige gradient to match container */
+    color: #333; /* Darker color for better readability */
+    transition: transform 0.5s ease-in-out;
+    transform: translateY(0);
+    position: relative;
 }
-.invoice-check-item> p, img {
+
+.invoice-check-item > p, img {
     margin: 0;
 }
-.invoice-check-item> img {
+
+.invoice-check-item > img {
     width: 12vb;
     height: 12vb;
     border-radius: 10px;
+    border: 2px solid #e7e7ce; /* Light beige border to match background */
 }
-.invoice-check-item> p {
+
+.invoice-check-item > p {
     flex: 8;
 }
+
 .btn-order-all {
     padding: 1.5vb 3vb;
     font-size: 2.5vb;
     font-weight: bold;
-    color: white;
-    background-color: #28a745;
+    color: #fff; /* White text for contrast */
+    background: linear-gradient(to bottom, #ff8c42, #d9480f); /* Warm orange gradient */
     border: none;
     border-radius: 30px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background 0.3s, transform 0.2s, box-shadow 0.3s; /* Transition for shadow and scale */
 }
 
 .btn-order-all:hover {
-    background-color: #218838;
+    background: linear-gradient(to bottom, #d9480f, #c63c1e); /* Darker warm orange on hover */
+    transform: scale(1.05); /* Slightly increase size on hover */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); /* Add subtle shadow on hover */
 }
 
-/* Hiệu ứng rơi xuống */
-.fall {
-    transform: translateY(0); /* Đưa hình ảnh về vị trí ban đầu */
+.btn-order-all:active {
+    transform: scale(0.95); /* Slightly decrease size on click */
 }
-.fly-up {
-    transform: translateY(-50vh); /* Bay ngược lên */
-    opacity: 0.5;
-}
-
-/* Nút Thích */
-.heart-cart {
-    width: 80px;
-    height: 80px;   
-    border: none;
-    border-radius: 100%;
-    box-shadow: 0 4px #999;
-    background-color: rgb(65, 129, 167);
-    color: rgb(252, 158, 158);
-    font-size: 60px;
-    text-align: center;
-    position: absolute; 
-    left: 10%; 
-    bottom: 3%; 
-    cursor: pointer;
-    transition: transform 1s ease;
-}
-
-.heart-cart:hover {
-    color: rgb(219, 13, 13);
-    background-color: rgb(30, 87, 120);
-    cursor: pointer;
-    transform: rotate(-360deg);
-}
-
-.heart-cart:active {
-    transform: translateY(2px);
-}
-
-.heart-cart:focus {
-    color: rgb(219, 13, 13);
-    background-color: rgb(30, 87, 120);
-    cursor: pointer;
-    transform: rotate(360deg);
-}
-.heart-cart.clicked {
-    background-color: rgb(219, 13, 13); /* Màu sắc khi giữ trạng thái đã nhấn */
-}
-
-/* XEM, Đặt hàng */
-.btn-container {
-    width: 30%;
-    height: 30%;
-    display: grid;
-    position: absolute;
-    bottom: 3%;
-    right: 9%;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 5%;
-    justify-items: end;
-    align-items: end;
-}
-.btn-cart {
-    width: 80%;
-    height: 90%;
-    padding: 5px;
-    color: white;
-    border: none;
-    border-radius: 100%;
-    font-size: 1.2rem;
-    font-weight: bold;
-    background-color: rgb(65, 129, 167);
-    box-shadow: 0 4px #999;
-    cursor: pointer;
-    transition: transform 1s ease;
-}
-
-.btn-cart:hover {
-    background-color: rgb(30, 87, 120);
-    cursor: pointer;
-    transform: rotate(-360deg);
-}
-
-.btn-cart:focus {
-    background-color: rgb(30, 87, 120);
-    cursor: pointer;
-    transform: rotate(360deg);
-}
-
-
 
 /* -----------------CSS cho from đặt hàng------------------------- */
 .cart-form {
@@ -324,8 +315,8 @@
     left: 50%;
     transform: translate(-50%, -20%);
     display: flex;
-    z-index: 4;
-    background-color: rgb(144, 200, 232);
+    z-index: 101;
+    background-color: rgb(232, 234, 211);
     box-shadow: 0 10px 10px 5px rgba(84, 84, 84, 0);
 }
 .cart-form .text-chat {
@@ -336,13 +327,15 @@
     top: 50%;
     right: 2%;
     border-radius: 15px;
-    display: flex; /* Sử dụng Flexbox */
-    align-items: center; /* Căn giữa theo chiều dọc */
-    text-align: center; /* Đảm bảo chữ căn giữa nếu có nhiều dòng */
+    display: flex;
+    align-items: center; 
+    text-align: center; 
     padding: 10px;
-    color: white;
+    color: rgb(102, 25, 25);
     font-weight: bold;
+    font-size: 2.5vb;
     z-index: 3;
+
 }
 .cart-form .img-note {
     width: 45%;
@@ -356,7 +349,7 @@
 .order-form {
     width: 50%;
     border-radius: 5px;
-    background-color: rgb(65, 153, 204);
+    background-color: rgb(205, 210, 137);
     padding: 10px;
     color: white;
     top: 2%;
@@ -366,8 +359,9 @@
 .order-form label {
     margin-top: 10px;
     display: block;
-    color: white;
+    color: rgb(58, 14, 14);
     font-weight: bold;
+    font-size: 3vb;
 }
 
 .order-form input,
@@ -383,8 +377,10 @@
 /* Định dạng tiêu đề form */
 .order-form h2 {
     margin-bottom: 10px;
-    color: white;
+    color: rgb(58, 14, 14);
     text-align: center;
+    background-color: transparent;
+    font-size: 5vb;
 }
 /* nút đóng */
 .btn-close {
@@ -399,23 +395,33 @@
 .btn-submit {
     margin: 4% auto;
     width: 30%;
-    background-color: transparent;
+    background-color: transparent !important;
     border: none;
     padding: 0;
     border-radius: 10px;
+    display: flex;
+    justify-content: center; /* Center the image within the button */
+    align-items: center; /* Center the image vertically */
 }
 
-.btn-submit>img {
+.btn-submit > img {
     width: 100%;
     display: block;
-    background-color: rgb(216, 184, 184);
+    background-color: rgb(244, 211, 211); /* Light beige color */
     border-radius: 10px;
+    transition: background-color 0.3s, transform 0.3s; /* Smooth transition for hover effects */
 }
-.btn-submit>img:hover {
-    background-color: rgb(188, 153, 153);
+
+.btn-submit > img:hover {
+    background-color: rgb(220, 182, 182); /* Darker beige color */
+    transform: scale(1.2); /* Correct scale value (1.2 instead of 1.2x) */
 }
+
+
 .total-amount {
     font-size: 1.5rem;
+    color: #f72626 !important;
+    margin-top: 5% !important;
 }
 
 /* Định dạng khi form kích thước nhỏ */

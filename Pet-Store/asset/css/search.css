@@ -1,9 +1,8 @@
 .search-container {
     display: flex;
-    align-items: flex-end;
     justify-content: space-between;
     padding: 10px;
-
+    width: 90%;
 }
 
 #btntim{
@@ -18,13 +17,14 @@
 
 .search-form {
     display: flex;
+    flex-direction: row;
     align-items: center;
+    flex: 4;
 }
 
 .search-form input[type="text"] {
-    width: 400px;
+    width: 90%;
     padding: 8px 12px;
-    margin-right: 5px;
     border: 1px solid #ccc;
     border-radius: 50px;
     font-size: 14px;

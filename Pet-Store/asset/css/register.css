@@ -1,109 +1,98 @@
-/* Đặt kích thước hộp */
-*,
-*::before,
-*::after {
-    box-sizing: border-box;
+/* Styles for the Register Modal */
+.register-modal {
+    position: fixed;
+    z-index: 1000; /* Đảm bảo modal nằm trên cùng */
+    top: 50%; /* Đặt modal ở giữa theo chiều dọc */
+    left: 50%; /* Đặt modal ở giữa theo chiều ngang */
+    transform: translate(-50%, -50%); /* Căn giữa modal chính xác */
+    padding: 10px; /* Khoảng cách bên ngoài modal */
 }
 
-/* Đặt nền cho toàn bộ trang */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background: url('../images/background/background-register.jpg') no-repeat center center; /* Đặt ảnh nền cho toàn bộ trang */
-    background-size: cover; /* Phủ toàn bộ trang */
-}
-
-/* Đặt nền cho phần tử chứa form với độ trong suốt */
-.container {
-    background: rgba(255, 255, 255, 0.4); /* Màu nền trắng với độ trong suốt 80% */
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 300px; /* Chiều rộng của form */
-    padding: 20px;
-    text-align: center;
-    margin: 50px auto; /* Căn giữa form */
-}
-
-/* Tiêu đề form đăng ký */
-h2 {
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 15px;
-    text-transform: uppercase;
-}
-
-/* Nhãn và các trường nhập liệu */
-label {
-    display: block;
-    margin-bottom: 6px;
-    font-weight: 600;
-    font-size: 12px;
-    color: #333;
-    text-align: left;
-}
-
-input[type="text"],
-input[type="email"],
-input[type="password"] {
+.register-modal-content {
+    position: relative;
+    background-color: #fff; /* Màu nền của modal */
+    padding: 40px;
+    border: 1px solid #ddd; /* Đường viền modal nhẹ hơn */
     width: 100%;
-    padding: 8px;
-    margin-bottom: 12px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 14px;
-    color: #555;
-    background-color: #fff; /* Màu nền trắng cho trường nhập liệu */
+    max-width: 400px; /* Chiều rộng tối đa lớn hơn */
 }
 
-input[type="text"]:focus,
-input[type="email"]:focus,
-input[type="password"]:focus {
-    border-color: #4CAF50;
-    outline: none;
+.close {
+    position: absolute;
+    top: 10px; /* Căn chỉnh lại vị trí nút close */
+    right: 10px; /* Căn chỉnh lại vị trí nút close */
+    color: #333;
+    font-size: 24px; /* Kích thước nút close lớn hơn */
+    font-weight: bold;
+    cursor: pointer;
 }
 
-/* Nút submit và clear */
+.close:hover,
+.close:focus {
+    color: #e74c3c; /* Màu đỏ cho nút close khi hover */
+    text-decoration: none;
+}
+
+h2 {
+    margin-top: 0;
+    font-size: 22px; /* Kích thước tiêu đề lớn hơn */
+    color: #333; /* Màu sắc tiêu đề */
+}
+
+.register-form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin: 10px 0; /* Khoảng cách giữa các nhãn rõ ràng hơn */
+    font-size: 16px; /* Kích thước chữ của label lớn hơn */
+    color: #555; /* Màu sắc nhãn dễ nhìn hơn */
+}
+
+.register-form input[type="text"],
+.register-form input[type="password"],
+.register-form input[type="email"] {
+    padding: 10px;
+    margin-bottom: 12px; /* Khoảng cách giữa các trường nhập liệu lớn hơn */
+    border: 1px solid #ccc; /* Đường viền nhạt hơn */
+    border-radius: 6px; /* Bo góc input rõ hơn */
+    font-size: 16px; /* Kích thước chữ trong input lớn hơn */
+}
+
 .button-container {
     display: flex;
-    justify-content: space-between;
-    margin-top: 15px;
+    justify-content: flex-end; /* Đẩy nút sang bên phải */
 }
 
+.register-form input[type="submit"],
 button {
-    width: 48%;
-    padding: 8px 0;
-    font-size: 14px;
+    padding: 10px 20px;
     border: none;
-    border-radius: 5px;
-    background-color: #4CAF50; /* Màu nền nút */
-    color: white; /* Màu chữ nút */
+    border-radius: 6px;
+    background-color: #007bff;
+    color: #fff;
     cursor: pointer;
-    margin-right: 5px;
+    font-size: 16px; /* Kích thước chữ trên nút lớn hơn */
+    transition: background-color 0.3s; /* Thêm hiệu ứng chuyển màu */
 }
 
+input[type="submit"]:hover,
 button:hover {
-    background-color: #45a049;
+    background-color: #0056b3; /* Màu nền nút khi hover */
 }
 
-button:active {
-    background-color: #3e8e41;
+.back-arrow {
+    cursor: pointer;
+    color: #007bff;
+    font-size: 20px; /* Kích thước mũi tên quay lại lớn hơn */
+    font-weight: bold;
+    position: absolute;
+    top: 15px;
+    left: 10px;
+    text-decoration: none;
 }
 
-/* Dòng chữ "Or" và logo */
-p {
-    margin: 15px 0;
-    color: #666;
-    font-size: 12px;
-}
-
-a img {
-    width: 40px;
-    height: auto;
-    transition: transform 0.3s;
-}
-
-a img:hover {
-    transform: scale(1.1);
+.back-arrow:hover {
+    color: #0056b3; /* Màu sắc mũi tên khi hover */
 }

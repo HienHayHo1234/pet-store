@@ -8,14 +8,7 @@
   <link rel="stylesheet" href="styles.css">
   <style>
     /* CSS cho trang about.html */
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f9f9f9;
-    }
-
-    .header {
+   .header {
       color: white;
       padding: 20px;
       text-align: center;
@@ -38,14 +31,13 @@
     .content h2 {
       font-size: 28px;
       margin-bottom: 20px;
-      color: #333;
     }
 
     .content p {
       font-size: 18px;
       line-height: 1.6;
       margin-bottom: 20px;
-      color: #555;
+      color: black;
     }
 
     .content img {
@@ -119,17 +111,17 @@
       <h2>Đội ngũ của chúng tôi</h2>
       <div class="team-members">
         <div class="team-member">
-          <img src="path_to_team_member_1.jpg" alt="Team Member 1">
+          <img src="../asset/images/cat/head.png" alt="Team Member 1">
           <h3>Trần Nguyễn Thành Hiển</h3>
           <p>Chuyên gia chăm sóc thú cưng</p>
         </div>
         <div class="team-member">
-          <img src="path_to_team_member_2.jpg" alt="Team Member 2">
+          <img src="../asset/images/dog/head.png" alt="Team Member 2">
           <h3>Nguyễn Hoàng Huy</h3>
           <p>Bác sĩ thú y</p>
         </div>
         <div class="team-member">
-          <img src="path_to_team_member_3.jpg" alt="Team Member 3">
+          <img src="../asset/images/parrot/head.png" alt="Team Member 3">
           <h3>Phạm Đăng Quang</h3>
           <p>Nhân viên tư vấn</p>
         </div>

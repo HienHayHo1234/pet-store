@@ -1,145 +1,99 @@
-/* Định dạng cho modal */
-.modal {
-    display: none; /* Ẩn modal khi chưa được mở */
-    position: fixed; /* Đặt modal ở vị trí cố định */
-    z-index: 1000; /* Đặt modal lên trên các phần tử khác */
+/* Định dạng cho custom modal */
+.custom-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
     left: 0;
-    top: 0;
-    width: 100%; /* Chiếm toàn bộ chiều rộng của viewport */
-    height: 100%; /* Chiếm toàn bộ chiều cao của viewport */
-    background-color: rgba(0, 0, 0, 0.5); /* Màu nền mờ đen */
-    overflow: auto; /* Thêm thanh cuộn nếu cần */
+    top: 0; 
+    width: 100vw;
+    height: 100vh;
+    background-color: rgb(255, 250, 245,0.2)
 }
 
-/* Định dạng cho nội dung modal */
-.modal-content {
-    background-color: #fff; /* Nền trắng cho nội dung modal */
-    margin: 5% auto; /* Đặt margin từ trên xuống và căn giữa */
-    padding: 20px; /* Khoảng cách bên trong modal */
-    border: 1px solid #888; /* Viền cho modal */
-    width: 80%; /* Chiếm 80% chiều rộng của viewport */
-    max-width: 800px; /* Chiều rộng tối đa của modal */
-    height: 550px; /* Chiều cao modal */
-    max-height: 600px; /* Chiều cao tối đa của modal */
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Đổ bóng cho modal */
-    border-radius: 12px; /* Bo góc cho modal */
-    position: relative; /* Đặt modal-content tương đối để điều chỉnh vị trí của nút đóng */
-    display: flex; /* Sử dụng flexbox để căn chỉnh nội dung */
-    flex-direction: column; /* Sắp xếp nội dung theo chiều dọc */
-}
-/* Định dạng cho phần chứa các nút trong modal */
-.modal-buttons {
-    display: flex; /* Sử dụng flexbox để căn chỉnh các nút */
-    justify-content: space-between; /* Phân bố khoảng cách đều giữa các nút */
-    margin-top: 20px; /* Khoảng cách từ các phần tử phía trên */
+/* Định dạng cho nội dung custom modal */
+
+.custom-modal-content {
+    display: flex;
+    background-color: rgba(255, 250, 245);
+    margin: 5% auto; /* Điều chỉnh khoảng cách từ trên và dưới */
+    padding: 20px;
+    border: 1px solid black;
+    width: 80%;
+    height: 60%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Thêm bóng cho cửa sổ popup */
+
 }
 
-/* Định dạng cho nút chi tiết */
-.view-details {
-    background-color: #007bff; /* Màu nền xanh cho nút */
-    color: #fff; /* Màu chữ trắng */
-    border: none; /* Xóa viền của nút */
-    padding: 10px 20px; /* Khoảng cách bên trong nút */
-    font-size: 16px; /* Kích thước chữ */
-    font-weight: bold; /* Đậm chữ */
-    border-radius: 8px; /* Bo góc cho nút */
-    cursor: pointer; /* Hiển thị con trỏ bàn tay khi rê qua nút */
-    transition: background-color 0.3s; /* Hiệu ứng chuyển màu nền */
+
+/* Định dạng cho ảnh trong custom modal */
+.custom-modal-img {
+    height: 100%;
+    width: 300px;
+    display: block;
+    margin: 0 auto;
 }
 
-.view-details:hover,
-.view-details:focus {
-    background-color: #0056b3; /* Màu nền khi rê chuột qua hoặc nhấn vào nút */
-    outline: none; /* Xóa viền khi nút được chọn */
+/* Định dạng cho tiêu đề custom modal */
+.custom-modal-title {
+    font-size: 45px;
+    margin-bottom: 10px;
+    color: #ff8c42; /* Warm orange */
+    
+}   
+.custom-modal-price{
+    text-decoration: line-through;
+    color: rgb(128, 128, 128);
 }
 
-/* Định dạng cho nút giỏ hàng */
+/* Định dạng cho các thông tin khác trong custom modal */
+.custom-modal-price, .custom-modal-sale-price, .custom-modal-quantity, .custom-modal-description {
+    margin: 10px 0;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.custom-modal-description {
+    overflow-y: auto;
+    max-height: 50%;
+}
+
+.custom-modal-sale-price{
+    color: #ff6b6b; 
+    
+}
+/* Định dạng cho nút đóng custom modal */
+.custom-close {
+    color: #ff0000;
+    float: right;
+    font-size: 50px;
+    font-weight: bold;
+}
+
+.custom-close:hover,
+.custom-close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
 .add-to-cart {
-    background-color: #28a745; /* Màu nền xanh lá cho nút */
-    color: #fff; /* Màu chữ trắng */
+    background-color:#18004d; /* Warm orange */
     border: none; /* Xóa viền của nút */
-    padding: 10px 20px; /* Khoảng cách bên trong nút */
+    color: white; /* Màu chữ */
+    padding: 10px 20px; /* Khoảng cách nội dung với các cạnh */
+    text-align: center; /* Căn giữa nội dung */
+    text-decoration: none; /* Xóa gạch dưới */
+    display: inline-block; /* Hiển thị nút thành inline-block */
     font-size: 16px; /* Kích thước chữ */
-    font-weight: bold; /* Đậm chữ */
-    border-radius: 8px; /* Bo góc cho nút */
-    cursor: pointer; /* Hiển thị con trỏ bàn tay khi rê qua nút */
-    transition: background-color 0.3s; /* Hiệu ứng chuyển màu nền */
-    margin-top: 20px; /* Khoảng cách từ nút đóng xuống */
-    margin-bottom: 10px; /* Khoảng cách từ nút đóng xuống phía dư��i */
-    position: absolute; /* Đặt nút gi�� hàng tương đối */
-    right: 20px; /* Khoảng cách từ phải */
-    bottom: 20px; /* Khoảng cách từ dư��i */
-    z-index: 1; /* Đặt nút gi�� hàng lên cao hơn nút đóng */
-    transition: background-color 0.3s; /* Hiệu ứng chuyển màu nền */
+    margin: 4px 2px; /* Khoảng cách quanh nút */
+    cursor: pointer; /* Hiển thị con trỏ chuột khi di chuột qua nút */
+    border-radius: 5px; /* Bo tròn các góc của nút */
+    transition: background-color 0.3s ease; /* Hiệu ứng chuyển màu nền khi hover */
 }
 
-.add-to-cart:hover,
+.add-to-cart:hover {
+    background-color:#4900e6; /* Warm orange */
+}
+
 .add-to-cart:focus {
-    background-color: #218838; /* Màu nền khi rê chuột qua hoặc nhấn vào nút */
     outline: none; /* Xóa viền khi nút được chọn */
 }
-
-/* Định dạng cho ảnh trong modal */
-.modal-img {
-    max-width: 20%; /* Đặt chiều rộng tối đa của ảnh bằng với chiều rộng của modal-content */
-    height: auto; /* Đặt chiều cao tự động để duy trì tỷ lệ ảnh */
-    border-radius: 8px; /* Bo góc cho ảnh */
-    display: block; /* Hiển thị ảnh như một khối */
-    margin: 0 auto; /* Căn giữa ảnh */
-}
-
-/* Định dạng cho tiêu đề modal */
-.modal-title {
-    font-size: 26px; /* Kích thước chữ cho tiêu đề */
-    margin-bottom: 15px; /* Khoảng cách phía dưới tiêu đề */
-    font-weight: bold; /* Đậm chữ cho tiêu đề */
-    color: #333; /* Màu chữ cho tiêu đề */
-}
-
-/* Định dạng cho các thông tin khác trong modal */
-/* Định dạng cho giá cả trong modal */
-.modal-price, .modal-sale-price {
-    margin: 12px 0; /* Khoảng cách giữa các đoạn văn */
-    font-size: 20px; /* Kích thước chữ cho giá */
-    font-weight: bold; /* Đậm chữ */
-    color: #e74c3c; /* Màu chữ cho giá gốc */
-}
-
-/* Định dạng cho giá khuyến mãi */
-.modal-sale-price {
-    font-size: 22px; /* Kích thước chữ lớn hơn cho giá khuyến mãi */
-    color: #27ae60; /* Màu chữ xanh lá cho giá khuyến mãi */
-}
-
-/* Định dạng cho giá gốc với gạch ngang */
-.modal-price {
-    text-decoration: line-through; /* Gạch ngang cho giá gốc */
-    color: #bdc3c7; /* Màu chữ xám cho giá gốc */
-}
-
-/* Định dạng cho các thông tin khác trong modal */
-.modal-quantity, .modal-description {
-    margin: 12px 0; /* Khoảng cách giữa các đoạn văn */
-    font-size: 18px; /* Kích thước chữ cho các thông tin */
-    color: #000000; /* Màu chữ cho các thông tin */
-}
-
-
-/* Định dạng cho nút đóng modal */
-.close {
-    color: #888; /* Màu chữ cho nút đóng */
-    position: absolute; /* Đặt nút đóng ở vị trí tuyệt đối trong modal-content */
-    top: 10px; /* Khoảng cách từ trên cùng của modal-content */
-    right: 10px; /* Khoảng cách từ bên phải của modal-content */
-    font-size: 32px; /* Kích thước chữ cho nút đóng */
-    font-weight: bold; /* Đậm chữ cho nút đóng */
-    cursor: pointer; /* Đặt con trỏ chuột thành hình bàn tay khi rê qua nút đóng */
-}
-
-.close:hover,
-.close:focus {
-    color: #000; /* Đổi màu chữ khi rê chuột qua hoặc nhấn vào nút đóng */
-    text-decoration: none; /* Xóa gạch dưới cho nút đóng */
-}
-
-

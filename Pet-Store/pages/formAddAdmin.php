@@ -22,8 +22,8 @@
                 <label for="pet-gender">Giới Tính:</label>
                 <select id="pet-gender" name="pet-gender" required>
                     <option value="">Chưa xác định</option>
-                    <option value="1">Nam</option>
-                    <option value="0">Nữ</option>
+                    <option value="1">Đực</option>
+                    <option value="0">Cái</option>
                 </select>
             </div>
             <div class="form-group">

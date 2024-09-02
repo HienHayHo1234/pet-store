@@ -5,53 +5,59 @@ $username = "root";
 $password = "";
 $dbname = "pet-store"; // Tên cơ sở dữ liệu của bạn
 
-$conn = new mysqli($servername, $username, $password, $dbname);
+try {
+    // Tạo đối tượng PDO để kết nối với cơ sở dữ liệu MySQL
+    $conn = new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8", $username, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-// Kiểm tra kết nối
-if ($conn->connect_error) {
-    die("Kết nối thất bại: " . $conn->connect_error);
-}
-
-// Kiểm tra nếu từ khóa tìm kiếm được gửi đi
-if (isset($_GET['tukhoa'])) {
-    $tukhoa = $_GET['tukhoa'];
-
-    // Truy vấn tìm kiếm dựa trên từ khóa sử dụng prepared statement để tránh SQL injection
-    $stmt = $conn->prepare("SELECT * FROM pets WHERE name LIKE ? OR id LIKE ?");
-    $likeKeyword = "%$tukhoa%";
-    $stmt->bind_param("ss", $likeKeyword, $likeKeyword);
+    // Thực hiện truy vấn để lấy tất cả các sản phẩm thuộc danh mục 'parrot'
+    $stmt = $conn->prepare("SELECT * FROM pets WHERE idLoai = :idLoai");
+    $stmt->bindParam(':idLoai', $idLoai);
     $stmt->execute();
-    $result = $stmt->get_result();
 
-    // Hiển thị tiêu đề kết quả tìm kiếm
-    echo "<h2>Kết quả tìm kiếm cho từ khóa: '" . htmlspecialchars($tukhoa, ENT_QUOTES, 'UTF-8') . "'</h2>";
+    // Lưu kết quả truy vấn vào một mảng
+    $pets = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    if ($result->num_rows > 0) {
-        echo '<div class="pets-grid">'; // Bắt đầu bao ngoài cho tất cả các sản phẩm
-        while ($row = $result->fetch_assoc()) {
-            // Gọi hàm để hiển thị sản phẩm
-            displayPet(
-                $row['urlImg'],
-                $row['name'],
-                $row['id'],
-                $row['price'],
-                $row['priceSale']
-            );
+    // Kiểm tra nếu từ khóa tìm kiếm được gửi đi
+    if (isset($_GET['tukhoa'])) {
+        $tukhoa = $_GET['tukhoa'];
+
+        // Truy vấn tìm kiếm dựa trên từ khóa sử dụng prepared statement để tránh SQL injection
+        $stmt = $conn->prepare("SELECT * FROM pets WHERE name LIKE :keyword OR id LIKE :keyword");
+        $likeKeyword = "%$tukhoa%";
+        $stmt->bindParam(':keyword', $likeKeyword);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Hiển thị tiêu đề kết quả tìm kiếm
+        echo "<h2>Kết quả tìm kiếm cho từ khóa: '" . htmlspecialchars($tukhoa, ENT_QUOTES, 'UTF-8') . "'</h2>";
+
+        if (count($result) > 0) {
+            echo '<div class="pets-grid">'; // Bắt đầu bao ngoài cho tất cả các sản phẩm
+            foreach ($result as $row) {
+                // Gọi hàm để hiển thị sản phẩm
+                displayPet(
+                    $row['urlImg'],
+                    $row['name'],
+                    $row['id'],
+                    $row['price'],
+                    $row['priceSale']
+                );
+            }
+            echo '</div>'; // Kết thúc lớp bao ngoài
+        } else {
+            echo "<p>Không tìm thấy kết quả nào.</p>";
         }
-        echo '</div>'; // Kết thúc lớp bao ngoài
     } else {
-        echo "<p>Không tìm thấy kết quả nào.</p>";
+        echo "<p>Vui lòng nhập từ khóa để tìm kiếm.</p>";
     }
 
-    $stmt->close(); // Đóng prepared statement
-} else {
-    echo "<p>Vui lòng nhập từ khóa để tìm kiếm.</p>";
+} catch (PDOException $e) {
+    echo "Kết nối thất bại: " . $e->getMessage();
 }
 
-$conn->close();
-?>
+$conn = null; // Đóng kết nối
 
-<?php
 // Hàm hiển thị sản phẩm
 function displayPet($urlImg, $name, $id, $price, $priceSale) {
     ?>
@@ -61,7 +67,6 @@ function displayPet($urlImg, $name, $id, $price, $priceSale) {
             <div class="row">
                 <p class="name-pet"><?php echo htmlspecialchars($name, ENT_QUOTES, 'UTF-8'); ?></p>
                 <div class="icons">
-                    <button class="heart" onclick="toggleHeart(this)">❤<i class="fas fa-heart"></i></button>
                     <button class="view-details" data-id="<?php echo htmlspecialchars($id, ENT_QUOTES, 'UTF-8'); ?>">Chi tiết</button>
                     <button class="button order" onclick="addToPet('<?php echo htmlspecialchars($id, ENT_QUOTES, 'UTF-8'); ?>')">Giỏ hàng</button>
                 </div>
@@ -75,4 +80,4 @@ function displayPet($urlImg, $name, $id, $price, $priceSale) {
     </div>
     <?php
 }
-?>  
+?>

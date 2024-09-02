@@ -80,12 +80,29 @@ try {
 
                 <button class="btn-cancel-pet"
                     onclick="removeFromCart('<?php echo htmlspecialchars($item['id']); ?>')">Hủy</button>
-                <button class="btn-order-pet" onclick="showOrderForm()">Đặt hàng</button>
+                <button class="btn-order-pet" onclick="showOrderForm('<?php echo htmlspecialchars($item['id']); ?>')">Đặt hàng</button>
             </div>
             <?php endforeach; ?>
         </div>
         <?php else: ?>
-        <p style="font-size: larger">Không có sản phẩm nào trong giỏ hàng!</p>
+            <p style="font-size: 7vb">Không có sản phẩm nào trong giỏ hàng!</p>
+            <p style="font-size: 5vb">Hãy chọn một mục thú cưng bạn quan tâm</p>
+            <div class="cnt-buy">
+                <button class="btn-pets-buy"><a href="../pages/index.php?page=cat">
+                    <img src="../asset/images/icon/cat-ico.png" alt="Cat Icon" />
+                    Mèo
+                </a></button>
+                
+                <button class="btn-pets-buy"><a href="../pages/index.php?page=dog">
+                    <img src="../asset/images/icon/dog-ico.png" alt="Dog Icon" />
+                    Chó
+                </a></button>
+
+                <button class="btn-pets-buy"><a href="../pages/index.php?page=parrot">
+                    <img src="../asset/images/icon/parrot-ico.png" alt="Parrot Icon"/>
+                    Vẹt
+                </a></button>
+            </div>
         <?php endif; ?>
     </div>
 
@@ -101,7 +118,7 @@ try {
                         <?php echo number_format($totalAmount, 0, ',', '.'); ?>đ
                     </span>
                 </p>
-                <button class="btn-order-all" onclick="placeOrder()">Đặt hàng tất cả</button>
+                <button class="btn-order-all" onclick="showOrderAllForm()">Đặt hàng tất cả</button>
             </div>
         </div>
     </div>
@@ -124,28 +141,33 @@ try {
             <h2>Đặt hàng sản phẩm</h2>
 
             <label for="name">Tên của bạn:</label>
-            <input type="text" id="name" name="name" required>
+            <input type="text" id="name" name="name" required placeholder="Nhập tên của bạn" title="Vui lòng nhập tên của bạn">
 
             <label for="address">Địa chỉ giao hàng:</label>
-            <input type="text" id="address" name="address" required>
+            <input type="text" id="address" name="address" required placeholder="Nhập địa chỉ giao hàng" title="Vui lòng nhập địa chỉ giao hàng">
 
             <label for="phone">Số điện thoại:</label>
-            <input type="tel" id="phone" name="phone" required>
-
+            <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" inputmode="numeric" required placeholder="0123456789" title="Vui lòng nhập số điện thoại gồm 10 chữ số">
 
             <!-- Hiển thị tổng số tiền -->
-            <label for="totalAmount" class="total-amount">
-                Tổng số tiền: <span id="totalAmount">0đ</span>
+            <label for="name-invoice-form" class="total-amount nameInForm" style="display: none">
+                Tên thú cưng: <span id="name-invoice-form"></span>
+            </label>
+            <label for="total-amount-form" class="total-amount">
+                Tổng số tiền: <span id="total-amount-form">0đ</span>
             </label>
 
             <!-- nút gửi -->
             <button type="submit" class="btn-submit" style="display: none">
-                <img src="../asset/images/icon/take-form.png" alt="Gửi">
+                <img src="../asset/images/icon/take-form.png" alt="Gửi"
+                onclick="showPopupInvoice()">
             </button>
         </form>
-
-
     </div>
+    <div id="popup-notification-invoice" class="popup-notification">
+                <p id="popup-message-invoice"></p>
+            </div>
+</div>
 
-    <script src="../asset/js/form-cart.js"></script>
-    <script src="../asset/js/cart.js"></script>
+<script src="../asset/js/form-cart.js"></script>
+<script src="../asset/js/cart.js"></script>
