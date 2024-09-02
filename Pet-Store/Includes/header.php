@@ -56,7 +56,7 @@ $logged_in = isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true;
     </ul>
     
     <ul class="nav-right">
-        <li class="dropdown-btn">
+    <li class="nav-cart">
             <a class="text-cart" href="../pages/index.php?page=cart">
                 <img src="../asset/images/icon/cart-ico.png" alt="Cart Icon" />
                 Giỏ hàng
@@ -67,16 +67,17 @@ $logged_in = isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true;
         <?php if ($logged_in): ?>
         <!-- Người dùng đã đăng nhập -->
         <li class="dropdown">
-            <div class="dropdown-btn">
-            <a class="text-cart">
+            <a class="dropdown-btn">
                 <img src="../asset/images/icon/user.png" alt="User Icon" />
-                Tài khoản   
+                Tài khoản
             </a>
             <div class="dropdown-content">
                 <a href="../pages/index.php?page=index_user">
-                    Thông tin tài khoản
+                    <img src="../asset/images/icon/users.png" style="vertical-align: middle;" />
+                    Thông tin
                 </a>
                 <a href="../pages/logout.php">
+                    <img src="../asset/images/icon/logout.png" style="vertical-align: middle;" />
                     Đăng xuất
                 </a>
             </div>
@@ -89,16 +90,12 @@ $logged_in = isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true;
             </a>
             <div class="dropdown-content">
                 <a href="" onclick="openLoginModal(); return false;">
-                            <img class="circle-button" src="../asset/images/icon/user.png" alt="Login" style="font-size:10px">                  
-                            Đăng nhập
-                        </a>
-                <a href="../pages/index.php?page=dog">
-                    <img src="../asset/images/icon/dog-ico.png" alt="Dog Icon" style="vertical-align: middle;" />
-                    Chó
+                    <img class="circle-button" src="../asset/images/icon/user.png" alt="Login" style="vertical-align: middle;">
+                    Đăng nhập
                 </a>
-                <a href="../pages/index.php?page=parrot">
-                    <img src="../asset/images/icon/parrot-ico.png" alt="Parrot Icon" style="vertical-align: middle;" />
-                    Vẹt
+                <a href="" onclick="openRegisterModal(); return false;">
+                    <img class="circle-button" src="../asset/images/icon/user.png" alt="Login" style="vertical-align: middle;">
+                    Đăng ký
                 </a>
             </div>
         </li>
