@@ -62,11 +62,7 @@ function displayPet($urlImg, $name, $id, $price, $priceSale) {
                 <p class="name-pet"><?php echo htmlspecialchars($name, ENT_QUOTES, 'UTF-8'); ?></p>
                 <div class="icons">
                     <button class="heart" onclick="toggleHeart(this)">❤<i class="fas fa-heart"></i></button>
-<<<<<<< Updated upstream
-                    <button class="button view-detail" onclick="openModal('<?php echo htmlspecialchars($id, ENT_QUOTES, 'UTF-8'); ?>')">Chi tiết</button>
-=======
                     <button class="view-details" data-id="<?php echo htmlspecialchars($id, ENT_QUOTES, 'UTF-8'); ?>">Chi tiết</button>
->>>>>>> Stashed changes
                     <button class="button order" onclick="addToPet('<?php echo htmlspecialchars($id, ENT_QUOTES, 'UTF-8'); ?>')">Giỏ hàng</button>
                 </div>
             </div>
@@ -79,8 +75,5 @@ function displayPet($urlImg, $name, $id, $price, $priceSale) {
     </div>
     <?php
 }
-<<<<<<< Updated upstream
-?>
-=======
 ?>  
 >>>>>>> Stashed changes
