@@ -1,14 +1,19 @@
-/* Styles for the Register Modal */
-.register-modal {
+/* Styles for the Forgot Password Modal */
+.forgot-password-modal {
     position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.5); /* Nền mờ */
     z-index: 1000; /* Đảm bảo modal nằm trên cùng */
-    top: 50%; /* Đặt modal ở giữa theo chiều dọc */
-    left: 50%; /* Đặt modal ở giữa theo chiều ngang */
-    transform: translate(-50%, -50%); /* Căn giữa modal chính xác */
-    padding: 10px; /* Khoảng cách bên ngoài modal */
+    align-content: center;
+    text-align: -webkit-center;
 }
 
-.register-modal-content {
+.forgot-password-modal-content {
     position: relative;
     background-color: #fff; /* Màu nền của modal */
     padding: 40px;
@@ -39,33 +44,25 @@ h2 {
     color: #333; /* Màu sắc tiêu đề */
 }
 
-.register-form {
-    display: flex;
-    flex-direction: column;
+.form-group {
+    margin-bottom: 20px; /* Khoảng cách giữa các nhóm trường */
 }
 
 label {
-    margin: 10px 0; /* Khoảng cách giữa các nhãn rõ ràng hơn */
-    font-size: 16px; /* Kích thước chữ của label lớn hơn */
+    display: block;
+    margin-bottom: 5px; /* Khoảng cách giữa nhãn và trường nhập */
+    font-size: 16px; /* Kích thước chữ của label */
     color: #555; /* Màu sắc nhãn dễ nhìn hơn */
 }
 
-.register-form input[type="text"],
-.register-form input[type="password"],
-.register-form input[type="email"] {
+.forgot-password-modal input[type="email"] {
+    width: 100%;
     padding: 10px;
-    margin-bottom: 12px; /* Khoảng cách giữa các trường nhập liệu lớn hơn */
     border: 1px solid #ccc; /* Đường viền nhạt hơn */
     border-radius: 6px; /* Bo góc input rõ hơn */
     font-size: 16px; /* Kích thước chữ trong input lớn hơn */
 }
 
-.button-container {
-    display: flex;
-    justify-content: flex-end; /* Đẩy nút sang bên phải */
-}
-
-.register-form input[type="submit"],
 button {
     padding: 10px 20px;
     border: none;
@@ -77,22 +74,6 @@ button {
     transition: background-color 0.3s; /* Thêm hiệu ứng chuyển màu */
 }
 
-input[type="submit"]:hover,
 button:hover {
     background-color: #0056b3; /* Màu nền nút khi hover */
-}
-
-.back-arrow {
-    cursor: pointer;
-    color: #007bff;
-    font-size: 20px; /* Kích thước mũi tên quay lại lớn hơn */
-    font-weight: bold;
-    position: absolute;
-    top: 15px;
-    left: 10px;
-    text-decoration: none;
-}
-
-.back-arrow:hover {
-    color: #0056b3; /* Màu sắc mũi tên khi hover */
 }
