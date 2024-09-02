@@ -76,4 +76,3 @@ function displayPet($urlImg, $name, $id, $price, $priceSale) {
     <?php
 }
 ?>  
->>>>>>> Stashed changes
