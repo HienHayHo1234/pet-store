@@ -10,7 +10,7 @@ $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 // Hàm lấy danh sách thú cưng từ bảng pets
 function layDanhSachPets() {
     global $conn;
-    $sql = "SELECT id, name, idLoai, price, priceSale, gender, quantity, urlImg, hot FROM pets";
+    $sql = "SELECT id, name, idLoai, price, priceSale, gender, quantity, urlImg, hot, description FROM pets";
     $stmt = $conn->prepare($sql);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
