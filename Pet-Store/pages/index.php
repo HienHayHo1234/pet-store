@@ -5,12 +5,18 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Cửa Hàng Thú Cưng</title>
-        <link rel="stylesheet" href="../asset/css/pets.css">
-        <link rel="stylesheet" href="../asset/css/DetailPet.css">
+
         <link rel="icon" type="image/x-icon" href="../asset/images/icon/logo.ico">
+        <!-- css -->
+        <link rel="stylesheet" href="../asset/css/pets.css">
+        
+        <!-- js -->
         <script src="../asset/js/cart.js"></script>
         <script src="../asset/js/check-cart.js"></script>
         <script src="../asset/js/detail.js"></script>
+
+        <!-- php -->
+        <?php include 'DetailPet.php'; ?>
     </head>
 
     <body>

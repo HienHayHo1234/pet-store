@@ -32,13 +32,28 @@
     height: 300px;
     position: relative;
     text-align: center;
-    box-shadow: 0px 3px 10px 5px rgba(0, 0, 0, 0.3); /* Điều chỉnh box-shadow để phù hợp với màu nền mới */
-    padding: 3px;
-    transition: transform 0.3s;
+    background-color: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    transition: all 0.3s ease;
+    overflow: hidden;
 }
 
 .container-pets:hover {
-    transform: translateY(-15px);
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+.container-pets::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(to right, #ede3d9, #f0c4c4);
+    border-radius: 15px 15px 0 0;
 }
 
 .container-pets>img {
@@ -59,59 +74,6 @@
     position: relative;
 }
 
-.icons {
-    display: flex;
-    justify-content: space-around;
-    position: absolute;
-    width: 100%;
-    top: 50%;
-    transform: translateY(-50%);
-    opacity: 0;
-    transition: opacity 0.3s;
-}
-
-.container-pets:hover .icons {
-    opacity: 1;
-}
-
-.button {
-    width: 130px;
-    height: 50px;
-    padding: 5px;
-    background-color: #18004d; /* Light warm gray */
-    color: white; /* Warm coral red */
-    margin: 20px auto;
-    font-weight: bold;
-    vertical-align: middle;
-    top: -100px;
-}
-
-
-
-.heart, .button {
-    border: none;
-    background-color: rgba(255, 250, 245, 0.7); /* Light warm gray */
-    color: #18004d; /* Warm coral red */
-    font-size: 20px;
-    cursor: pointer;
-    transition: color 0.3s, transform 0.3s;
-    position: absolute; /* Positioned relative to the container */
-}
-.heart {
-    right: 3%;
-    top: -130px;
-    border-radius: 40px;
-    color: #ff6b6b;
-}
-.heart:hover, .button:hover {
-    color:white ; /* White color on hover */
-    background-color:#18004d; /* Warm orange */
-    transform: scale(1.1); /* Increase size on hover */
-}
-
-.heart:active, .button:active {
-    transform: translateY(3px);
-}
 
 .text-price {
     font-size: 17px;
@@ -126,70 +88,165 @@
     text-decoration: line-through;
 }
 
-.view-detail {
+.icons {
+    display: flex;
+    justify-content: space-between;
     position: absolute;
-    bottom: 2%;
-    left: 2%;
-
+    width: 100%;
+    top: -100%;
+    left: 0;
+    transform: translateY(-50%);
+    padding: 0 20px;
+    box-sizing: border-box;
+    opacity: 0;
 }
 
-div .view-details {
-    border: none;
-    background-color: rgba(255, 250, 245, 0.7);
-    color: #18004d;
-    font-size: 20px;
-    cursor: pointer;
-    transition: color 0.3s, transform 0.3s;
-    position: absolute; /* Positioned relative to the container */
+.container-pets:hover .icons {
+    opacity: 1;
+}
+
+.button {
     width: 130px;
     height: 50px;
-    padding: 5px;
-    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: rgba(218, 207, 242, 0.9);
+    color: rgb(68, 66, 66);
     font-weight: bold;
-    vertical-align: middle;
-    top: -100px;
-    left: 2%;
-
+    font-size: 16px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
 }
 
-div .view-details:hover {
-    color:white; /* White color on hover */
-    background-color:#18004d; /* Warm orange */
-    transform: scale(1.1); /* Increase size on hover */
+.button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255, 255, 255, 0.3),
+        transparent
+    );
+    transition: all 0.4s;
+}
+
+.button:hover {
+    background-color: #2a0080;
+    color: white;
+    transform: translateY(-5px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+}
+
+.button:hover::before {
+    left: 100%;
+}
+
+.button:active {
+    transform: translateY(-2px);
+    box-shadow: 0 3px 4px rgba(0, 0, 0, 0.1);
+}
+
+.view-details {
+    transform: translateX(-70%);
 }
 
 .order {
-    position: absolute;
-    bottom: 2%;
-    right: 2%;
+    transform: translateX(70%);
+}
+
+.view-details:hover {
+    transform: translateX(0);
+}
+
+.order:hover {
+    transform: translateX(0);
 }
 
 /* Styles for popup notification */
 .popup-notification {
     display: none; /* Hidden by default */
     position: fixed;
-    top: 30vh;
-    right: 0vw;
-    transform: translate(-50%, -50%);
-    padding: 10px;
-    background-color: rgba(255, 221, 186,0.6);
-    color: black;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    top: 13vh;
+    right: 5vb;
+    max-width: 300px;
+    padding: 15px 20px;
+    background-color: #ffffff;
+    color: #333333;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     z-index: 1000;
+    font-family: Arial, sans-serif;
+    line-height: 1.4;
+    transition: all 0.3s ease;
 }
 
-.popup-notification button, .popup-notification .popup-close {
-    background-color: transparent;
-    color: white;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-    position: absolute;
-    top: 10px;
-    right: 10px;
+.popup-notification.show {
+    display: block;
+    animation: slideIn 0.5s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.popup-notification .popup-content {
+    margin-right: 20px;
+}
+
+.popup-notification .popup-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #4a4a4a;
+}
+
+.popup-notification .popup-message {
+    margin-bottom: 0;
 }
 
 .popup-notification .popup-close {
-    font-size: 24px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: transparent;
+    color: #999999;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    transition: color 0.2s ease;
+}
+
+.popup-notification .popup-close:hover {
+    color: #333333;
+}
+
+/* Thêm các biến thể màu sắc cho các loại thông báo khác nhau */
+.popup-notification.success {
+    background-color: #e7f7ed;
+    border-left: 4px solid #28a745;
+}
+
+.popup-notification.warning {
+    background-color: #fff3cd;
+    border-left: 4px solid #ffc107;
+}
+
+.popup-notification.error {
+    background-color: #f8d7da;
+    border-left: 4px solid #dc3545;
 }
