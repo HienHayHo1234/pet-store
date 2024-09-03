@@ -14,39 +14,134 @@ require_once "functions.php";
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Quản trị website</title>
     <style>
-        header.row {
-            height: 90px;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
         }
 
-        div.noidung > aside,
-        div.noidung main {
-            min-height: 500px;
+        html, body {
+            height: 100%;
+            width: 100%;
+            background-color: #f0f2f5;
+            color: #333;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            width: 100%;
+        }
+
+        header {
+            height: 90px;
+            background-color: #17a2b8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 0;
+        }
+
+        header h1 {
+            color: white;
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+
+        .noidung {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        aside {
+            background-color: #343a40;
+            padding: 20px;
+            width: 250px;
+            overflow-y: auto;
+            min-height: 100%;
+        }
+
+        aside ul {
+            list-style: none;
+        }
+
+        aside ul li {
+            margin-bottom: 15px;
+        }
+
+        aside ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.1rem;
+            padding: 10px;
+            display: block;
+            background-color: #495057;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        aside ul li a:hover {
+            background-color: #007bff;
+        }
+
+        main {
+            flex: 1;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+        }
+
+        main p {
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        footer {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #888;
+            padding: 15px;
+            background-color: #f0f2f5;
+            border-top: 1px solid #ddd;
+        }
+
+        footer a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 
 <body>
     <div class="container">
-        <header class="row bg-info">
-            <div class="col-12 text-center">
-                <h1>Quản trị Website</h1>
-            </div>
+        <header>
+            <h1>Quản trị Website</h1>
         </header>
 
-        <div class="row noidung">
-            <aside class="col-2 bg-dark text-white">
+        <div class="noidung">
+            <aside>
                 <ul>
-                    <li><a href="?page=pets_ds" class="text-white">Danh sách thú cưng</a></li>
-                    <li><a href="?page=pets_them" class="text-white">Thêm thú cưng</a></li>
-                    <li><a href="?page=danhmucpets_them" class="text-white">Thêm danh mục thú cưng</a></li>
-                    <li><a href="?page=cart_items_ds" class="text-white">Danh sách giỏ hàng</a></li>
+                    <li><a href="?page=pets_ds">Danh sách thú cưng</a></li>
+                    <li><a href="?page=pets_them">Thêm thú cưng</a></li>   
+                    <li><a href="?page=cart_items_ds">Danh sách đơn hàng</a></li>
+                    <li><a href="?page=#">Tình trạng đơn hàng</a></li>
+                    <li><a href="?page=#">Tình trạng vận chuyển</a></li>
+                    <li><a href="?page=#">Quản lý người dùng</a></li>
                 </ul>
             </aside>
 
-            <main class="col-10 border">
+            <main>
                 <?php
                 // Nhúng các trang con vào vùng nội dung chính dựa vào biến $page
                 switch ($page) {

@@ -34,8 +34,7 @@ try {
             <div class="icons">
                 <button class="view-details" data-id="<?php echo htmlspecialchars($pet['id']); ?>">Chi tiết</button>
               <button class="button order"
-                    onclick="addToPet('<?php echo htmlspecialchars($pet['id'], ENT_QUOTES, 'UTF-8'); ?>')">Giỏ
-                    hàng</button>
+                    onclick="addToPet('<?php echo htmlspecialchars($pet['id'], ENT_QUOTES, 'UTF-8'); ?>')">Giỏ hàng</button>
             </div>
         </div>
         <p class="text-price">Giá: <span class="price"><?php echo number_format($pet['price'], 0, ',', '.'); ?>đ</span>
