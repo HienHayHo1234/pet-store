@@ -1,30 +1,38 @@
-
 /* Styles for the Login Modal */
-.modal {
-    width: 50vb;
-    height: 30vb;
-    position: fixed;
-    top : 0;
-    right: 30vb;
-    z-index: 1000; /* Đảm bảo modal nằm trên cùng */
 
+.login-modal h2{
+    background-color: white;
+}
+.login-modal {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.5); /* Nền mờ */
+    z-index: 1000; /* Đảm bảo modal nằm trên cùng */
+    align-content: center;
+    text-align: -webkit-center;
 }
 
-.modal-content {
+.login-modal-content {
     position: relative;
     background-color: #fff; /* Màu nền của modal */
-    margin: 15% auto; /* Căn giữa theo chiều dọc */
     padding: 20px;
     border: 1px solid #888; /* Đường viền modal */
-    width: 80%; /* Chiều rộng modal */
-    border-radius: 10px; /* Bo góc modal */
-    color:black;
+    width: 19%; /* Chiều rộng modal */
+    color: black;
+    box-sizing: border-box; /* Bao gồm padding và border trong kích thước tổng cộng */
 }
-
+.login-form .ben-trai{
+    justify-content: left;
+}
 .close {
     position: absolute;
     top: 10px;
-    right: 35px;
+    right: 15px;
     color: #000;
     font-size: 35px;
     font-weight: bold;
@@ -42,30 +50,31 @@ h2 {
     margin-top: 0;
 }
 
-.form-login{
+.login-form {
     display: flex;
     flex-direction: column;
 }
+
 label {
     margin: 10px 0 5px;
 }
 
-.form-login input[type="text"],
-.form-login input[type="password"],
-.form-login input[type="email"] {
+.login-form input[type="text"],
+.login-form input[type="password"],
+.login-form input[type="email"] {
     padding: 10px;
     margin-bottom: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
 }
 
-.button-container {
+.login-button-container {
     display: flex;
     justify-content: space-between;
     gap: 10px; /* Tạo khoảng cách giữa các nút */
 }
 
-.form-login input[type="submit"],
+.login-form input[type="submit"],
 button {
     flex: 1; /* Để các nút có cùng chiều rộng */
     padding: 10px 20px;
@@ -77,11 +86,10 @@ button {
     text-align: center; /* Căn chữ ở giữa nút */
 }
 
-.form-login input[type="submit"]:hover,
+.login-form input[type="submit"]:hover,
 button:hover {
     background-color: #0056b3;
 }
-
 
 p {
     margin-top: 20px;

@@ -65,7 +65,17 @@ h2, h1 {
     height: 60px;
 }
 
-
+p {
+    margin-top: 15px; /* Giảm khoảng cách trên của đoạn văn */
+    font-size: 15px; /* Giảm kích thước chữ của đoạn văn */
+    text-align: center; /* Căn giữa nội dung đoạn văn */
+}
+/* CSS chung cho nav */
+nav {   
+    font-size: 20px;
+    background-color: rgb(255,250,245);
+    font-weight: bold;
+}
 /* CSS chung cho nav */
 nav {   
     font-size: 20px;
@@ -129,7 +139,7 @@ nav li a:hover {
 }
 
 nav li a img {
-    margin-right: 5px; /* Khoảng cách giữa hình ảnh và chữ */
+    margin-right: 2px; /* Khoảng cách giữa hình ảnh và chữ */
 }
 
 nav li a, .dropdown-btn {
@@ -137,11 +147,12 @@ nav li a, .dropdown-btn {
 }
 
 nav li.dropdown {
-    
+    text-align: center;
     position: relative;
 }
 
 .dropdown-content {
+    font-size: 16px;
     display: none;
     position: absolute;
     background-color: rgb(255, 249, 240);
@@ -223,16 +234,15 @@ nav li.dropdown {
 }
 
 .nav-cart > .text-cart {
-    display: inline-block;
     vertical-align: middle;
     margin-right: 10px; 
     margin-left: 50px;
 }
 
 .new-icon-cart {
-    width: 30px;
+    width: 27px;
     position: absolute;
-    top: 50%;
-    right: 0;
+    top: 46%;
+    right: 52%;
     transform: translateY(-90%);
 }

@@ -34,7 +34,6 @@ try {
         <p class="text-price">Giá: <span class="price"><?php echo number_format($pet['price'], 0, ',', '.'); ?>đ</span>
             ➱
             <?php echo number_format($pet['priceSale'], 0, ',', '.'); ?>đ</p>
-        </button>
     </div>
 
     <?php endforeach; ?>
