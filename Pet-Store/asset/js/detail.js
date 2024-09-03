@@ -1,4 +1,9 @@
 document.addEventListener('DOMContentLoaded', function () {
+    setupDetailButtons();
+    setupModalClose();
+});
+
+function setupDetailButtons() {
     // Lấy tất cả các nút 'Chi tiết'
     const detailButtons = document.querySelectorAll('.view-details');
 
@@ -11,58 +16,68 @@ document.addEventListener('DOMContentLoaded', function () {
             openDetailModal(petId);
         });
     });
+}
 
+function setupModalClose() {
     // Đóng modal khi nhấp vào nút đóng
-    document.querySelector('#modal .custom-close').addEventListener('click', function () {
-        document.querySelector('#modal').style.display = 'none';
-    });
+    const closeButton = document.querySelector('#modal .custom-close');
+    if (closeButton) {
+        closeButton.addEventListener('click', closeModal);
+    }
 
     // Đóng modal khi nhấp vào vùng ngoài modal
     window.addEventListener('click', function (event) {
         if (event.target == document.querySelector('#modal')) {
-            document.querySelector('#modal').style.display = 'none';
+            closeModal();
         }
     });
-});
+}
 
 function openDetailModal(petId) {
     const xhr = new XMLHttpRequest();
     xhr.open('GET', `DetailPet.php?action=getPetDetails&id=${petId}`, true);
-    xhr.send();
-
     xhr.onload = function() {
         if (xhr.status === 200) {
             try {
                 const data = JSON.parse(xhr.responseText);
-                console.log('Data received:', data); // Debug log
                 if (data.error) {
                     alert(data.error);
                 } else {
-                    // Cập nhật thông tin vào modal
-                    document.querySelector('#modal .custom-modal-title').innerText = data.name;
-                    document.querySelector('#modal .custom-modal-img').src = data.urlImg;
-                    document.querySelector('#modal .custom-modal-price').innerText = `Giá: ${data.price.toLocaleString()}đ`;
-                    document.querySelector('#modal .custom-modal-sale-price').innerText = `Giá khuyến mãi: ${data.priceSale.toLocaleString()}đ`;
-                    document.querySelector('#modal .custom-modal-quantity').innerText = `Số lượng còn lại: ${data.quantity}`;
-                    document.querySelector('#modal .custom-modal-description').innerText = `Mô tả: ${data.description}`;
-
-                    // Hiển thị modal
-                    document.querySelector('#modal').style.display = 'block';
+                    updateModalContent(data);
+                    document.querySelector('#modal').style.display = 'flex';
                 }
             } catch (error) {
                 console.error('Error parsing response:', error);
                 alert('Lỗi khi xử lý dữ liệu từ server.');
             }
         } else {
-            console.error('Request failed with status code:', xhr.status);
-            alert('Lỗi khi gửi yêu cầu. Status code: ' + xhr.status);
+            console.error('Request failed. Status:', xhr.status);
+            alert('Lỗi khi gửi yêu cầu.');
         }
     };
-
     xhr.onerror = function() {
         console.error('Network error occurred');
         alert('Có lỗi xảy ra khi gửi yêu cầu.');
     };
+    xhr.send();
+}
+
+function updateModalContent(data) {
+    document.querySelector('#modal .custom-modal-title').innerText = data.name;
+    document.querySelector('#modal .custom-modal-img').src = data.urlImg;
+    document.querySelector('#modal .custom-modal-price').innerText = `Giá: ${data.price.toLocaleString()}đ`;
+    document.querySelector('#modal .custom-modal-sale-price').innerText = `Giá khuyến mãi: ${data.priceSale.toLocaleString()}đ`;
+    document.querySelector('#modal .custom-modal-quantity').innerText = `Số lượng còn lại: ${data.quantity}`;
+    document.querySelector('#modal .custom-modal-description').innerText = `Mô tả: ${data.description}`;
+}
+
+function closeModal() {
+    document.querySelector('#modal').style.display = 'none';
+}
+
+// Thêm hàm này để cập nhật các nút chi tiết sau khi tìm kiếm
+function updateDetailButtons() {
+    setupDetailButtons();
 }
 
 function goToCart() {

@@ -45,8 +45,8 @@ function addToCart($user_id, $pet_id, $quantity = 1, $conn)
         // Nếu sản phẩm đã có trong giỏ, cộng thêm số lượng
         $new_quantity = $item['quantity'] + $quantity;
 
-        $stmt = $conn->prepare("UPDATE cart_items SET quantity = ? WHERE id = ?");
-        $stmt->execute([$new_quantity, $item['id']]);
+        $stmt = $conn->prepare("UPDATE cart_items SET quantity = ? WHERE user_id = ? AND pet_id = ?");
+        $stmt->execute([$new_quantity, $user_id, $pet_id]);
     } else {
         // Nếu sản phẩm chưa có trong giỏ, thêm mới
         $stmt = $conn->prepare("INSERT INTO cart_items (user_id, pet_id, quantity) VALUES (?, ?, ?)");

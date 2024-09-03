@@ -1,15 +1,8 @@
 <?php
 // Kết nối đến cơ sở dữ liệu
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "pet-store"; // Tên cơ sở dữ liệu của bạn
+require '../config/config.php';
 
 try {
-    // Tạo đối tượng PDO để kết nối với cơ sở dữ liệu MySQL
-    $conn = new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8", $username, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
     // Thực hiện truy vấn để lấy tất cả các sản phẩm thuộc danh mục 'parrot'
     $stmt = $conn->prepare("SELECT * FROM pets WHERE idLoai = :idLoai");
     $stmt->bindParam(':idLoai', $idLoai);
@@ -55,8 +48,6 @@ try {
 } catch (PDOException $e) {
     echo "Kết nối thất bại: " . $e->getMessage();
 }
-
-$conn = null; // Đóng kết nối
 
 // Hàm hiển thị sản phẩm
 function displayPet($urlImg, $name, $id, $price, $priceSale) {
