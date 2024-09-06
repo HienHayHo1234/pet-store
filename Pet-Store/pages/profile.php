@@ -1,6 +1,5 @@
 <?php
 require '../config/config.php'; // Ensure database connection
- 
 // Check if the user is logged in
 if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
     header('Location: login.php'); // Redirect to login page if not logged in
@@ -9,7 +8,6 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
 
 // Get the username from session
 $username = $_SESSION['username'];
-
 // Retrieve user information from the database
 try {
     $sql = "SELECT * FROM users WHERE username = :username";
