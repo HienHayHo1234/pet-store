@@ -1,4 +1,3 @@
-<link rel="stylesheet" href="../asset/css/banner.css">
 <link rel="stylesheet" href="../asset/css/pets.css">
 <section>
 
@@ -63,4 +62,3 @@
     <h1>Thú Cưng</h1>
     <?php require_once("pets.php"); ?>
 </section>
-<script src="../asset/js/banner.js"></script>

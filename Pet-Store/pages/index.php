@@ -14,6 +14,7 @@
         <script src="../asset/js/cart.js"></script>
         <script src="../asset/js/check-cart.js"></script>
         <script src="../asset/js/detail.js"></script>
+        <script src="../asset/js/login.js"></script>
 
         <!-- php -->
         <?php include 'DetailPet.php'; ?>
