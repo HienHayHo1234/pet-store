@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Tự động đóng popup sau 3 giây
         setTimeout(() => {
             popup.remove();
-        }, 3000);
+        }, 1000);
     }
 
     // Hàm cập nhật UI sau khi đăng nhập

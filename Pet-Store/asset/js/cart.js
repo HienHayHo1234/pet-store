@@ -106,7 +106,7 @@ function showPopup(message, type = "success") {
     // Tự động ẩn popup sau 2 giây
     setTimeout(function() {
         popup.style.display = 'none';
-    }, 2000);
+    }, 1000);
 }
 
  // cập nhật lại số lượng
