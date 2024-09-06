@@ -2,8 +2,21 @@ function showOrderForm(productId) {
     // Hiển thị form đặt hàng
     var orderForm = document.getElementById('orderForm');
     orderForm.style.display = '';
-    // Gán giá trị productId vào hidden input
+
+    // Thêm hoặc cập nhật trường hidden input cho pet_id
+    var petIdInput = document.getElementById('pet_id');
+    if (!petIdInput) {
+        petIdInput = document.createElement('input');
+        petIdInput.type = 'hidden';
+        petIdInput.id = 'pet_id';
+        petIdInput.name = 'pet_id';
+        orderForm.appendChild(petIdInput);
+    }
+    petIdInput.value = productId;
+
+    // Gán giá trị productId vào hidden input và cập nhật tổng giá
     updateTotalPriceForm(productId);
+
     // Cuộn trang đến form đặt hàng
     orderForm.scrollIntoView({
         behavior: 'smooth'
@@ -89,4 +102,38 @@ function updateTotalPriceAllForm() {
         // Update the total amount in the form
         document.getElementById('total-amount-form').innerText = totalPrice.toLocaleString('vi-VN') + 'đ';
     }
+}
+
+// Hàm gửi yêu cầu đến server
+function submitOrder() {
+    const form = document.getElementById('orderFormElement');
+    const formData = new FormData(form);
+    
+    // Thêm action 'addtoorder' vào formData
+    formData.append('action', 'addtoorder');
+    
+    // Thêm pet_id vào formData (giả sử bạn có một input hidden chứa pet_id)
+    const petId = document.getElementById('pet_id').value;
+    formData.append('pet_id', petId);
+    
+    // Thêm tổng số tiền vào formData
+    formData.append('total_amount', document.getElementById('total-amount-form').innerText);
+    
+    fetch('../config/order.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert(data.message);
+            // Có thể thêm code để xóa giỏ hàng hoặc chuyển hướng người dùng
+        } else {
+            alert('Có lỗi xảy ra: ' + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Đã xảy ra lỗi khi gửi đơn hàng.');
+    });
 }

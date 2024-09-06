@@ -13,7 +13,7 @@ function removeFromCart(petId) {
 // Hàm gửi yêu cầu đến server
 function sendCartRequest(action, petId) {
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "../config/order.php", true);
+    xhr.open("POST", "../config/cart.php", true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
     xhr.onreadystatechange = function () {

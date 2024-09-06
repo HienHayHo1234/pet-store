@@ -158,9 +158,8 @@ try {
             </label>
 
             <!-- nút gửi -->
-            <button type="submit" class="btn-submit" style="display: none">
-                <img src="../asset/images/icon/take-form.png" alt="Gửi"
-                onclick="showPopupInvoice()">
+            <button type="button" class="btn-submit" style="display: none" onclick="submitOrder()">
+                <img src="../asset/images/icon/take-form.png" alt="Gửi">
             </button>
         </form>
     </div>

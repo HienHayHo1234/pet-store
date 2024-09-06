@@ -1,62 +1,44 @@
 <?php
 require 'config.php';
 
-// Giả sử user_id là 1, bạn có thể thay đổi theo hệ thống của bạn
-$user_id = 1;
-
 // Gửi header JSON
 header('Content-Type: application/json');
 
-// Lấy pet_id từ POST request
-if (isset($_POST['action']) && isset($_POST['pet_id'])) {
-    $action = $_POST['action'];
-    $pet_id = $_POST['pet_id'];
+$response = array('success' => false, 'message' => '');
 
-    $response = array('success' => false, 'message' => '');
+// Kiểm tra xem có phải là yêu cầu POST không
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    try {
+        $conn->beginTransaction();
 
-    if ($action === 'add') {
-        // Thêm sản phẩm vào giỏ hàng
-        addToCart($user_id, $pet_id, 1, $conn);
+        // Lấy thông tin từ form
+        $user_id = $_POST['user_id'] ?? 11; // Giả sử user_id mặc định là 1 nếu không có
+        $pet_id = $_POST['pet_id'] ?? null;
+        $name = $_POST['name'] ?? '';
+        $address = $_POST['address'] ?? '';
+        $phone = $_POST['phone'] ?? '';
+        $total_amount = str_replace(['đ', ','], '', $_POST['total_amount'] ?? '0');
+
+        // Kiểm tra các trường bắt buộc
+        if (empty($pet_id) || empty($name) || empty($address) || empty($phone)) {
+            throw new Exception("Vui lòng điền đầy đủ thông tin.");
+        }
+
+        // Tạo đơn hàng mới
+        $stmt = $conn->prepare("INSERT INTO orders (user_id, pet_id, customer_name, address, phone, total_amount, order_date) VALUES (?, ?, ?, ?, ?, ?, NOW())");
+        $stmt->execute([$user_id, $pet_id, $name, $address, $phone, $total_amount]);
+        
+        $conn->commit();
+        
         $response['success'] = true;
-        $response['message'] = 'Sản phẩm đã được thêm vào giỏ hàng!';
-    } elseif ($action === 'remove') {
-        // Xóa sản phẩm khỏi giỏ hàng
-        removeFromCart($user_id, $pet_id, $conn);
-        $response['success'] = true;
-        $response['message'] = 'Sản phẩm đã được xóa khỏi giỏ hàng!';
-    } else {
-        $response['message'] = 'Hành động không hợp lệ!';
+        $response['message'] = 'Đơn hàng đã được tạo thành công!';
+    } catch (Exception $e) {
+        $conn->rollBack();
+        $response['message'] = 'Có lỗi xảy ra khi tạo đơn hàng: ' . $e->getMessage();
+        error_log($e->getMessage());
     }
-
-    echo json_encode($response);
 } else {
-    $response = array('success' => false, 'message' => 'Thiếu thông tin cần thiết!');
-    echo json_encode($response);
+    $response['message'] = 'Phương thức không được hỗ trợ.';
 }
 
-function addToCart($user_id, $pet_id, $quantity = 1, $conn)
-{
-    // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
-    $stmt = $conn->prepare("SELECT id, quantity FROM cart_items WHERE user_id = ? AND pet_id = ?");
-    $stmt->execute([$user_id, $pet_id]);
-    $item = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if ($item) {
-        // Nếu sản phẩm đã có trong giỏ, cộng thêm số lượng
-        $new_quantity = $item['quantity'] + $quantity;
-
-        $stmt = $conn->prepare("UPDATE cart_items SET quantity = ? WHERE user_id = ? AND pet_id = ?");
-        $stmt->execute([$new_quantity, $user_id, $pet_id]);
-    } else {
-        // Nếu sản phẩm chưa có trong giỏ, thêm mới
-        $stmt = $conn->prepare("INSERT INTO cart_items (user_id, pet_id, quantity) VALUES (?, ?, ?)");
-        $stmt->execute([$user_id, $pet_id, $quantity]);
-    }
-}
-
-function removeFromCart($user_id, $pet_id, $conn)
-{
-    // Xóa sản phẩm khỏi giỏ hàng
-    $stmt = $conn->prepare("DELETE FROM cart_items WHERE user_id = ? AND pet_id = ?");
-    $stmt->execute([$user_id, $pet_id]);
-}
+echo json_encode($response);
