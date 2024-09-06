@@ -27,9 +27,9 @@
         
         <main >
             <?php require_once("main.php"); ?>
-            <?php  require_once ("../pages/login.php") ?>
-            <?php  require_once ("../pages/register.php") ?>
-            <?php  require_once ("../pages/forgetPass.php") ?>
+            <?php require_once ("../pages/login.php") ?>
+            <?php require_once ("../pages/register.php") ?>
+            <?php require_once ("../pages/forgetPass.php") ?>
             <!-- Popup Notification -->
             <div id="popup-notification" class="popup-notification">
                 <p id="popup-message"></p>

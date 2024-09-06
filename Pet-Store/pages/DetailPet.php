@@ -42,9 +42,12 @@ if (isset($_GET['action']) && $_GET['action'] === 'getPetDetails' && isset($_GET
             </div>
             
             <div class="detail-btn-container">
-                <button class="add-to-cart" onclick="addToPet('<?php echo htmlspecialchars($pet['id'] ?? ''); ?>');  goToCart()">Đặt hàng</button>
+                <button class="add-to-cart" onclick="addToPet(this.getAttribute('data-pet-id'))">Đặt hàng</button>
             </div>
         </div>
         <span class="custom-close">&times;</span>   
     </div>
 </div>
+
+<script src="../asset/js/cart.js"></script>
+
