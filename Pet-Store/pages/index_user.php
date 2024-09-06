@@ -28,6 +28,9 @@
             case 'change_password':
                 require_once 'change_password.php';
                 break;
+            case 'orders_detail':
+                require_once 'orders_detail.php';
+                break;
             default:
                 require_once 'profile.php';
                 break;
@@ -45,6 +48,9 @@
                 break;
             case 'change_password':
                 require_once 'change_password.php';
+                break;
+            case 'orders_detail':
+                require_once 'orders_detail.php';
                 break;
             default:
                 require_once 'profile.php';
