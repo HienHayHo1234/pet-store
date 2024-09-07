@@ -41,8 +41,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         // Tạo đơn hàng mới
-        $stmt = $conn->prepare("INSERT INTO orders (user_id, totalAmount, status) VALUES (?, ?, 'Pending')");
-        $stmt->execute([$user_id, $total_amount]);
+        $stmt = $conn->prepare("INSERT INTO orders (user_id, totalAmount, status) VALUES (?, ?, ?)");
+        $status = 'Chờ xử lý'; // Trạng thái mặc định
+        $stmt->execute([$user_id, $total_amount, $status]);
+        
         
         $order_id = $conn->lastInsertId();
 
