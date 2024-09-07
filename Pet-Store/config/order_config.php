@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $order_id = $conn->lastInsertId();
 
         // Thêm thông tin chi tiết đơn hàng
-        $stmt = $conn->prepare("INSERT INTO order_details (idOrder, pet_id, quantity, price) VALUES (?, ?, ?, ?)");
+        $stmt = $conn->prepare("INSERT INTO order_details (order_id, pet_id, quantity, price) VALUES (?, ?, ?, ?)");
         
         foreach ($pet_ids as $pet_id) {
             // Lấy thông tin sản phẩm từ database
