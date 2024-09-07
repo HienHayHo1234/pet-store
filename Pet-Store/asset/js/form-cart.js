@@ -116,17 +116,50 @@ function updateTotalPriceForm(petId) {
 }
 
 function updateTotalPriceAllForm() {
-    var totalAmount = calculateTotalAmount();
+    var totalAmount = calculateTotalAmountSelected();
     document.getElementById('total-amount-form').innerText = totalAmount.toLocaleString('vi-VN') + 'đ';
+}
+
+function calculateTotalAmountSelected() {
+    var checkboxes = document.querySelectorAll('.checkbox-btn-cart');
+    
+    // Nếu không có checkbox nào, tính tổng tất cả các mục
+    if (checkboxes.length === 0) {
+        return calculateTotalAmount();
+    }
+    
+    var selectedCheckboxes = document.querySelectorAll('.checkbox-btn-cart:checked');
+    
+    // Nếu không có checkbox nào được chọn, cũng tính tổng tất cả các mục
+    if (selectedCheckboxes.length === 0) {
+        return calculateTotalAmount();
+    }
+    
+    // Nếu có checkbox được chọn, tính tổng các mục đã chọn
+    var total = 0;
+    selectedCheckboxes.forEach(function(checkbox) {
+        var invoiceItem = checkbox.closest('.invoice-item');
+        if (invoiceItem) {
+            var priceElement = invoiceItem.querySelector('.totalPrice');
+            if (priceElement) {
+                var price = parseInt(priceElement.innerText.replace(/[^\d]/g, ''), 10);
+                total += price;
+            }
+        }
+    });
+    
+    return total;
 }
 
 function calculateTotalAmount() {
     var total = 0;
     var priceElements = document.querySelectorAll('.invoice-item .totalPrice');
+    
     priceElements.forEach(function(element) {
         var price = parseInt(element.innerText.replace(/[^\d]/g, ''), 10);
         total += price;
     });
+    
     return total;
 }
 
@@ -164,7 +197,6 @@ function submitOrder() {
     .then(data => {
         if (data.success) {
             alert(data.message);
-            removeAllFromCartUI();
             closeOrderForm();
             updateTotalCartAmount();
         } else {
