@@ -83,7 +83,7 @@ $details = layChiTietDonHang($order_id);
         }
 
         .btn {
-            padding: 6px 12px;
+            padding: 12px 24px;
             text-decoration: none;
             color: white;
             border-radius: 4px;

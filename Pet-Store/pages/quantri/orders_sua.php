@@ -1,129 +1,112 @@
 <?php
-require_once 'functions.php';
+require '../../config/config.php'; // Ensure database connection
 
-// Lấy id của đơn hàng cần chỉnh sửa từ URL
-$id = $_GET['id'] ?? '';
-$id = htmlspecialchars($id);
+// Check if the user is logged in
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header('Location: index.php'); // Redirect to login page if not logged in
+    exit();
+}
 
-// Lấy thông tin chi tiết của đơn hàng từ cơ sở dữ liệu
-$order = layChiTietDonHang($id); // Bạn cần tạo hàm `layChiTietDonHang` trong file `functions.php`
+// Get the order ID from the URL
+$order_id = isset($_GET['order_id']) ? $_GET['order_id'] : null;
+if (!$order_id) {
+    echo "Order ID is required.";
+    exit();
+}
 
-// Xử lý khi form được gửi
-if (isset($_POST['btn'])) {
-    $status = $_POST['status'];
-    
-    // Cập nhật thông tin đơn hàng trong cơ sở dữ liệu
-    $kq = capnhatDonHang($id, $status);
+// Retrieve order information from the database
+try {
+    $sql = "SELECT * FROM orders WHERE idOrder = :order_id";
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(':order_id', $order_id);
+    $stmt->execute();
+    $order = $stmt->fetch();
 
-    if ($kq) {
-        header("location: index.php?page=orders");
+    if (!$order) {
+        echo "Order does not exist.";
         exit();
+    }
+
+    // Retrieve order details
+    $sql = "SELECT * FROM order_details WHERE order_id = :order_id";
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(':order_id', $order_id);
+    $stmt->execute();
+    $order_details = $stmt->fetchAll();
+} catch (PDOException $e) {
+    echo "Error: " . $e->getMessage();
+    exit();
+}
+
+// Handle order update
+$message = '';
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $totalAmount = $_POST['totalAmount'];
+    $status = $_POST['status'];
+
+    try {
+        $sql = "UPDATE orders SET totalAmount = :totalAmount, status = :status WHERE idOrder = :order_id";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':totalAmount', $totalAmount);
+        $stmt->bindParam(':status', $status);
+        $stmt->bindParam(':order_id', $order_id);
+        $stmt->execute();
+
+        $message = "Order information has been updated successfully.";
+        echo '<script type="text/javascript">
+                setTimeout(function() {
+                    window.location.href = "index.php?page=order_list";
+                }, 2000);
+              </script>';
+    } catch (PDOException $e) {
+        $message = "Error updating order: " . $e->getMessage();
     }
 }
 ?>
-
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <title>Chỉnh sửa đơn hàng</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f9f9f9;
-        }
-
-        h4 {
-            text-align: center;
-            margin: 20px 0;
-            padding: 10px;
-            font-size: 24px;
-            color: #333;
-            background-color: #f0f0f0;
-            border-radius: 8px;
-        }
-
-        form {
-            width: 40%;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 16px;
-            margin-bottom: 5px;
-        }
-
-        .form-group input[type="text"],
-        .form-group select {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-
-        .btn {
-            padding: 10px 15px;
-            text-decoration: none;
-            color: white;
-            border-radius: 4px;
-            cursor: pointer;
-            border: none;
-        }
-
-        .btn-primary {
-            background-color: #007bff;
-        }
-
-        .btn-primary:hover {
-            background-color: #0056b3;
-        }
-
-        .btn-secondary {
-            background-color: #6c757d;
-        }
-
-        .btn-secondary:hover {
-            background-color: #5a6268;
-        }
-
-        .btn-group {
-            display: flex;
-            justify-content: space-between;
-        }
-    </style>
-</head>
+<link rel="stylesheet" href="../asset/css/profile.css">
 <body>
-    <h4>CHỈNH SỬA ĐƠN HÀNG</h4>
-    <form action="" method="post">
-        <div class="form-group">
-            <label for="order_id">Mã Đơn Hàng</label>
-            <input name="order_id" type="text" id="order_id" value="<?= htmlspecialchars($order['order_id']) ?>" readonly />
+    <div class="tt">
+        <div class="content">
+            <h2>Order Information</h2>
+            <form id="orderForm" class="order" action="" method="post">
+                <label for="order_id">Order ID:</label>
+                <input type="text" id="order_id" name="order_id" value="<?php echo htmlspecialchars($order['idOrder']); ?>" disabled>
+                <label for="totalAmount">Total Amount:</label>
+                <input type="text" id="totalAmount" name="totalAmount" value="<?php echo htmlspecialchars($order['totalAmount']); ?>" required>
+                <label for="status">Status:</label>
+                <select id="status" name="status" required>
+                    <option value="Chờ xử lý" <?php echo $order['status'] == 'Chờ xử lý' ? 'selected' : ''; ?>>Chờ xử lý</option>
+                    <option value="Đang xử lý" <?php echo $order['status'] == 'Đang xử lý' ? 'selected' : ''; ?>>Đang xử lý</option>
+                    <option value="Hoàn thành" <?php echo $order['status'] == 'Hoàn thành' ? 'selected' : ''; ?>>Hoàn thành</option>
+                    <option value="Đã hủy" <?php echo $order['status'] == 'Đã hủy' ? 'selected' : ''; ?>>Đã hủy</option>
+                    <option value="Đang vận chuyển" <?php echo $order['status'] == 'Đang vận chuyển' ? 'selected' : ''; ?>>Đang vận chuyển</option>
+                    <option value="Đã giao" <?php echo $order['status'] == 'Đã giao' ? 'selected' : ''; ?>>Đã giao</option>
+                    <option value="Đã hoàn tiền" <?php echo $order['status'] == 'Đã hoàn tiền' ? 'selected' : ''; ?>>Đã hoàn tiền</option>
+                </select>
+
+                <button type="submit">Update Order</button>
+                <?php if ($message) { echo '<p style="color:red;">' . htmlspecialchars($message) . '</p>'; } ?>
+            </form>
+
+            <h3>Order Details</h3>
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Pet ID</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($order_details as $detail): ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($detail['pet_id']); ?></td>
+                            <td><?php echo htmlspecialchars($detail['quantity']); ?></td>
+                            <td><?php echo htmlspecialchars($detail['price']); ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
         </div>
-        <div class="form-group">
-            <label for="status">Trạng thái</label>
-            <select name="status" id="status">
-                <option value="Chờ xử lý" <?= $order['status'] == 'Chờ xử lý' ? 'selected' : '' ?>>Chờ xử lý</option>
-                <option value="Đang xử lý" <?= $order['status'] == 'Đang xử lý' ? 'selected' : '' ?>>Đang xử lý</option>
-                <option value="Hoàn thành" <?= $order['status'] == 'Hoàn thành' ? 'selected' : '' ?>>Hoàn thành</option>
-                <option value="Đã hủy" <?= $order['status'] == 'Đã hủy' ? 'selected' : '' ?>>Đã hủy</option>
-            </select>
-        </div>
-        <div class="form-group btn-group">
-            <input name="btn" type="submit" value="Lưu thông tin" class="btn btn-primary" />
-            <a href="index.php?page=orders" class="btn btn-secondary">Quay lại</a>
-        </div>
-    </form>
+    </div>
 </body>
-</html>
