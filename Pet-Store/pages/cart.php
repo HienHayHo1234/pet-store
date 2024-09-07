@@ -174,8 +174,11 @@ function getGuestCart() {
                 Tổng số tiền: <span id="total-amount-form">0đ</span>
             </label>
 
+            <!-- Thêm input hidden cho pet_ids -->
+            <input type="hidden" id="pet_ids" name="pet_ids">
+
             <!-- nút gửi -->
-            <button type="button" class="btn-submit" style="display: none" onclick="submitOrder()">
+            <button type="button" class="btn-submit" style="display: none">
                 <img src="../asset/images/icon/take-form.png" alt="Gửi">
             </button>
         </form>
