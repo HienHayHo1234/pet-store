@@ -58,13 +58,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="../asset/css/profile.css"> <!-- Custom CSS for profile page -->
     <body>
     <div class="tt">
-        
         <div class="content">
-            
             <h2>Thông Tin Tài Khoản</h2>
             <form class="profile" action="" method="post">
                 <label for="username">Tên đăng nhập:</label>
-                <input type="text" id="username" name="username" value="<?php echo htmlspecialchars($user['username']); ?>" disabled>
+                <input type="text" id="username" name="username" value="<?php echo htmlspecialchars($user['username']); ?>" requite>
 
                 <label for="phone">Số điện thoại:</label>
                 <input type="text" id="phone" name="phone" value="<?php echo htmlspecialchars($user['phone']); ?>" required>
