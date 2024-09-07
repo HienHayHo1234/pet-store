@@ -58,7 +58,7 @@ function displayPet($urlImg, $name, $id, $price, $priceSale) {
             <div class="row">
                 <p class="name-pet"><?php echo htmlspecialchars($name, ENT_QUOTES, 'UTF-8'); ?></p>
                 <div class="icons">
-                    <button class="view-details" data-id="<?php echo htmlspecialchars($id, ENT_QUOTES, 'UTF-8'); ?>">Chi tiết</button>
+                    <button class="button view-details" data-id="<?php echo htmlspecialchars($id, ENT_QUOTES, 'UTF-8'); ?>">Chi tiết</button>
                     <button class="button order" onclick="addToPet('<?php echo htmlspecialchars($id, ENT_QUOTES, 'UTF-8'); ?>')">Giỏ hàng</button>
                 </div>
             </div>
