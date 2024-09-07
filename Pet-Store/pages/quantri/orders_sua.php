@@ -1,14 +1,14 @@
 <?php
-require '../../config/config.php'; // Ensure database connection
+require 'functions.php'; // Ensure database connection
 
 // Check if the user is logged in
-if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
-    header('Location: index.php'); // Redirect to login page if not logged in
-    exit();
-}
+// if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+//     header('Location: index.php'); // Redirect to login page if not logged in
+//     exit();
+// }
 
 // Get the order ID from the URL
-$order_id = isset($_GET['order_id']) ? $_GET['order_id'] : null;
+$order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : null;
 if (!$order_id) {
     echo "Order ID is required.";
     exit();
@@ -18,7 +18,7 @@ if (!$order_id) {
 try {
     $sql = "SELECT * FROM orders WHERE idOrder = :order_id";
     $stmt = $conn->prepare($sql);
-    $stmt->bindParam(':order_id', $order_id);
+    $stmt->bindParam(':order_id', $order_id, PDO::PARAM_INT);
     $stmt->execute();
     $order = $stmt->fetch();
 

@@ -3,7 +3,7 @@ require_once 'functions.php';
 
 // Lấy id của đơn hàng cần xóa từ URL
 $id = $_GET['id'] ?? '';
-$id = htmlspecialchars($id);
+$id = intval($id);
 
 // Xóa đơn hàng và chi tiết của nó
 if ($id) {
