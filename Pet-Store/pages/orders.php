@@ -96,7 +96,7 @@ $result = $stmt->get_result();
             echo "<td style='border: 1px solid #ddd; padding: 10px;'>" . $row["orderDate"] . "</td>"; // Ngày mua
             echo "<td style='border: 1px solid #ddd; padding: 10px;'>" . $row["pet_name"] . "</td>"; // Sản phẩm
             echo "<td style='border: 1px solid #ddd; padding: 10px;'>" . number_format($item_total_price, 0, ',', '.') . " VND</td>"; // Tổng đơn hàng
-            echo "<td style='border: 1px solid #ddd; padding: 10px;'>" . $row['order_status'] . "</td>"; // Trạng thái đơn hàng
+            echo "<td style='border: 1px solid #ddd; padding: 10px; color: red;'>" . $row['order_status'] . "</td>"; // Trạng thái đơn hàng
             // Thêm nút "Chi tiết"
             echo "<td style='border: 1px solid #ddd; padding: 10px; text-align: center;'>
                     <a href='index.php?page=index_user&pageuser=orders_detail&order_id=" . $row['order_id'] . "' style='padding: 5px 10px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 4px;'>Chi tiết</a>

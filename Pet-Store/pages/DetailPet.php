@@ -42,7 +42,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'getPetDetails' && isset($_GET
             </div>
             
             <div class="detail-btn-container">
-                <button class="add-to-cart" onclick="addToPet(this.getAttribute('data-pet-id'))">Đặt hàng</button>
+                <button class="add-to-cart" onclick="addToPet(this.getAttribute('data-pet-id'))">Giỏ hàng</button>
             </div>
         </div>
         <span class="custom-close">&times;</span>   
