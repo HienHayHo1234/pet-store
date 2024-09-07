@@ -13,7 +13,7 @@ function removeFromCart(petId) {
 // Hàm gửi yêu cầu đến server
 function sendCartRequest(action, petId) {
     var xhr = new XMLHttpRequest();
-    xhr.open("POST", "../config/order.php", true);
+    xhr.open("POST", "../config/cart_config.php", true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
     xhr.onreadystatechange = function () {
@@ -21,17 +21,18 @@ function sendCartRequest(action, petId) {
             var response = JSON.parse(xhr.responseText);
             if (response.success) {
                 if (action === 'remove') {
-                    // Hiển thị thông báo
                     showPopup(response.message, 'info');
-                    // Xóa phần tử khỏi DOM
                     removeCartItem(petId);
                 } else {
                     showPopup(response.message, 'success');
-                    updateCartDisplay(); // Cập nhật hiển thị giỏ hàng nếu cần
+                    updateCartDisplay();
                 }
             } else {
                 showPopup("Có lỗi xảy ra: " + response.message, "error");
             }
+            
+            // Log thông tin session
+            console.log("Session Info:", response.session_info);
         }
     };
 
@@ -105,7 +106,7 @@ function showPopup(message, type = "success") {
     // Tự động ẩn popup sau 2 giây
     setTimeout(function() {
         popup.style.display = 'none';
-    }, 2000);
+    }, 1000);
 }
 
  // cập nhật lại số lượng

@@ -2,8 +2,21 @@ function showOrderForm(productId) {
     // Hiển thị form đặt hàng
     var orderForm = document.getElementById('orderForm');
     orderForm.style.display = '';
-    // Gán giá trị productId vào hidden input
+
+    // Thêm hoặc cập nhật trường hidden input cho pet_id
+    var petIdInput = document.getElementById('pet_id');
+    if (!petIdInput) {
+        petIdInput = document.createElement('input');
+        petIdInput.type = 'hidden';
+        petIdInput.id = 'pet_id';
+        petIdInput.name = 'pet_id';
+        orderForm.appendChild(petIdInput);
+    }
+    petIdInput.value = productId;
+
+    // Gán giá trị productId vào hidden input và cập nhật tổng giá
     updateTotalPriceForm(productId);
+
     // Cuộn trang đến form đặt hàng
     orderForm.scrollIntoView({
         behavior: 'smooth'
@@ -13,8 +26,24 @@ function showOrderAllForm() {
     // Hiển thị form đặt hàng
     var orderForm = document.getElementById('orderForm');
     orderForm.style.display = '';
-    // Gán giá trị productId vào hidden input
+
+    // Lấy tất cả petId từ các sản phẩm trong giỏ hàng
+    var petIds = getAllPetIds();
+
+    // Gán danh sách petId vào một input hidden
+    var petIdsInput = document.getElementById('pet_ids');
+    if (!petIdsInput) {
+        petIdsInput = document.createElement('input');
+        petIdsInput.type = 'hidden';
+        petIdsInput.id = 'pet_ids';
+        petIdsInput.name = 'pet_ids';
+        orderForm.querySelector('form').appendChild(petIdsInput);
+    }
+    petIdsInput.value = JSON.stringify(petIds);
+
+    // Cập nhật tổng giá trị đơn hàng
     updateTotalPriceAllForm();
+
     // Cuộn trang đến form đặt hàng
     orderForm.scrollIntoView({
         behavior: 'smooth'
@@ -47,7 +76,16 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     form.addEventListener('input', validateForm);
+
+    // Đảm bảo rằng submitButton tồn tại trước khi thêm event listener
+    if (submitButton) {
+        submitButton.addEventListener('click', function(event) {
+            event.preventDefault(); // Ngăn chặn form submit mặc định
+            submitOrder(); // Gọi hàm submitOrder khi nút được nhấn
+        });
+    }
 });
+
 function updateTotalPriceForm(petId) {
     // Select the invoice item based on the item ID
     const invoiceItem = document.querySelector(`.invoice-item[data-id="${petId}"]`);
@@ -78,15 +116,133 @@ function updateTotalPriceForm(petId) {
 }
 
 function updateTotalPriceAllForm() {
-    // Select the total amount element
+    var totalAmount = calculateTotalAmount();
+    document.getElementById('total-amount-form').innerText = totalAmount.toLocaleString('vi-VN') + 'đ';
+}
+
+function calculateTotalAmount() {
+    var total = 0;
+    var priceElements = document.querySelectorAll('.invoice-item .totalPrice');
+    priceElements.forEach(function(element) {
+        var price = parseInt(element.innerText.replace(/[^\d]/g, ''), 10);
+        total += price;
+    });
+    return total;
+}
+
+// Hàm gửi yêu cầu đến server
+function submitOrder() {
+    const form = document.getElementById('orderFormElement');
+    const formData = new FormData(form);
+    
+    formData.append('action', 'addtoorder');
+    
+    // Kiểm tra xem có pet_ids hay không
+    const petIdsInput = document.getElementById('pet_ids');
+    if (petIdsInput && petIdsInput.value) {
+        formData.append('pet_ids', petIdsInput.value);
+    } else {
+        // Nếu không có pet_ids, thử lấy từ pet_id (cho trường hợp đặt hàng một sản phẩm)
+        const petIdInput = document.getElementById('pet_id');
+        if (petIdInput && petIdInput.value) {
+            formData.append('pet_ids', JSON.stringify([petIdInput.value]));
+        } else {
+            console.error('Không tìm thấy pet_ids hoặc pet_id');
+            alert('Không có sản phẩm nào được chọn để đặt hàng.');
+            return;
+        }
+    }
+    
+    const totalAmount = document.getElementById('total-amount-form').innerText;
+    formData.append('total_amount', totalAmount.replace(/[^\d]/g, ''));
+    
+    fetch('../config/order_config.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert(data.message);
+            removeAllFromCartUI();
+            closeOrderForm();
+            updateTotalCartAmount();
+        } else {
+            alert('Có lỗi xảy ra: ' + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Đã xảy ra lỗi khi gửi đơn hàng.');
+    });
+}
+
+function removeFromCartUI(petId) {
+    const cartItem = document.querySelector(`.invoice-item[data-id="${petId}"]`);
+    if (cartItem) {
+        cartItem.remove();
+    }
+}
+
+function closeOrderForm() {
+    const orderForm = document.getElementById('orderForm');
+    if (orderForm) {
+        orderForm.style.display = 'none';
+    }
+}
+
+function updateTotalCartAmount() {
     const totalAmountElement = document.querySelector('.order-summary .total-amount');
+    const cartItems = document.querySelectorAll('.invoice-item');
+    let newTotal = 0;
+
+    cartItems.forEach(item => {
+        const priceElement = item.querySelector('.totalPrice');
+        if (priceElement) {
+            const price = parseInt(priceElement.innerText.replace(/[^\d]/g, ''), 10);
+            newTotal += price;
+        }
+    });
 
     if (totalAmountElement) {
-        // Extract the total price value
-        const totalPriceText = totalAmountElement.innerText.replace(/[^0-9]/g, ''); // Remove non-numeric characters
-        const totalPrice = parseInt(totalPriceText, 10); // Convert to integer
-
-        // Update the total amount in the form
-        document.getElementById('total-amount-form').innerText = totalPrice.toLocaleString('vi-VN') + 'đ';
+        totalAmountElement.innerText = newTotal.toLocaleString('vi-VN') + 'đ';
     }
+}
+
+function getAllPetIds() {
+    var petIds = [];
+    const checkboxes = document.querySelectorAll('.checkbox-btn-cart');
+
+    if (checkboxes && checkboxes.length > 0) {
+        // Nếu có checkboxes, chỉ lấy các pet đã được chọn
+        checkboxes.forEach(function(checkbox) {
+            if (checkbox.checked) {
+                var petId = checkbox.getAttribute('data-id');
+                if (petId) {
+                    petIds.push(petId);
+                }
+            }
+        });
+    } else {
+        // Nếu không có checkboxes, lấy tất cả pet trong giỏ hàng
+        const cartItems = document.querySelectorAll('.invoice-item');
+        cartItems.forEach(function(item) {
+            var petId = item.getAttribute('data-id');
+            if (petId) {
+                petIds.push(petId);
+            }
+        });
+    }
+
+    // Kiểm tra nếu không có pet nào được chọn
+    if (petIds.length === 0) {
+        console.warn('Không có pet nào được chọn');
+    }
+
+    return petIds;
+}
+
+function removeAllFromCartUI() {
+    const cartItems = document.querySelectorAll('.invoice-item');
+    cartItems.forEach(item => item.remove());
 }

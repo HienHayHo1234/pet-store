@@ -1,42 +1,53 @@
-/* Styles for the Register Modal */
+/* Modern Styles for the Register Modal */
 .register-modal {
     position: fixed;
-    z-index: 1000; /* Đảm bảo modal nằm trên cùng */
-    top: 50%; /* Đặt modal ở giữa theo chiều dọc */
-    left: 50%; /* Đặt modal ở giữa theo chiều ngang */
-    transform: translate(-50%, -50%); /* Căn giữa modal chính xác */
-    padding: 10px; /* Khoảng cách bên ngoài modal */
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .register-modal-content {
-    position: relative;
-    background-color: #fff; /* Màu nền của modal */
+    background-color: #fff;
     padding: 40px;
-    border: 1px solid #ddd; /* Đường viền modal nhẹ hơn */
-    width: 100%;
-    max-width: 400px; /* Chiều rộng tối đa lớn hơn */
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    width: 50%;
+    max-width: 400px;
+    animation: modalFadeIn 0.3s;
 }
 
-.close {
+@keyframes modalFadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.register-close {
     position: absolute;
-    top: 10px; /* Căn chỉnh lại vị trí nút close */
-    right: 10px; /* Căn chỉnh lại vị trí nút close */
-    color: #333;
-    font-size: 24px; /* Kích thước nút close lớn hơn */
+    top: 15px;
+    right: 15px;
+    color: #888;
+    font-size: 24px;
     font-weight: bold;
     cursor: pointer;
+    transition: color 0.3s;
 }
 
-.close:hover,
-.close:focus {
-    color: #e74c3c; /* Màu đỏ cho nút close khi hover */
-    text-decoration: none;
+.register-close:hover {
+    color: #333;
 }
 
 h2 {
     margin-top: 0;
-    font-size: 22px; /* Kích thước tiêu đề lớn hơn */
-    color: #333; /* Màu sắc tiêu đề */
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+    text-align: center;
 }
 
 .register-form {
@@ -45,54 +56,88 @@ h2 {
 }
 
 label {
-    margin: 10px 0; /* Khoảng cách giữa các nhãn rõ ràng hơn */
-    font-size: 16px; /* Kích thước chữ của label lớn hơn */
-    color: #555; /* Màu sắc nhãn dễ nhìn hơn */
+    margin: 10px 0 5px;
+    font-size: 14px;
+    color: #555;
+    font-weight: 600;
 }
 
 .register-form input[type="text"],
 .register-form input[type="password"],
 .register-form input[type="email"] {
-    padding: 10px;
-    margin-bottom: 12px; /* Khoảng cách giữa các trường nhập liệu lớn hơn */
-    border: 1px solid #ccc; /* Đường viền nhạt hơn */
-    border-radius: 6px; /* Bo góc input rõ hơn */
-    font-size: 16px; /* Kích thước chữ trong input lớn hơn */
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: border-color 0.3s, box-shadow 0.3s;
 }
 
-.button-container {
+.register-form input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+    outline: none;
+}
+
+.register-button-container {
     display: flex;
-    justify-content: flex-end; /* Đẩy nút sang bên phải */
+    justify-content: space-between;
+    margin-top: 20px;
 }
 
-.register-form input[type="submit"],
-button {
-    padding: 10px 20px;
+.register-submit-btn,
+.register-reset-btn {
+    padding: 12px 20px;
     border: none;
     border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s;
+}
+
+.register-submit-btn {
     background-color: #007bff;
     color: #fff;
-    cursor: pointer;
-    font-size: 16px; /* Kích thước chữ trên nút lớn hơn */
-    transition: background-color 0.3s; /* Thêm hiệu ứng chuyển màu */
 }
 
-input[type="submit"]:hover,
-button:hover {
-    background-color: #0056b3; /* Màu nền nút khi hover */
+.register-submit-btn:hover {
+    background-color: #0056b3;
 }
 
-.back-arrow {
+.register-reset-btn {
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+.register-reset-btn:hover {
+    background-color: #e2e6ea;
+}
+
+.register-submit-btn:active,
+.register-reset-btn:active {
+    transform: translateY(1px);
+}
+
+.register-back-arrow {
     cursor: pointer;
     color: #007bff;
-    font-size: 20px; /* Kích thước mũi tên quay lại lớn hơn */
+    font-size: 18px;
     font-weight: bold;
     position: absolute;
-    top: 15px;
-    left: 10px;
+    top: 20px;
+    left: 20px;
     text-decoration: none;
+    transition: color 0.3s;
 }
 
-.back-arrow:hover {
-    color: #0056b3; /* Màu sắc mũi tên khi hover */
+.register-back-arrow:hover {
+    color: #0056b3;
+}
+
+#register-error-message {
+    color: #dc3545;
+    font-size: 14px;
+    margin-bottom: 15px;
+    text-align: center;
 }

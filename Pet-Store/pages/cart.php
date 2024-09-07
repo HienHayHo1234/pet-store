@@ -1,9 +1,15 @@
 <?php
 require '../config/config.php';
 
-
-// Giả sử user_id là 1, bạn có thể thay đổi theo hệ thống của bạn
-$user_id = 1;
+// Kiểm tra trạng thái đăng nhập
+if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true && isset($_SESSION['user_id'])) {
+    // Người dùng đã đăng nhập, sử dụng user_id từ session
+    $user_id = $_SESSION['user_id'];
+    $is_logged_in = true;
+} else {
+    // Người dùng chưa đăng nhập
+    $is_logged_in = false;
+}
 
 // Kiểm tra kết nối có tồn tại hay không
 if (!$conn) {
@@ -11,33 +17,45 @@ if (!$conn) {
 }
 
 try {
-    // Truy vấn các mặt hàng trong giỏ hàng của người dùng
-    $stmt = $conn->prepare("
-        SELECT pets.id, pets.name, pets.price, pets.priceSale, pets.urlImg, cart_items.quantity 
-        FROM cart_items 
-        JOIN pets ON cart_items.pet_id = pets.id 
-        WHERE cart_items.user_id = ?
-    ");
-    $stmt->execute([$user_id]);
-    $cartItems = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    if ($is_logged_in) {
+        // Truy vấn các mặt hàng trong giỏ hàng của người dùng từ database
+        $stmt = $conn->prepare("
+            SELECT pets.id, pets.name, pets.price, pets.priceSale, pets.urlImg, cart_items.quantity, cart_items.price as item_price
+            FROM cart
+            JOIN cart_items ON cart.cart_id = cart_items.cart_id
+            JOIN pets ON cart_items.pet_id = pets.id 
+            WHERE cart.user_id = :user_id
+        ");
+        $stmt->execute(['user_id' => $user_id]);
+        $cartItems = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    if ($cartItems === false) {
-        throw new Exception("Không thể truy xuất giỏ hàng.");
+        if ($cartItems === false) {
+            throw new Exception("Không thể truy xuất giỏ hàng.");
+        }
+    } else {
+        // Lấy giỏ hàng từ cookie
+        $cartItems = getGuestCart();
     }
-
-    // Cập nhật phiên với thông tin giỏ hàng
-    $_SESSION['cart-items'] = $cartItems;
 
     // Tính tổng số tiền
     $totalAmount = 0;
     if (!empty($cartItems)) {
         foreach ($cartItems as $item) {
-            $totalAmount += $item['priceSale'] * $item['quantity'];
+            $price = $is_logged_in ? $item['item_price'] : $item['price'];
+            $totalAmount += $price * $item['quantity'];
         }
     }
 } catch (Exception $e) {
     echo "Lỗi: " . $e->getMessage();
     exit;
+}
+
+// Hàm lấy giỏ hàng từ cookie
+function getGuestCart() {
+    if (isset($_COOKIE['guest_cart'])) {
+        return json_decode(gzuncompress(base64_decode($_COOKIE['guest_cart'])), true);
+    }
+    return [];
 }
 
 ?>
@@ -49,16 +67,15 @@ try {
     <div class="invoice-flex">
         <?php if (!empty($cartItems)): ?>
         <div class="title-invoice-flex">
-            <input type="checkbox" class="checkbox-all-btn-cart" data-id="<?php echo htmlspecialchars($item['id']); ?>"
-            onclick="toggleSelectAll(this)">
+            <input type="checkbox" class="checkbox-all-btn-cart" onclick="toggleSelectAll(this)">
             <b class="title-invoice">Giỏ hàng của bạn</b>
         </div>
 
         <div class="container-invoice-list">
             <?php foreach ($cartItems as $item): ?>
-            <div class="invoice-item" data-id="<?php echo htmlspecialchars($item['id']); ?>">
-                <input type="checkbox" class="checkbox-btn-cart" data-id="<?php echo htmlspecialchars($item['id']); ?>"
-                    onclick="selectItem('<?php echo htmlspecialchars($item['id']); ?>')">
+            <div class="invoice-item" data-id="<?php echo htmlspecialchars($item['pet_id'] ?? $item['id']); ?>">
+                <input type="checkbox" class="checkbox-btn-cart" data-id="<?php echo htmlspecialchars($item['pet_id'] ?? $item['id']); ?>"
+                    onclick="selectItem('<?php echo htmlspecialchars($item['pet_id'] ?? $item['id']); ?>')">
 
                 <div class="image-container">
                     <img class="imgInvoice" src="<?php echo htmlspecialchars($item['urlImg']); ?>"
@@ -67,20 +84,20 @@ try {
 
                 <div class="invoice-text">
                     <p class="name-pet-cart"><?php echo htmlspecialchars($item['name']); ?></p>
-                    <p>Giá: <?php echo number_format($item['priceSale'], 0, ',', '.'); ?>đ</p>
+                    <p>Giá: <?php echo number_format($is_logged_in ? ($item['priceSale'] ?? $item['price']) : $item['price'], 0, ',', '.'); ?>đ</p>
                     <p class="count">
                         Số lượng:
-                        <button class="quantity-btn minus" data-id="<?php echo $item['id']; ?>">-</button>
+                        <button class="quantity-btn minus" data-id="<?php echo $item['pet_id'] ?? $item['id']; ?>">-</button>
                         <span id="quantity"><?php echo htmlspecialchars($item['quantity']); ?></span>
-                        <button class="quantity-btn plus" data-id="<?php echo $item['id']; ?>">+</button>
+                        <button class="quantity-btn plus" data-id="<?php echo $item['pet_id'] ?? $item['id']; ?>">+</button>
                     </p>
-                    <p class="totalPrice" data-id="<?php echo $item['id']; ?>">Tổng giá:
-                        <?php echo number_format($item['priceSale'] * $item['quantity'], 0, ',', '.'); ?>đ</p>
+                    <p class="totalPrice" data-id="<?php echo $item['pet_id'] ?? $item['id']; ?>">Tổng giá:
+                        <?php echo number_format(($is_logged_in ? ($item['priceSale'] ?? $item['price']) : $item['price']) * $item['quantity'], 0, ',', '.'); ?>đ</p>
                 </div>
 
                 <button class="btn-cancel-pet"
-                    onclick="removeFromCart('<?php echo htmlspecialchars($item['id']); ?>')">Hủy</button>
-                <button class="btn-order-pet" onclick="showOrderForm('<?php echo htmlspecialchars($item['id']); ?>')">Đặt hàng</button>
+                    onclick="removeFromCart('<?php echo htmlspecialchars($item['pet_id'] ?? $item['id']); ?>')">Hủy</button>
+                <button class="btn-order-pet" onclick="showOrderForm('<?php echo htmlspecialchars($item['pet_id'] ?? $item['id']); ?>')">Đặt hàng</button>
             </div>
             <?php endforeach; ?>
         </div>
@@ -157,10 +174,12 @@ try {
                 Tổng số tiền: <span id="total-amount-form">0đ</span>
             </label>
 
+            <!-- Thêm input hidden cho pet_ids -->
+            <input type="hidden" id="pet_ids" name="pet_ids">
+
             <!-- nút gửi -->
-            <button type="submit" class="btn-submit" style="display: none">
-                <img src="../asset/images/icon/take-form.png" alt="Gửi"
-                onclick="showPopupInvoice()">
+            <button type="button" class="btn-submit" style="display: none">
+                <img src="../asset/images/icon/take-form.png" alt="Gửi">
             </button>
         </form>
     </div>

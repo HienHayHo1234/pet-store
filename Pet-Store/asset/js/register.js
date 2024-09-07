@@ -1,34 +1,40 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const loginForm = document.getElementById('loginForm');
+    const registerForm = document.getElementById('registerForm');
     const errorMessage = document.getElementById('error-message');
-    const closeLoginModalButton = document.getElementById('closeLoginModalButton');
-    const closeRegisterModalButton = document.getElementById('closeRegisterModalButton');
-    const backToLogin = document.getElementById('backToLogin');
 
-    // Xử lý form đăng nhập
-    loginForm.addEventListener('submit', function(event) {
-        event.preventDefault(); // Ngăn form gửi dữ liệu theo cách mặc định
+    if (registerForm) {
+        registerForm.addEventListener('submit', function(event) {
+            event.preventDefault();
 
-        const formData = new FormData(loginForm);
+            const formData = new FormData(this);
 
-        fetch('../pages/login.php', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                closeLoginModal(); // Đóng modal đăng nhập
-                location.reload(); // Tải lại trang để cập nhật trạng thái đăng nhập
-            } else {
-                errorMessage.innerHTML = data.error;
-            }
-        })
-        .catch(error => {
-            errorMessage.innerHTML = "Đã xảy ra lỗi khi gửi yêu cầu.";
+            fetch('register.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    alert(data.message);
+                    closeRegisterModal();
+                    openLoginModal();
+                } else {
+                    errorMessage.textContent = data.error || "Đã xảy ra lỗi không xác định.";
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                errorMessage.textContent = "Đã xảy ra lỗi khi gửi yêu cầu.";
+            });
         });
-    });
+    }
 
+    // Các hàm mở/đóng modal và xử lý nút quay lại
     window.openLoginModal = function() {
         document.getElementById('loginModal').style.display = 'block';
     };
@@ -45,24 +51,16 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('registerModal').style.display = 'none';
     };
 
-    // Gắn sự kiện lắng nghe cho nút đóng modal đăng nhập
-    if (closeLoginModalButton) {
-        closeLoginModalButton.addEventListener('click', closeLoginModal);
-    }
-
-    // Gắn sự kiện lắng nghe cho nút đóng modal đăng ký
+    const closeRegisterModalButton = document.getElementById('closeRegisterModalButton');
     if (closeRegisterModalButton) {
-        closeRegisterModalButton.addEventListener('click', function() {
-            closeRegisterModal();
-            closeLoginModal(); // Đóng cả hai modal khi nhấn nút X trong modal đăng ký
-        });
+        closeRegisterModalButton.addEventListener('click', closeRegisterModal);
     }
 
-    // Xử lý nút quay lại từ modal đăng ký
+    const backToLogin = document.getElementById('backToLogin');
     if (backToLogin) {
-        backToLogin.onclick = function() {
+        backToLogin.addEventListener('click', function() {
             closeRegisterModal();
             openLoginModal();
-        };
+        });
     }
 });

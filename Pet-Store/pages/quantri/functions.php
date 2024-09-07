@@ -55,3 +55,31 @@ function capnhatPets($id, $name, $price, $priceSale, $gender, $quantity, $urlImg
     $kq = $conn->exec($sql);
     return $kq;
 }
+function layDanhSachDonHang() {
+    global $conn;
+    // Truy vấn để lấy danh sách đơn hàng
+    $sql = "SELECT o.idOrder AS order_id, o.orderDate, o.status AS order_status,
+    SUM(od.quantity * od.price) AS total_price,
+        u.fullname, u.phone, u.address
+    FROM orders o
+    JOIN order_details od ON o.idOrder = od.order_id
+    JOIN pets p ON od.pet_id = p.id
+    JOIN users u ON o.user_id = u.id
+    GROUP BY o.idOrder, o.orderDate, o.status, u.fullname, u.phone, u.address
+    ORDER BY o.idOrder";
+    
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+    $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $orders;
+}
+
+// Hàm xóa đơn hàng
+function xoaDonHang($order_id) {
+    global $conn;
+    $sql = "DELETE FROM orders WHERE order_id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('i', $order_id);
+    return $stmt->execute();
+}
+
