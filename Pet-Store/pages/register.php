@@ -60,14 +60,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <link rel="stylesheet" href="../asset/css/register.css">
 <!-- Modal Form Đăng Ký -->
-<div id="registerModal" class="login-modal" style="display:none">
-    <div class="login-modal-content">
-        <span id="closeRegisterModalButton" class="close">&times;</span>
+<div id="registerModal" class="register-modal" style="display:none">
+    <div class="register-modal-content">
+        <span id="closeRegisterModalButton" class="register-close">&times;</span>
         <!-- Mũi tên quay lại form đăng nhập -->
-        <span id="backToLogin" class="back-arrow">&#8592; Quay lại</span> 
+        <span id="backToLogin" class="register-back-arrow">&#8592; Quay lại</span> 
         <h2>Đăng Ký</h2>
-        <div id="error-message" style="color: red;"></div>
-        <form id="registerForm" class="login-form">
+        <div id="register-error-message" style="color: red;"></div>
+        <form id="registerForm" class="register-form">
             <label for="register-username">Tên đăng nhập</label>
             <input type="text" id="register-username" name="username" required><br>
             <label for="register-email">Email</label><br>
@@ -76,9 +76,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input type="password" id="register-password" name="password" required><br>
             <label for="register-confirmPassword">Xác nhận mật khẩu</label><br>
             <input type="password" id="register-confirmPassword" name="confirmPassword" required><br>
-            <div class="login-button-container">
-                <button type="submit" name="btn1">Gửi</button>
-                <button type="reset">Xóa</button>
+            <div class="register-button-container">
+                <button type="submit" id="registerSubmitButton" class="register-submit-btn">Gửi</button>
+                <button type="reset" class="register-reset-btn">Xóa</button>
             </div>
         </form>
     </div>

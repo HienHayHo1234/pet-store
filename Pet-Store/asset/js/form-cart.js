@@ -77,11 +77,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     form.addEventListener('input', validateForm);
 
-    // Thêm event listener cho nút submit
-    submitButton.addEventListener('click', function(event) {
-        event.preventDefault(); // Ngăn chặn form submit mặc định
-        submitOrder(); // Gọi hàm submitOrder khi nút được nhấn
-    });
+    // Đảm bảo rằng submitButton tồn tại trước khi thêm event listener
+    if (submitButton) {
+        submitButton.addEventListener('click', function(event) {
+            event.preventDefault(); // Ngăn chặn form submit mặc định
+            submitOrder(); // Gọi hàm submitOrder khi nút được nhấn
+        });
+    }
 });
 
 function updateTotalPriceForm(petId) {

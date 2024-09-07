@@ -12,14 +12,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 method: 'POST',
                 body: formData
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
             .then(data => {
                 if (data.success) {
                     alert(data.message);
                     closeRegisterModal();
                     openLoginModal();
                 } else {
-                    errorMessage.textContent = data.error;
+                    errorMessage.textContent = data.error || "Đã xảy ra lỗi không xác định.";
                 }
             })
             .catch(error => {
@@ -53,9 +58,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const backToLogin = document.getElementById('backToLogin');
     if (backToLogin) {
-        backToLogin.onclick = function() {
+        backToLogin.addEventListener('click', function() {
             closeRegisterModal();
             openLoginModal();
-        };
+        });
     }
 });
