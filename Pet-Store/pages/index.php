@@ -14,6 +14,7 @@
         <script src="../asset/js/cart.js"></script>
         <script src="../asset/js/check-cart.js"></script>
         <script src="../asset/js/detail.js"></script>
+        <script src="../asset/js/login.js"></script>
 
         <!-- php -->
         <?php include 'DetailPet.php'; ?>
@@ -27,9 +28,9 @@
         
         <main >
             <?php require_once("main.php"); ?>
-            <?php  require_once ("../pages/login.php") ?>
-            <?php  require_once ("../pages/register.php") ?>
-            <?php  require_once ("../pages/forgetPass.php") ?>
+            <?php require_once ("../pages/login.php") ?>
+            <?php require_once ("../pages/register.php") ?>
+            <?php require_once ("../pages/forgetPass.php") ?>
             <!-- Popup Notification -->
             <div id="popup-notification" class="popup-notification">
                 <p id="popup-message"></p>

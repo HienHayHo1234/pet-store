@@ -69,6 +69,9 @@ function updateModalContent(data) {
     document.querySelector('#modal .custom-modal-sale-price').innerText = `Giá khuyến mãi: ${data.priceSale.toLocaleString()}đ`;
     document.querySelector('#modal .custom-modal-quantity').innerText = `Số lượng còn lại: ${data.quantity}`;
     document.querySelector('#modal .custom-modal-description').innerText = `Mô tả: ${data.description}`;
+    
+    // Thêm dòng này để cập nhật ID cho nút "Đặt hàng"
+    document.querySelector('#modal .add-to-cart').setAttribute('data-pet-id', data.id);
 }
 
 function closeModal() {
@@ -80,7 +83,7 @@ function updateDetailButtons() {
     setupDetailButtons();
 }
 
-function goToCart() {
-    location.href = "index.php?page=cart";
-    location.href.reload();
-}
+// function goToCart() {
+//     location.href = "index.php?page=cart";
+//     location.href.reload();
+// }

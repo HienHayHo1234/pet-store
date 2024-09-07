@@ -8,8 +8,7 @@ $logged_in = isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true;
 <link rel="stylesheet" href="../asset/css/banner.css">
 <link rel="stylesheet" href="../asset/css/search.css">
 <link rel="icon" type="image/x-icon" href="../asset/images/icon/logo.ico">
-<link rel="stylesheet" href="../asset/pages/check-login.php">
-<link rel="stylesheet" href="../asset/pages/check-login-status.php">
+
 <nav>
     <ul class="nav-left">
         <li>

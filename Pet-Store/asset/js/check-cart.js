@@ -3,10 +3,18 @@ function checkCartItems() {
     xhr.open('GET', '../config/check_cart.php', true); // Đảm bảo đường dẫn đúng
     xhr.onload = function() {
         if (xhr.status === 200) {
-            const response = JSON.parse(xhr.responseText);
-            if (response.itemCount > 0) {
-                displayCartIcon();
+            try {
+                const response = JSON.parse(xhr.responseText);
+                if (response.itemCount > 0) {
+                    displayCartIcon();
+                }
+            } catch (error) {
+                console.error('Response không phải là JSON hợp lệ:', xhr.responseText);
+                // Xử lý lỗi ở đây, ví dụ hiển thị thông báo lỗi cho người dùng
             }
+        } else {
+            console.error('Lỗi HTTP:', xhr.status, xhr.statusText);
+            // Xử lý lỗi HTTP ở đây
         }
     };
     xhr.send();
