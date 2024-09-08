@@ -11,6 +11,7 @@
             <h2>TRANG TÀI KHOẢN</h2>
             <a href="index.php?page=index_user&pageuser=profile">Thông tin tài khoản</a>
             <a href="index.php?page=index_user&pageuser=orders">Đơn hàng của bạn</a>
+            <a href="index.php?page=index_user&pageuser=orders">Đơn hàng đã mua</a>
             <a href="index.php?page=index_user&pageuser=change_password">Đổi mật khẩu</a>
             <a href="logout.php" class="logout">Đăng xuất</a>
         </div>
