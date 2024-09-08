@@ -69,17 +69,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <label for="order_id">Mã đơn hàng:</label>
                         <input type="text" id="order_id" name="order_id" value="<?php echo htmlspecialchars($order['idOrder']); ?>" disabled class="input-disabled">
                     </div>
-
+                    <label for="totalAmount">Total Amount:</label>
+                    <input type="text" id="totalAmount" name="totalAmount" value="<?php echo htmlspecialchars($order['totalAmount']); ?>" required>
                     <div class="form-group">
                         <label for="status">Trạng thái:</label>
                         <select id="status" name="status" required class="input-select">
-                            <option value="Chờ xử lý" <?php echo $order['status'] == 'Chờ xử lý' ? 'selected' : ''; ?>>Chờ xử lý</option>
                             <option value="Đang xử lý" <?php echo $order['status'] == 'Đang xử lý' ? 'selected' : ''; ?>>Đang xử lý</option>
-                            <option value="Hoàn thành" <?php echo $order['status'] == 'Hoàn thành' ? 'selected' : ''; ?>>Hoàn thành</option>
                             <option value="Đã hủy" <?php echo $order['status'] == 'Đã hủy' ? 'selected' : ''; ?>>Đã hủy</option>
                             <option value="Đang vận chuyển" <?php echo $order['status'] == 'Đang vận chuyển' ? 'selected' : ''; ?>>Đang vận chuyển</option>
                             <option value="Đã giao" <?php echo $order['status'] == 'Đã giao' ? 'selected' : ''; ?>>Đã giao</option>
                             <option value="Đã hoàn tiền" <?php echo $order['status'] == 'Đã hoàn tiền' ? 'selected' : ''; ?>>Đã hoàn tiền</option>
+                            <option value="Đã xóa" <?php echo $order['status'] == 'Đã xóa' ? 'selected' : ''; ?>>Đã xóa</option>
+
                         </select>
                     </div>
                     <button type="submit" class="btn btn-primary">Cập nhật đơn hàng</button>

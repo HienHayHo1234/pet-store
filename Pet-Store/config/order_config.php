@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Create new order
         $stmt = $conn->prepare("INSERT INTO orders (user_id, totalAmount, status) VALUES (?, ?, ?)");
-        $status = 'Chờ xử lý';
+        $status = 'Đang xử lý';
         $stmt->execute([$user_id, $total_amount, $status]);
         $order_id = $conn->lastInsertId();
 
