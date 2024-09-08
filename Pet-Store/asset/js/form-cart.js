@@ -196,9 +196,13 @@ function submitOrder() {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            alert(data.message);
+            // Lưu thông báo vào localStorage
+            localStorage.setItem('orderMessage', data.message);
+            localStorage.setItem('orderSuccess', 'true');
+            
+            // Đóng form đặt hàng và reload trang
             closeOrderForm();
-            updateTotalCartAmount();
+            location.reload();
         } else {
             alert('Có lỗi xảy ra: ' + data.message);
         }
@@ -278,3 +282,34 @@ function removeAllFromCartUI() {
     const cartItems = document.querySelectorAll('.invoice-item');
     cartItems.forEach(item => item.remove());
 }
+
+// Hàm kiểm tra và hiển thị popup sau khi trang đã tải
+function checkAndShowOrderPopup() {
+    const message = localStorage.getItem('orderMessage');
+    const success = localStorage.getItem('orderSuccess');
+    
+    if (message) {
+        showPopup(message, success === 'true' ? 'success' : 'error');
+        
+        // Xóa thông tin từ localStorage sau khi đã hiển thị
+        localStorage.removeItem('orderMessage');
+        localStorage.removeItem('orderSuccess');
+    }
+}
+
+// Hàm hiển thị cửa sổ popup
+function showPopup(message, type = "success") {
+    var popup = document.getElementById('popup-notification');
+    var popupMessage = document.getElementById('popup-message');
+    popupMessage.textContent = message;
+    popup.className = 'popup-notification ' + type;
+    popup.style.display = 'block';
+
+    // Tự động ẩn popup sau 2 giây
+    setTimeout(function() {
+        popup.style.display = 'none';
+    }, 1000);
+}
+
+// Thêm event listener để kiểm tra và hiển thị popup sau khi trang đã tải
+window.addEventListener('load', checkAndShowOrderPopup);

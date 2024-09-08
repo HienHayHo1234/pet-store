@@ -61,6 +61,7 @@ function getGuestCart() {
 ?>
 
 <link rel="stylesheet" href="../asset/css/cart.css?v=<?php echo time(); ?>">
+<link rel="stylesheet" href="../asset/css/admin.css?v=<?php echo time(); ?>">
 
 <div class="cart-flex">
     <!-- -----------bảng invoice -------------->
