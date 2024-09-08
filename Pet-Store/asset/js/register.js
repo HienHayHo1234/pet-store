@@ -1,41 +1,66 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const loginForm = document.getElementById('loginForm');
-    const errorMessage = document.getElementById('error-message');
-    const closeLoginModalButton = document.getElementById('closeLoginModalButton');
-    const closeRegisterModalButton = document.getElementById('closeRegisterModalButton');
-    const backToLogin = document.getElementById('backToLogin');
+    console.log('DOM fully loaded and parsed');
 
-    // Xử lý form đăng nhập
-    loginForm.addEventListener('submit', function(event) {
-        event.preventDefault(); // Ngăn form gửi dữ liệu theo cách mặc định
+    const registerForm = document.getElementById('registerForm');
+    const usernameInput = document.getElementById('register-username');
+    const emailInput = document.getElementById('register-email');
+    const passwordInput = document.getElementById('register-password');
+    const confirmPasswordInput = document.getElementById('register-confirmPassword');
+    
+    const usernameError = document.createElement('div');
+    const emailError = document.createElement('div');
+    const confirmPasswordError = document.createElement('div');
 
-        const formData = new FormData(loginForm);
+    usernameError.style.color = 'red';
+    emailError.style.color = 'red';
+    confirmPasswordError.style.color = 'red';
 
-        fetch('../pages/login.php', {
+    usernameInput.parentNode.insertBefore(usernameError, usernameInput.nextSibling);
+    emailInput.parentNode.insertBefore(emailError, emailInput.nextSibling);
+    confirmPasswordInput.parentNode.insertBefore(confirmPasswordError, confirmPasswordInput.nextSibling);
+
+    // Xử lý khi gửi form đăng ký
+    registerForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        // Xóa thông báo lỗi trước đó
+        usernameError.innerHTML = '';
+        emailError.innerHTML = '';
+        confirmPasswordError.innerHTML = '';
+
+        const formData = new FormData(registerForm);
+
+        fetch('../pages/register.php', {
             method: 'POST',
             body: formData
         })
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                closeLoginModal(); // Đóng modal đăng nhập
-                location.reload(); // Tải lại trang để cập nhật trạng thái đăng nhập
+                // Đóng modal đăng ký và mở modal đăng nhập khi thành công
+                closeRegisterModal();
+                openLoginModal();
             } else {
-                errorMessage.innerHTML = data.error;
+                // Hiển thị thông báo lỗi cụ thể
+                if (data.errors) {
+                    if (data.errors.username) {
+                        usernameError.innerHTML = data.errors.username;
+                    }
+                    if (data.errors.email) {
+                        emailError.innerHTML = data.errors.email;
+                    }
+                    if (data.errors.confirmPassword) {
+                        confirmPasswordError.innerHTML = data.errors.confirmPassword;
+                    }
+                } else {
+                    console.error('Đăng ký thất bại.');
+                }
             }
         })
         .catch(error => {
-            errorMessage.innerHTML = "Đã xảy ra lỗi khi gửi yêu cầu.";
+            console.error('Đã xảy ra lỗi khi gửi yêu cầu.', error);
         });
     });
-
-    window.openLoginModal = function() {
-        document.getElementById('loginModal').style.display = 'block';
-    };
-
-    window.closeLoginModal = function() {
-        document.getElementById('loginModal').style.display = 'none';
-    };
 
     window.openRegisterModal = function() {
         document.getElementById('registerModal').style.display = 'block';
@@ -45,10 +70,13 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('registerModal').style.display = 'none';
     };
 
-    // Gắn sự kiện lắng nghe cho nút đóng modal đăng nhập
-    if (closeLoginModalButton) {
-        closeLoginModalButton.addEventListener('click', closeLoginModal);
-    }
+    window.openLoginModal = function() {
+        document.getElementById('loginModal').style.display = 'block';
+    };
+
+    window.closeLoginModal = function() {
+        document.getElementById('loginModal').style.display = 'none';
+    };
 
     // Gắn sự kiện lắng nghe cho nút đóng modal đăng ký
     if (closeRegisterModalButton) {

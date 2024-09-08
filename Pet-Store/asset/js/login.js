@@ -39,7 +39,6 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
     };
 
     // Ghi mật khẩu vào console (không nên thực hiện điều này trong môi trường thực tế)
-    console.log("Mật khẩu nhập vào:", formData.get('password'));
 });
 
 
