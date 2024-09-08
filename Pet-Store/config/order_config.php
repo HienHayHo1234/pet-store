@@ -70,11 +70,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if ($is_logged_in) {
                     $delete_stmt = $conn->prepare("DELETE FROM cart_items WHERE cart_id = (SELECT cart_id FROM cart WHERE user_id = ?) AND pet_id = ?");
                     $delete_stmt->execute([$user_id, $pet_id]);
-                } else {
-                    $delete_stmt = $conn->prepare("DELETE FROM cart_items WHERE cart_id = (SELECT cart_id FROM cart WHERE user_id = ?) AND pet_id = ?");
-                    $delete_stmt->execute([$guest_id, $pet_id]);
                 }
             }
+        }
+        
+        // Xóa các mục đã đặt hàng khỏi giỏ hàng của khách
+        if (isset($_COOKIE['guest_cart'])) {
+            $cart = json_decode(gzuncompress(base64_decode($_COOKIE['guest_cart'])), true);
+            
+            foreach ($pet_ids as $pet_id) {
+                if (isset($cart[$pet_id])) {
+                    unset($cart[$pet_id]);
+                }
+            }
+            
+            // Mã hóa và nén giỏ hàng mới
+            $encoded_cart = base64_encode(gzcompress(json_encode($cart)));
+            
+            // Cập nhật cookie với giỏ hàng mới
+            setcookie('guest_cart', $encoded_cart, time() + (86400 * 30), '/', '', true, true);
         }
 
         $conn->commit();
