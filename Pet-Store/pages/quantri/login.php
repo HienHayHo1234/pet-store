@@ -64,7 +64,7 @@ if (isset($_POST['btn'])) {
 
 
     // Kiểm tra mật khẩu
-    if ($p!==$row_user['pass']) {
+    if (!password_verify($p, $row_user['pass'])) {
         $_SESSION['thongbao'] = "Mật khẩu không đúng";
         header("location: login.php");
         exit();

@@ -77,9 +77,31 @@ function layDanhSachDonHang() {
 // Hàm xóa đơn hàng
 function xoaDonHang($order_id) {
     global $conn;
-    $sql = "DELETE FROM orders WHERE order_id = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param('i', $order_id);
-    return $stmt->execute();
+    try {
+        // Bắt đầu giao dịch
+        $conn->beginTransaction();
+
+        // Xóa chi tiết đơn hàng trước
+        $sql_details = "DELETE FROM order_details WHERE order_id = :order_id";
+        $stmt_details = $conn->prepare($sql_details);
+        $stmt_details->bindParam(':order_id', $order_id, PDO::PARAM_INT);
+        $stmt_details->execute();
+
+        // Sau đó xóa đơn hàng
+        $sql_order = "DELETE FROM orders WHERE idOrder = :order_id";
+        $stmt_order = $conn->prepare($sql_order);
+        $stmt_order->bindParam(':order_id', $order_id, PDO::PARAM_INT);
+        $result = $stmt_order->execute();
+
+        // Hoàn tất giao dịch
+        $conn->commit();
+
+        return $result;
+    } catch (PDOException $e) {
+        // Nếu có lỗi, rollback giao dịch
+        $conn->rollBack();
+        error_log("Lỗi xóa đơn hàng: " . $e->getMessage());
+        return false;
+    }
 }
 

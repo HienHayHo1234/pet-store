@@ -55,12 +55,20 @@ $logged_in = isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true;
     </ul>
     
     <ul class="nav-right">
-    <li class="nav-cart">
-            <a class="text-cart" href="../pages/index.php?page=cart">
-                <img src="../asset/images/icon/cart-ico.png" alt="Cart Icon" />
-                Giỏ hàng
+    <li class="nav-cart dropdown">
+        <a class="text-cart dropdown-btn" href="../pages/index.php?page=cart">
+            <img src="../asset/images/icon/cart-ico.png" alt="Cart Icon" />
+            Giỏ hàng
+        </a>
+        <?php if (!$logged_in): ?>
+        <div class="dropdown-content">
+            <a href="../pages/index.php?page=order_guest">
+                <img src="../asset/images/icon/userprofile.png" style="vertical-align: middle;" />
+                Lịch sử đặt hàng
             </a>
-        </li>
+        </div>
+        <?php endif; ?>
+    </li>
 
  
     <?php if ($logged_in): 
