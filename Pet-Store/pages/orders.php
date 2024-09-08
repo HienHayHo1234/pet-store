@@ -28,8 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 $conn->commit();
 
-                header("Location: index.php?page=index_user&pageuser=orders");
-                exit();
+                // header("Location: index.php?page=index_user&pageuser=orders");
             } catch (Exception $e) {
                 $conn->rollBack();
                 $error_message = "Lỗi khi hủy đơn hàng: " . $e->getMessage();

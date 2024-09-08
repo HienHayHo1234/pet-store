@@ -1,59 +1,59 @@
-<?php
-require 'functions.php'; // Ensure database connection
+    <?php
+    require 'functions.php'; // Ensure database connection
 
-// Get the order ID from the URL
-$order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : null;
-if (!$order_id) {
-    echo "Order ID is required.";
-    exit();
-}
-
-// Retrieve order information from the database
-try {
-    $sql = "SELECT * FROM orders WHERE idOrder = :order_id";
-    $stmt = $conn->prepare($sql);
-    $stmt->bindParam(':order_id', $order_id, PDO::PARAM_INT);
-    $stmt->execute();
-    $order = $stmt->fetch();
-
-    if (!$order) {
-        echo "Order does not exist.";
+    // Get the order ID from the URL
+    $order_id = isset($_GET['order_id']) ? intval($_GET['order_id']) : null;
+    if (!$order_id) {
+        echo "Order ID is required.";
         exit();
     }
 
-    // Retrieve order details
-    $sql = "SELECT * FROM order_details WHERE order_id = :order_id";
-    $stmt = $conn->prepare($sql);
-    $stmt->bindParam(':order_id', $order_id);
-    $stmt->execute();
-    $order_details = $stmt->fetchAll();
-} catch (PDOException $e) {
-    echo "Error: " . $e->getMessage();
-    exit();
-}
-
-// Handle order update
-$message = '';
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $totalAmount = $_POST['totalAmount'];
-    $status = $_POST['status'];
-
+    // Retrieve order information from the database
     try {
-        $sql = "UPDATE orders SET totalAmount = :totalAmount, status = :status WHERE idOrder = :order_id";
+        $sql = "SELECT * FROM orders WHERE idOrder = :order_id";
         $stmt = $conn->prepare($sql);
-        $stmt->bindParam(':totalAmount', $totalAmount);
-        $stmt->bindParam(':status', $status);
+        $stmt->bindParam(':order_id', $order_id, PDO::PARAM_INT);
+        $stmt->execute();
+        $order = $stmt->fetch();
+
+        if (!$order) {
+            echo "Order does not exist.";
+            exit();
+        }
+
+        // Retrieve order details
+        $sql = "SELECT * FROM order_details WHERE order_id = :order_id";
+        $stmt = $conn->prepare($sql);
         $stmt->bindParam(':order_id', $order_id);
         $stmt->execute();
-
-        $message = "Cập nhật đơn hàng thành công";
-        header("Location: index.php?page=orders&order_id=$order_id");
-        exit();
+        $order_details = $stmt->fetchAll();
     } catch (PDOException $e) {
-        $message = "Error updating order: " . $e->getMessage();
+        echo "Error: " . $e->getMessage();
+        exit();
     }
-}   
-?>
+
+    // Handle order update
+    $message = '';
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $totalAmount = $_POST['totalAmount'];
+        $status = $_POST['status'];
+
+        try {
+            $sql = "UPDATE orders SET totalAmount = :totalAmount, status = :status WHERE idOrder = :order_id";
+            $stmt = $conn->prepare($sql);
+            $stmt->bindParam(':totalAmount', $totalAmount);
+            $stmt->bindParam(':status', $status);
+            $stmt->bindParam(':order_id', $order_id);
+            $stmt->execute();
+
+            $message = "Cập nhật đơn hàng thành công";
+            header("Location: index.php?page=orders&order_id=$order_id");
+            exit();
+        } catch (PDOException $e) {
+            $message = "Error updating order: " . $e->getMessage();
+        }
+    }   
+    ?>
 
 <body>
     <div class="container">
@@ -64,6 +64,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="form-group">
                         <label for="order_id">Mã đơn hàng:</label>
                         <input type="text" id="order_id" name="order_id" value="<?php echo htmlspecialchars($order['idOrder']); ?>" readonly class="input-disabled">
+                    </div>
+
+                    <div class="form-group" style="display: none;">
+                        <label for="totalAmount">Tổng tiền:</label>
+                        <input type="text" id="totalAmount" name="totalAmount" value="<?php echo htmlspecialchars($order['totalAmount']); ?>" required>
                     </div>
 
                     <div class="form-group">
@@ -126,6 +131,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
 </body>
+
 
 
 <style>

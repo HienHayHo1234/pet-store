@@ -101,30 +101,7 @@ $logged_in = isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true;
         }
         
         // Handle user information update
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $phone = $_POST['phone'];
-            $email = $_POST['email'];
-            $address = $_POST['address'];
-            $dob = $_POST['dob'];
-            // Update the password if a new one is provided
-            $password = !empty($_POST['password']) ? password_hash($_POST['password'], PASSWORD_DEFAULT) : $user['pass'];
         
-            try {
-                $sql = "UPDATE users SET phone = :phone, email = :email, address = :address, dob = :dob, pass = :pass WHERE username = :username";
-                $stmt = $conn->prepare($sql);
-                $stmt->bindParam(':phone', $phone);
-                $stmt->bindParam(':email', $email);
-                $stmt->bindParam(':address', $address);
-                $stmt->bindParam(':dob', $dob);
-                $stmt->bindParam(':pass', $password);
-                $stmt->bindParam(':username', $username);
-                $stmt->execute();
-        
-                // Redirect to index.php after successful update
-            } catch (PDOException $e) {
-                echo "Error updating information: " . $e->getMessage();
-            }
-        }
         
 
 
