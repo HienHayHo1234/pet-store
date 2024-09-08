@@ -6,79 +6,133 @@
     <title>DANH SÁCH ĐƠN HÀNG</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
-            padding: 0;
-            background-color: #f9f9f9;
+            background-color: #f0f4f8;
+            color: #333;
+            font-size: 15px;
         }
 
         h4 {
             text-align: center;
             margin: 20px 0;
-            padding: 10px;
+            padding: 12px;
             font-size: 24px;
-            color: #333;
-            background-color: #f0f0f0;
+            color: #2c3e50;
+            background-color: #ffffff;
             border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .table {
             width: 100%;
-            border-collapse: collapse;
+            border-collapse: separate;
+            border-spacing: 0;
             background-color: #fff;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
             margin: 20px 0;
+            overflow: hidden;
         }
 
         .table th, .table td {
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            text-align: center;
-            vertical-align: middle;
+            padding: 12px;
+            border-bottom: 1px solid #e0e0e0;
+            text-align: left;
+            transition: background-color 0.3s ease;
         }
 
         .table th {
-            background-color: #f4f4f4;
-            color: #333;
-            font-weight: bold;
+            background-color: #3498db;
+            color: #ffffff;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 14px;
+        }
+
+        .table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .table tr:hover td {
+            background-color: #f5f5f5;
         }
 
         .btn {
-            padding: 6px 12px;
+            padding: 7px 14px;
             text-decoration: none;
             color: white;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 13px;
             display: inline-block;
-            margin: 0 5px;
+            margin: 0 3px;
+            transition: all 0.3s ease;
+            border: none;
+            text-transform: uppercase;
+            font-weight: 600;
         }
 
         .btn-view {
-            background-color: #5bc0de;
+            background-color: #3498db;
         }
 
         .btn-view:hover {
-            background-color: #31b0d5;
+            background-color: #2980b9;
         }
 
         .btn-edit {
-            background-color: #f0ad4e;
+            background-color: #f1c40f;
         }
 
         .btn-edit:hover {
-            background-color: #ec971f;
+            background-color: #f39c12;
         }
 
         .btn-delete {
-            background-color: #d9534f;
+            background-color: #e74c3c;
         }
 
         .btn-delete:hover {
-            background-color: #c9302c;
+            background-color: #c0392b;
         }
 
+        @media (max-width: 768px) {
+            .table, .table thead, .table tbody, .table th, .table td, .table tr {
+                display: block;
+            }
+            
+            .table thead tr {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+            
+            .table tr {
+                border: 1px solid #ccc;
+                margin-bottom: 10px;
+            }
+            
+            .table td {
+                border: none;
+                border-bottom: 1px solid #eee;
+                position: relative;
+                padding-left: 50%;
+                font-size: 14px;
+            }
+            
+            .table td:before {
+                position: absolute;
+                top: 6px;
+                left: 6px;
+                width: 45%;
+                padding-right: 10px;
+                white-space: nowrap;
+                content: attr(data-label);
+                font-weight: bold;
+            }
+        }
     </style>
 </head>
 <body>

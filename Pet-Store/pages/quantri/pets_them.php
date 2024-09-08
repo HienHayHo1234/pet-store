@@ -5,40 +5,38 @@
     <title>THÊM THÚ CƯNG</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f9f9f9;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f4f8;
+            color: #333;
+            line-height: 1.6;
         }
 
         h4 {
             text-align: center;
-            margin: 20px 0;
-            padding: 10px;
-            font-size: 24px;
-            color: #333;
-            background-color: #f0f0f0;
-            border-radius: 8px;
+            margin: 30px 0;
+            color: #2c3e50;
+            font-size: 28px;
+            text-transform: uppercase;
         }
 
         form {
-            width: 60%;
+            max-width: 600px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 30px;
             background-color: #fff;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 25px;
         }
 
         .form-group label {
             display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #34495e;
         }
 
         .form-group input[type="text"],
@@ -46,10 +44,18 @@
         .form-group input[type="file"],
         .form-group textarea {
             width: 100%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
+            padding: 12px;
+            border: 1px solid #bdc3c7;
+            border-radius: 6px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input[type="text"]:focus,
+        .form-group input[type="number"]:focus,
+        .form-group input[type="file"]:focus,
+        .form-group textarea:focus {
+            border-color: #3498db;
+            outline: none;
         }
 
         .form-group input[type="radio"] {
@@ -57,26 +63,25 @@
         }
 
         .form-group textarea {
-            height: 100px;
+            height: 120px;
+            resize: vertical;
         }
 
-        .form-group .btn {
+        .btn {
             display: inline-block;
-            padding: 10px 20px;
-            background-color: #28a745;
+            padding: 12px 24px;
+            background-color: #2ecc71;
             color: #fff;
-            text-align: center;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
         }
 
-        .form-group .btn:hover {
-            background-color: #218838;
-        }
-
-        .form-group input[type="submit"] {
-            cursor: pointer;
+        .btn:hover {
+            background-color: #27ae60;
         }
     </style>
 </head>
@@ -122,7 +127,7 @@
             <input name="hot" type="radio" value="1" /> Có
             <input name="hot" type="radio" value="0" checked /> Không
         </div>
-        <div class="form-group">
+        <div class="form-group" style="text-align: center;">
             <input name="btn" type="submit" value="Thêm" class="btn" />
         </div>
     </form>
