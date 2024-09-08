@@ -5,9 +5,9 @@ function addToPet(petId) {
 
 // Hàm xóa sản phẩm khỏi giỏ hàng
 function removeFromCart(petId) {
-    if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?')) {
+    showConfirmModal('Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?', function() {
         sendCartRequest('remove', petId);
-    }
+    });
 }
 
 // Hàm gửi yêu cầu đến server
@@ -21,8 +21,12 @@ function sendCartRequest(action, petId) {
             var response = JSON.parse(xhr.responseText);
             if (response.success) {
                 if (action === 'remove') {
-                    showPopup(response.message, 'info');
-                    removeCartItem(petId);
+                    // Lưu thông tin popup vào localStorage
+                    localStorage.setItem('popupMessage', response.message);
+                    localStorage.setItem('popupType', 'info');
+                    
+                    // Tải lại trang
+                    location.reload();
                 } else {
                     showPopup(response.message, 'success');
                     updateCartDisplay();
@@ -38,6 +42,21 @@ function sendCartRequest(action, petId) {
 
     xhr.send("action=" + action + "&pet_id=" + encodeURIComponent(petId));
 }
+
+// Thêm hàm này để kiểm tra và hiển thị popup sau khi trang đã tải
+function checkAndShowPopup() {
+    var message = localStorage.getItem('popupMessage');
+    var type = localStorage.getItem('popupType');
+    if (message) {
+        showPopup(message, type);
+        // Xóa thông tin popup từ localStorage sau khi đã hiển thị
+        localStorage.removeItem('popupMessage');
+        localStorage.removeItem('popupType');
+    }
+}
+
+// Gọi hàm kiểm tra popup khi trang đã tải xong
+window.onload = checkAndShowPopup;
 
 // Hàm xóa phần tử khỏi DOM
 function removeCartItem(petId) {
@@ -257,7 +276,7 @@ function toggleSelectAll(selectAllCheckbox) {
         // Nếu chọn "Tất cả"
         checkboxes.forEach(checkbox => {
             if (!checkbox.checked) { // Chỉ chọn các checkbox chưa được chọn
-                checkbox.checked = true; // Đánh dấu checkbox là đã chọn
+                checkbox.checked = true; // Đánh dấu checkbox là đã được chọn
                 selectItem(checkbox.getAttribute('data-id')); // Thực hiện hành động thêm vào danh sách đã chọn
             } 
         });
@@ -353,4 +372,57 @@ function selectItem(petId) {
         }
     }
 }
+
+function showConfirmModal(message, onConfirm) {
+    const modal = document.createElement('div');
+    modal.className = 'pet-store-confirm-modal';
+    
+    const modalContent = document.createElement('div');
+    modalContent.className = 'pet-store-modal-content';
+    
+    const messageElement = document.createElement('p');
+    messageElement.textContent = message;
+    messageElement.className = 'pet-store-modal-message';
+    
+    const buttonContainer = document.createElement('div');
+    buttonContainer.className = 'pet-store-button-container';
+    
+    const confirmButton = document.createElement('button');
+    confirmButton.textContent = 'Xác nhận';
+    confirmButton.className = 'pet-store-confirm-btn';
+    
+    const cancelButton = document.createElement('button');
+    cancelButton.textContent = 'Hủy';
+    cancelButton.className = 'pet-store-cancel-btn';
+    
+    buttonContainer.appendChild(confirmButton);
+    buttonContainer.appendChild(cancelButton);
+    modalContent.appendChild(messageElement);
+    modalContent.appendChild(buttonContainer);
+    modal.appendChild(modalContent);
+    document.body.appendChild(modal);
+    
+    // Thêm hiệu ứng fade out khi đóng modal
+    function closeModal() {
+        modal.style.opacity = '0';
+        setTimeout(() => {
+            document.body.removeChild(modal);
+        }, 300);
+    }
+    
+    confirmButton.onclick = function() {
+        closeModal();
+        onConfirm();
+    };
+    
+    cancelButton.onclick = closeModal;
+    
+    // Cho phép đóng modal khi click bên ngoài
+    modal.onclick = function(event) {
+        if (event.target === modal) {
+            closeModal();
+        }
+    };
+}
+
 
