@@ -1,136 +1,113 @@
 <?php
-// Kết nối đến cơ sở dữ liệu
-$host = "localhost";
-$dbname = "pet-store";
-$username = "root";
-$password = "";
+require_once '../config/config.php'; // Đảm bảo rằng file này chứa thông tin kết nối database
 
-// Tạo kết nối
-$conn = new mysqli($host, $username, $password, $dbname);
 
-// Kiểm tra kết nối
-if ($conn->connect_error) {
-    die("Kết nối thất bại: " . $conn->connect_error);
+// Kiểm tra đăng nhập
+if (!isset($_SESSION['user_id'])) {
+    die("Vui lòng đăng nhập để xem đơn hàng.");
 }
 
-if (isset($_SESSION['username'])) {
-    $login_username = $_SESSION['username'];
-} else {
-    die("Tên đăng nhập không được cung cấp.");
-}
+$user_id = $_SESSION['user_id'];
 
-// Truy vấn để lấy user_id dựa trên tên đăng nhập
-$sql = "SELECT id FROM users WHERE username = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("s", $login_username);
-$stmt->execute();
-$stmt->store_result();
+// Xử lý hủy đơn hàng
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order_id'])) {
+    $order_id = $_POST['order_id'];
 
-// Kiểm tra nếu có kết quả và lấy user_id
-if ($stmt->num_rows > 0) {
-    $stmt->bind_result($user_id);
-    $stmt->fetch();
-} else {
-    die("Tên đăng nhập không tồn tại.");
-}
+    try {
+        $conn->beginTransaction();
 
-// Truy vấn đơn hàng từ bảng orders và chi tiết từ bảng order_details với JOIN bảng pets
-$sql = "SELECT o.idOrder AS order_id, o.orderDate, o.status AS order_status, od.quantity, p.name AS pet_name, od.price AS pet_price
-        FROM orders o
-        JOIN order_details od ON o.idOrder = od.order_id
-        JOIN pets p ON od.pet_id = p.id
-        WHERE o.user_id = ?
-        ORDER BY o.idOrder";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$result = $stmt->get_result();
-?>
-
-<div class="content">
-    <h2>Đơn hàng của bạn</h2>
-    <?php
-    if ($result->num_rows > 0) {
-        $total_cart_price = 0; // Biến để lưu tổng tiền của giỏ hàng
-
-        // Hiển thị danh sách đơn hàng với CSS để tạo đường kẻ bảng
-        echo "<table style='border-collapse: collapse; width: 100%;'>";
-        echo "<thead>";
-        echo "<tr style='background-color: #f2f2f2;'>";
-        echo "<th style='border: 1px solid #ddd; padding: 10px; text-align: left;'>Mã đơn hàng</th>";
-        echo "<th style='border: 1px solid #ddd; padding: 10px; text-align: left;'>Ngày mua</th>";
-        echo "<th style='border: 1px solid #ddd; padding: 10px; text-align: left;'>Sản phẩm</th>";
-        echo "<th style='border: 1px solid #ddd; padding: 10px; text-align: left;'>Tổng tiền</th>";
-        echo "<th style='border: 1px solid #ddd; padding: 10px; text-align: left;'>Trạng thái đơn hàng</th>";
-        echo "<th style='border: 1px solid #ddd; padding: 10px; text-align: center;'>Chi tiết</th>";
-        echo "</tr>";
-        echo "</thead>";
-        echo "<tbody>";
-
-        $current_order_id = 0;
-        $order_total_price = 0;
-
-        while ($row = $result->fetch_assoc()) {
-            if ($current_order_id != $row['order_id']) {
-                if ($current_order_id != 0) {
-                    // Hiển thị tổng tiền cho đơn hàng trước đó
-                    echo "<tr style='background-color: #f9f9f9;'>";
-                    echo "<td colspan='4' style='border: 1px solid #ddd; padding: 10px;'>Tổng đơn hàng</td>";
-                    echo "<td style='border: 1px solid #ddd; padding: 10px;'>" . number_format($order_total_price, 0, ',', '.') . " VND</td>";
-                    echo "<td style='border: 1px solid #ddd; padding: 10px;'></td>";
-                    echo "</tr>";
-
-                    // Cộng tổng tiền của đơn hàng trước vào tổng tiền giỏ hàng
-                    $total_cart_price += $order_total_price;    
-                }
-
-                $order_total_price = 0;
-                $current_order_id = $row['order_id'];
-            }
-
-            $item_total_price = $row["quantity"] * $row["pet_price"];
-            $order_total_price += $item_total_price; // Cộng dồn tổng tiền của đơn hàng
-
-            echo "<tr>";
-            echo "<td style='border: 1px solid #ddd; padding: 10px;'>" . $row["order_id"] . "</td>"; // Mã đơn hàng
-            echo "<td style='border: 1px solid #ddd; padding: 10px;'>" . $row["orderDate"] . "</td>"; // Ngày mua
-            echo "<td style='border: 1px solid #ddd; padding: 10px;'>" . $row["pet_name"] . "</td>"; // Sản phẩm
-            echo "<td style='border: 1px solid #ddd; padding: 10px;'>" . number_format($item_total_price, 0, ',', '.') . " VND</td>"; // Tổng đơn hàng
-            echo "<td style='border: 1px solid #ddd; padding: 10px; color: red;'>" . $row['order_status'] . "</td>"; // Trạng thái đơn hàng
-            // Thêm nút "Chi tiết"
-            echo "<td style='border: 1px solid #ddd; padding: 10px; text-align: center;'>
-                    <a href='index.php?page=index_user&pageuser=orders_detail&order_id=" . $row['order_id'] . "' style='padding: 5px 10px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 4px;'>Chi tiết</a>
-                  </td>";
-            echo "</tr>";
+        // Kiểm tra xem đơn hàng có thuộc về user này không
+        $check_stmt = $conn->prepare("SELECT idOrder FROM orders WHERE idOrder = ? AND user_id = ?");
+        $check_stmt->execute([$order_id, $user_id]);
+        
+        if ($check_stmt->rowCount() === 0) {
+            throw new Exception("Không tìm thấy đơn hàng hoặc bạn không có quyền hủy đơn hàng này.");
         }
 
-        // Hiển thị tổng tiền cho đơn hàng cuối cùng
-        if ($current_order_id != 0) {
-            echo "<tr style='background-color: #f9f9f9;'>";
-            echo "<td colspan='4' style='border: 1px solid #ddd; padding: 10px;'>Tổng đơn hàng</td>";
-            echo "<td style='border: 1px solid #ddd; padding: 10px;'>" . number_format($order_total_price, 0, ',', '.') . " VND</td>";
-            echo "<td style='border: 1px solid #ddd; padding: 10px;'></td>";
-            echo "</tr>";
+        // Cập nhật trạng thái đơn hàng
+        $update_stmt = $conn->prepare("UPDATE orders SET status = 'Đã hủy' WHERE idOrder = ?");
+        $update_stmt->execute([$order_id]);
 
-            // Cộng tổng tiền của đơn hàng cuối cùng vào tổng tiền giỏ hàng
-            $total_cart_price += $order_total_price;
-        }
+        $conn->commit();
 
-        // Hiển thị tổng tiền của giỏ hàng
-        echo "<tr style='background-color: #e0e0e0;'>";
-        echo "<td colspan='4' style='border: 1px solid #ddd; padding: 10px;'>Tổng tiền giỏ hàng</td>";
-        echo "<td style='border: 1px solid #ddd; padding: 10px;'>" . number_format($total_cart_price, 0, ',', '.') . " VND</td>";
-        echo "<td style='border: 1px solid #ddd; padding: 10px;'></td>";
-        echo "</tr>";
+        header("Location: index.php?page=index_user&pageuser=orders");
+        exit();
+    } catch (Exception $e) {
+        $conn->rollBack();
+        $error_message = "Lỗi khi hủy đơn hàng: " . $e->getMessage();
+    }
+}
 
-        echo "</tbody>";
-        echo "</table>";
-    } else {
-        echo "<p>Không có đơn hàng nào.</p>";
+try {
+    // Lấy thông tin đơn hàng
+    $order_sql = "SELECT o.idOrder, o.orderDate, o.totalAmount, o.status 
+                  FROM orders o 
+                  WHERE o.user_id = ? 
+                  ORDER BY o.orderDate DESC";
+    $order_stmt = $conn->prepare($order_sql);
+    $order_stmt->execute([$user_id]);
+    $orders = $order_stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Truy vấn chi tiết đơn hàng cho tất cả các đơn hàng
+    $detail_sql = "SELECT od.order_id, od.pet_id, p.name, od.quantity, od.price 
+                   FROM order_details od 
+                   JOIN pets p ON od.pet_id = p.id 
+                   WHERE od.order_id IN (SELECT idOrder FROM orders WHERE user_id = ?)";
+    $detail_stmt = $conn->prepare($detail_sql);
+    $detail_stmt->execute([$user_id]);
+    $all_details = $detail_stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Tổ chức chi tiết đơn hàng theo idOrder
+    $order_details = [];
+    foreach ($all_details as $detail) {
+        $order_details[$detail['order_id']][] = $detail;
     }
 
-    // Đóng kết nối
-    $stmt->close();
-    $conn->close();
-    ?>
-</div>
+} catch (PDOException $e) {
+    die("Lỗi truy vấn: " . $e->getMessage());
+}
+?>
+
+<link rel="stylesheet" href="../asset/css/order_guest.css">
+
+<h2 style="text-align: center; font-size: 30px; font-weight: bold; color: #333; margin-top: 20px;">ĐƠN HÀNG CỦA BẠN</h2>
+<?php foreach ($orders as $order): ?>
+    <div class='order-guest'>
+        <div class="order-guest__main">
+            <div class="order-guest__info-container">
+                <h3 class="order-guest__title">Đơn hàng #<?= htmlspecialchars($order['idOrder']) ?></h3>
+                <p class="order-guest__info"><span>Ngày đặt:</span> <span><?= htmlspecialchars($order['orderDate']) ?></span></p>
+                <p class="order-guest__info"><span>Tổng tiền:</span> <span><?= number_format($order['totalAmount'], 0, ',', '.') ?> đ</span></p>
+                <p class="order-guest__info"><span>Trạng thái:</span> <span><?= htmlspecialchars($order['status']) ?></span></p>
+                <?php if ($order['status'] !== 'Đã hủy' && $order['status'] !== 'Đã giao hàng'): ?>
+                    <form class="order-guest__cancel-form" method="post" action="index.php?page=index_user&pageuser=orders" onsubmit="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này?');">
+                        <input type="hidden" name="order_id" value="<?= htmlspecialchars($order['idOrder']) ?>">
+                        <button type="submit" class="order-guest__cancel-button">Hủy đơn hàng</button>
+                    </form>
+                <?php endif; ?>
+            </div>
+            <div class="order-guest__details">
+                <h4 class="order-guest__subtitle">Chi tiết đơn hàng</h4>
+                <table class="order-guest__table">
+                    <tr><th>Sản phẩm</th><th>Số lượng</th><th>Giá</th></tr>
+                    <?php
+                    if (isset($order_details[$order['idOrder']])) {
+                        foreach ($order_details[$order['idOrder']] as $detail):
+                    ?>
+                        <tr>
+                            <td class="order-guest__cell"><?= htmlspecialchars($detail['name']) ?></td>
+                            <td class="order-guest__cell"><?= htmlspecialchars($detail['quantity']) ?></td>
+                            <td class="order-guest__cell"><?= number_format($detail['price'], 0, ',', '.') ?> đ</td>
+                        </tr>
+                    <?php
+                        endforeach;
+                    }
+                    ?>
+                </table>
+            </div>
+        </div>
+    </div>
+<?php endforeach; ?>
+<?php if (empty($orders)): ?>
+    <p>Không có đơn hàng nào.</p>
+<?php endif; ?>
