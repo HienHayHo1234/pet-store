@@ -151,37 +151,6 @@ function addToCart($user_id, $pet_id, $quantity = 1, $conn)
     }
 }
 
-function addToSessionCart($pet_id, $conn) {
-    $stmt = $conn->prepare("SELECT id, name, price, priceSale, urlImg FROM pets WHERE id = ?");
-    $stmt->execute([$pet_id]);
-    $pet = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if ($pet) {
-        $price = $pet['priceSale'] > 0 ? $pet['priceSale'] : $pet['price'];
-        if (isset($_SESSION['cart'][$pet_id])) {
-            $_SESSION['cart'][$pet_id]['quantity']++;
-        } else {
-            $_SESSION['cart'][$pet_id] = array(
-                'pet_id' => $pet['id'],
-                'name' => $pet['name'],
-                'price' => $price,
-                'urlImg' => $pet['urlImg'],
-                'quantity' => 1
-            );
-        }
-        return true;
-    }
-    return false;
-}
-
-function removeFromSessionCart($pet_id) {
-    if (isset($_SESSION['cart'][$pet_id])) {
-        unset($_SESSION['cart'][$pet_id]);
-        return true;
-    }
-    return false;
-}
-
 function removeFromCart($user_id, $pet_id, $conn)
 {
     try {
