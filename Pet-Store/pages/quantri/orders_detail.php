@@ -1,11 +1,6 @@
 <?php
 // Kết nối cơ sở dữ liệu
-$host = "localhost";
-$dbname = "pet-store";
-$userdb = "root";
-$passdb = "";
-$conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $userdb, $passdb);
-$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+require_once 'functions.php';
 
 // Hàm lấy chi tiết đơn hàng
 function layChiTietDonHang($order_id) {
@@ -39,66 +34,83 @@ $details = layChiTietDonHang($order_id);
     <title>Chi Tiết Đơn Hàng</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
-            padding: 0;
-            background-color: #f9f9f9;
+            background-color: #f0f4f8;
+            color: #333;
+            line-height: 1.6;
         }
 
         h4 {
             text-align: center;
-            margin: 20px 0;
-            padding: 10px;
-            font-size: 24px;
-            color: #333;
-            background-color: #f0f0f0;
-            border-radius: 8px;
+            margin: 30px 0;
+            padding: 15px;
+            font-size: 28px;
+            color: #2c3e50;
+            background-color: #ecf0f1;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
         .table {
             width: 100%;
-            margin-right: 0;
-            border-collapse: collapse;
+            margin: 20px 0;
+            border-collapse: separate;
+            border-spacing: 0;
             background-color: #fff;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
         }
 
         .table th, .table td {
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            text-align: center;
-            vertical-align: middle;
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
         }
 
         .table th {
-            background-color: #f4f4f4;
-            color: #333;
-            font-weight: bold;
+            background-color: #3498db;
+            color: #fff;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .table tr:hover {
+            background-color: #f5f7fa;
         }
 
         .table td img {
-            width: 100px;
+            width: 80px;
             border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
         .btn {
             padding: 12px 24px;
             text-decoration: none;
             color: white;
-            border-radius: 4px;
+            border-radius: 5px;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 16px;
             display: inline-block;
-            margin: 0 5px;
+            margin: 20px 5px 0;
+            transition: all 0.3s ease;
+            border: none;
         }
 
         .btn-back {
-            background-color: #5bc0de;
+            background-color: #3498db;
         }
 
         .btn-back:hover {
-            background-color: #31b0d5;
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
         }
     </style>
 </head>

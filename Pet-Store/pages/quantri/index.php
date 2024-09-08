@@ -20,14 +20,14 @@ require_once "functions.php";
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        font-family: 'Arial', sans-serif;
+        font-family: 'Roboto', 'Arial', sans-serif;
     }
 
     html, body {
         height: 100%;
         width: 100%;
-        background-color: #f4f7f9;
-        color: #333;
+        background-color: #f5f7fa;
+        color: #2c3e50;
     }
 
     .container {
@@ -39,18 +39,17 @@ require_once "functions.php";
 
     header {
         height: 80px;
-        background-color: #007bff;
+        background-color: #3498db;
         display: flex;
         justify-content: center;
         align-items: center;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-        margin-bottom: 0;
+        box-shadow: 0 2px 10px rgba(52, 152, 219, 0.2);
     }
 
     header h1 {
         color: white;
-        font-size: 2rem;
-        font-weight: bold;
+        font-size: 2.2rem;
+        font-weight: 500;
     }
 
     .noidung {
@@ -60,11 +59,10 @@ require_once "functions.php";
     }
 
     aside {
-        background-color: #343a40;
-        padding: 20px;
-        width: 220px;
+        background-color: #2c3e50;
+        padding: 25px;
+        width: 240px;
         overflow-y: auto;
-        min-height: 100%;
     }
 
     aside ul {
@@ -72,52 +70,56 @@ require_once "functions.php";
     }
 
     aside ul li {
-        margin-bottom: 10px;
+        margin-bottom: 15px;
     }
 
     aside ul li a {
-        color: white;
+        color: #ecf0f1;
         text-decoration: none;
-        font-size: 1rem;
-        padding: 12px;
+        font-size: 1.1rem;
+        padding: 12px 15px;
         display: block;
-        background-color: #495057;
-        border-radius: 6px;
-        transition: background-color 0.3s ease;
+        background-color: #34495e;
+        border-radius: 8px;
+        transition: all 0.3s ease;
     }
 
     aside ul li a:hover {
-        background-color: #0056b3;
+        background-color: #3498db;
+        transform: translateX(5px);
     }
 
     main {
         flex: 1;
         background-color: white;
-        padding: 20px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
         overflow-y: auto;
     }
 
     main p {
-        font-size: 1rem;
-        color: #666;
+        font-size: 1.1rem;
+        color: #34495e;
+        line-height: 1.6;
     }
 
     footer {
         text-align: center;
-        font-size: 0.85rem;
-        color: #666;
-        padding: 15px;
-        background-color: #f4f7f9;
-        border-top: 1px solid #ddd;
+        font-size: 0.9rem;
+        color: #7f8c8d;
+        padding: 20px;
+        background-color: #ecf0f1;
+        border-top: 1px solid #bdc3c7;
     }
 
     footer a {
-        color: #007bff;
+        color: #3498db;
         text-decoration: none;
+        transition: color 0.3s ease;
     }
 
     footer a:hover {
+        color: #2980b9;
         text-decoration: underline;
     }
 </style>
