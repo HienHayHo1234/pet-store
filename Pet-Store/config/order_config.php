@@ -1,6 +1,8 @@
 <?php
 require 'config.php';
 
+session_start();
+
 // Gửi header JSON
 header('Content-Type: application/json');
 
@@ -11,43 +13,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $conn->beginTransaction();
 
-        // Kiểm tra trạng thái đăng nhập
-        session_start();
-        $is_logged_in = isset($_SESSION['login_id']); // Giả sử bạn lưu ID người dùng trong session
+        // Validate and sanitize input
+        $name = htmlspecialchars(strip_tags($_POST['name'] ?? ''), ENT_QUOTES, 'UTF-8');
+        $address = htmlspecialchars(strip_tags($_POST['address'] ?? ''), ENT_QUOTES, 'UTF-8');
+        $phone = htmlspecialchars(strip_tags($_POST['phone'] ?? ''), ENT_QUOTES, 'UTF-8');
+        $total_amount = filter_var(str_replace(['đ', ','], '', $_POST['total_amount'] ?? '0'), FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+        $pet_ids = json_decode($_POST['pet_ids'] ?? '[]', true);
 
-        if ($is_logged_in) {
-            $user_id = $_SESSION['login_id'];
+        if (empty($name) || empty($address) || empty($phone) || empty($pet_ids)) {
+            throw new Exception("Vui lòng điền đầy đủ thông tin.");
+        }
+
+        // Kiểm tra trạng thái đăng nhập
+        if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true && isset($_SESSION['user_id'])) {
+            $user_id = $_SESSION['user_id'];
+            $is_logged_in = true;
         } else {
+            $is_logged_in = false;
+            
+            // Kiểm tra xem đã có guest_id trong cookie chưa
             $guest_id = $_COOKIE['guest_id'] ?? bin2hex(random_bytes(16));
             setcookie('guest_id', $guest_id, time() + (86400 * 30), '/', '', true, true);
-            
-            // Kiểm tra xem guest user đã tồn tại chưa
+
+            // Xử lý đơn hàng cho khách
             $stmt = $conn->prepare("SELECT id FROM users WHERE email = ?");
             $guest_email = $guest_id . '@guest.com';
             $stmt->execute([$guest_email]);
             $existing_user = $stmt->fetch(PDO::FETCH_ASSOC);
-            
+
             if ($existing_user) {
                 $user_id = $existing_user['id'];
             } else {
-                // Tạo mới guest user
                 $stmt = $conn->prepare("INSERT INTO users (username, fullname, email, phone, address, pass, idgroup) VALUES ('guest', ?, ?, ?, ?, ?, 0)");
-                $stmt->execute([$_POST['name'], $guest_email, $_POST['phone'], $_POST['address'], password_hash($guest_id, PASSWORD_DEFAULT)]);
+                $stmt->execute([ $name, $guest_email, $phone, $address, password_hash($guest_id, PASSWORD_DEFAULT)]);
                 $user_id = $conn->lastInsertId();
             }
-            
-            setcookie('guest_cart', '', time() - 3600, '/', '', true, true);
-        }
-
-        // Validate and sanitize input
-        $name = $_POST['name'];
-        $address = $_POST['address'];
-        $phone = $_POST['phone'];
-        $total_amount = filter_var(str_replace(['đ', ','], '', $_POST['total_amount'] ?? '0'), FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
-        $pet_ids = json_decode($_POST['pet_ids'], true);
-
-        if (empty($name) || empty($address) || empty($phone) || empty($pet_ids)) {
-            throw new Exception("Vui lòng điền đầy đủ thông tin.");
         }
 
         // Create new order
@@ -70,6 +70,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if ($is_logged_in) {
                     $delete_stmt = $conn->prepare("DELETE FROM cart_items WHERE cart_id = (SELECT cart_id FROM cart WHERE user_id = ?) AND pet_id = ?");
                     $delete_stmt->execute([$user_id, $pet_id]);
+                } else {
+                    $delete_stmt = $conn->prepare("DELETE FROM cart_items WHERE cart_id = (SELECT cart_id FROM cart WHERE user_id = ?) AND pet_id = ?");
+                    $delete_stmt->execute([$guest_id, $pet_id]);
                 }
             }
         }
