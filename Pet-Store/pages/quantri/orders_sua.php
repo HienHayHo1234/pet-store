@@ -47,14 +47,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->execute();
 
         $message = "Cập nhật đơn hàng thành công";
-        echo '<script type="text/javascript">
-            window.location.href = "index.php?page=orders";
-      </script>';
+        header("Location: index.php?page=orders&order_id=$order_id");
+        exit();
     } catch (PDOException $e) {
         $message = "Error updating order: " . $e->getMessage();
     }
 }   
-
 ?>
 
 <body>
@@ -65,10 +63,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <form id="orderForm" class="order" action="" method="post">
                     <div class="form-group">
                         <label for="order_id">Mã đơn hàng:</label>
-                        <input type="text" id="order_id" name="order_id" value="<?php echo htmlspecialchars($order['idOrder']); ?>" disabled class="input-disabled">
+                        <input type="text" id="order_id" name="order_id" value="<?php echo htmlspecialchars($order['idOrder']); ?>" readonly class="input-disabled">
                     </div>
-                    <label for="totalAmount">Total Amount:</label>
-                    <input type="text" id="totalAmount" name="totalAmount" value="<?php echo htmlspecialchars($order['totalAmount']); ?>" disabled class="input-disabled">
+
                     <div class="form-group">
                         <label for="status">Trạng thái:</label>
                         <select id="status" name="status" required class="input-select">
@@ -78,7 +75,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <option value="Đã giao" <?php echo $order['status'] == 'Đã giao' ? 'selected' : ''; ?>>Đã giao</option>
                             <option value="Đã hoàn tiền" <?php echo $order['status'] == 'Đã hoàn tiền' ? 'selected' : ''; ?>>Đã hoàn tiền</option>
                             <option value="Đã xóa" <?php echo $order['status'] == 'Đã xóa' ? 'selected' : ''; ?>>Đã xóa</option>
-
                         </select>
                     </div>
                     <button type="submit" class="btn btn-primary" style="margin-left: 30%;">Cập nhật đơn hàng</button>
@@ -87,7 +83,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <a href="index.php?page=orders">Trở về</a>
                         <?php if ($message) { echo '<p class="error-message">' . htmlspecialchars($message) . '</p>'; } ?>
                     </button>
-                    
                 </form>
 
                 <h3>Chi tiết đơn hàng</h3>
@@ -113,7 +108,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <tr>
                             <td><?php echo htmlspecialchars($detail['pet_id']); ?></td>
                             <td><?php echo number_format($detail['price'], 0, '.', '.'); ?> VND</td>
-
                             <td><?php echo htmlspecialchars($detail['quantity']); ?></td>
                             <td><?php echo number_format($itemTotal, 0, '.', '.'); ?> VND</td>
                         </tr>
@@ -132,7 +126,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
 </body>
-
 
 
 <style>

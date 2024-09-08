@@ -142,7 +142,7 @@ try {
                 
                 <!-- Hiển thị nút xóa nếu đơn hàng đã hủy hoặc đã giao -->
                 <?php elseif ($order['status'] === 'Đã hủy' || $order['status'] === 'Đã hoàn tiền' || $order['status'] === 'Đã giao'): ?>
-                    <form class="order-guest__delete-form" method="post" action="orders_check_users.php&order_id=32" onsubmit="return confirm('Bạn có chắc chắn muốn chuyển đơn hàng này sang trạng thái Đã xóa?');">
+                    <form class="order-guest__delete-form" method="post" action="orders_check_users.php" onsubmit="return confirm('Bạn có chắc chắn muốn chuyển đơn hàng này sang trạng thái Đã xóa?');">
                         <input type="hidden" name="delete_order_id" value="<?= htmlspecialchars($order['idOrder']) ?>">
                         <button type="submit" class="order-guest__delete-button">Xóa đơn hàng</button>
                     </form>

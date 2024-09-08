@@ -138,7 +138,7 @@ require_once "functions.php";
                     <li><a href="?page=pets_ds">Danh sách thú cưng</a></li>
                     <li><a href="?page=pets_them">Thêm thú cưng</a></li>   
                     <li><a href="?page=orders">Danh sách đơn hàng</a></li>
-                    <li><a href="?page=#">Quản lý người dùng</a></li>
+                    <li><a href="?page=users">Quản lý người dùng</a></li>
                 </ul>
             </aside>
 
@@ -160,6 +160,9 @@ require_once "functions.php";
                         break;
                     case "orders_detail":
                         require_once 'orders_detail.php';
+                        break;
+                    case "users":
+                        require_once 'users.php';
                         break;
                     default:
                         echo "<p>Chào mừng đến với trang quản trị hệ thống thú cưng!</p>";

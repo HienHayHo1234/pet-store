@@ -1,5 +1,6 @@
 <?php
 require_once '../config/config.php'; // Đảm bảo rằng file này chứa thông tin kết nối database
+session_start();
 
 // Kiểm tra xem người dùng đã đăng nhập hay chưa
 if (!isset($_SESSION['user_id'])) {
