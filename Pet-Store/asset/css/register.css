@@ -1,143 +1,127 @@
-/* Modern Styles for the Register Modal */
+/* Styles for the Register Modal */
 .register-modal {
     position: fixed;
-    z-index: 1000;
     top: 0;
+    right: 0;
+    bottom: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.7); /* Darker background for emphasis */
+    z-index: 1000; /* Ensures modal is on top */
 }
 
 .register-modal-content {
-    background-color: #fff;
-    padding: 40px;
-    border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    width: 50%;
-    max-width: 400px;
-    animation: modalFadeIn 0.3s;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the modal */
+    background-color: #f9f9f9; /* Light background for better contrast */
+    padding: 30px;
+    border-radius: 10px; /* Smooth rounded corners */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    width: 100%;
+    max-width: 400px; /* Ensure it doesn't grow too large */
+    box-sizing: border-box;
+    text-align: center; /* Center align text */
 }
 
-@keyframes modalFadeIn {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
+.register-modal h2 {
+    margin-top: 0;
+    color: #333; /* Darker text for contrast */
+    font-size: 24px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
 }
 
-.register-close {
+.close {
     position: absolute;
-    top: 15px;
+    top: 10px;
     right: 15px;
     color: #888;
     font-size: 24px;
-    font-weight: bold;
     cursor: pointer;
-    transition: color 0.3s;
 }
 
-.register-close:hover {
-    color: #333;
-}
-
-h2 {
-    margin-top: 0;
-    margin-bottom: 20px;
-    font-size: 24px;
-    color: #333;
-    text-align: center;
+.close:hover {
+    color: #e74c3c; /* Softer hover effect */
 }
 
 .register-form {
     display: flex;
     flex-direction: column;
+    align-items: center; /* Center align form items */
+    margin-top: 20px;
+    text-align: center; /* Center align text in form */
 }
 
 label {
     margin: 10px 0 5px;
-    font-size: 14px;
+    font-weight: bold;
     color: #555;
-    font-weight: 600;
+    text-align: center; /* Center align label */
 }
 
 .register-form input[type="text"],
 .register-form input[type="password"],
 .register-form input[type="email"] {
+    width: 100%;
     padding: 12px;
     margin-bottom: 15px;
     border: 1px solid #ddd;
-    border-radius: 6px;
+    border-radius: 5px;
     font-size: 16px;
-    transition: border-color 0.3s, box-shadow 0.3s;
+    box-sizing: border-box;
 }
 
-.register-form input:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
-    outline: none;
+.register-form input[type="checkbox"] {
+    margin-right: 5px;
 }
 
-.register-button-container {
+.button-container {
     display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
+    justify-content: space-between; /* Spread buttons */
+    width: 100%;
+    gap: 10px; /* Add spacing between buttons */
 }
 
-.register-submit-btn,
-.register-reset-btn {
-    padding: 12px 20px;
+.register-form input[type="submit"],
+button {
+    flex: 1;
+    padding: 12px;
     border: none;
-    border-radius: 6px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.1s;
-}
-
-.register-submit-btn {
+    border-radius: 5px;
     background-color: #007bff;
     color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%; /* Make buttons full width */
 }
 
-.register-submit-btn:hover {
-    background-color: #0056b3;
+input[type="submit"]:hover,
+button:hover {
+    background-color: #0056b3; /* Darker hover effect */
 }
 
-.register-reset-btn {
-    background-color: #f8f9fa;
-    color: #333;
-}
-
-.register-reset-btn:hover {
-    background-color: #e2e6ea;
-}
-
-.register-submit-btn:active,
-.register-reset-btn:active {
-    transform: translateY(1px);
-}
-
-.register-back-arrow {
+.back-arrow {
     cursor: pointer;
     color: #007bff;
-    font-size: 18px;
+    font-size: 20px;
     font-weight: bold;
     position: absolute;
-    top: 20px;
-    left: 20px;
+    top: 15px;
+    left: 10px;
     text-decoration: none;
-    transition: color 0.3s;
 }
-
-.register-back-arrow:hover {
-    color: #0056b3;
-}
-
-#register-error-message {
-    color: #dc3545;
+#error-message-register {
+    color: red;
+    margin-top: 15px;
     font-size: 14px;
-    margin-bottom: 15px;
-    text-align: center;
+    text-align: center; /* Đảm bảo thông báo lỗi được canh giữa */
+}
+
+.back-arrow:hover {
+    color: #0056b3; /* Hover effect for back arrow */
 }
