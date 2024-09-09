@@ -38,6 +38,12 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     });
 
+    // Add this line to use the function
+    window.openForgotPasswordModal = function() {
+        const forgotPasswordModal = document.getElementById('forgotPasswordModal');
+        forgotPasswordModal.style.display = 'block';
+    }
+
     function closeForgotPasswordModal() {
         const forgotPasswordModal = document.getElementById('forgotPasswordModal');
         forgotPasswordModal.style.display = 'none';
