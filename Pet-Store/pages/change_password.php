@@ -1,5 +1,4 @@
 <?php
-
 // Kết nối đến cơ sở dữ liệu
 $host = "localhost";
 $dbname = "pet-store";
@@ -13,6 +12,9 @@ $conn = new mysqli($host, $db_username, $db_password, $dbname);
 if ($conn->connect_error) {
     die("Kết nối thất bại: " . $conn->connect_error);
 }
+
+$message = ''; // Thông báo sẽ được cập nhật sau
+$message_color = 'red'; // Mặc định màu đỏ cho thông báo lỗi
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Lấy dữ liệu từ form
@@ -30,8 +32,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
 
-        // Kiểm tra mật khẩu hiện tại
-        if ($current_password === $row['pass']) {
+        // Sử dụng password_verify để kiểm tra mật khẩu hiện tại
+        if (password_verify($current_password, $row['pass'])) {
             // Kiểm tra xem mật khẩu mới và xác nhận mật khẩu có khớp không
             if ($new_password === $confirm_password) {
                 // Mã hóa mật khẩu mới
@@ -41,18 +43,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $update_sql = "UPDATE users SET pass = '$hashed_password' WHERE username = '$username'";
 
                 if ($conn->query($update_sql) === TRUE) {
-                    echo "Mật khẩu đã được cập nhật thành công.";
+                    $message = "Mật khẩu đã được cập nhật thành công.";
+                    $message_color = 'green'; // Thành công -> màu xanh lá
                 } else {
-                    echo "Có lỗi xảy ra khi cập nhật mật khẩu: " . $conn->error;
+                    $message = "Có lỗi xảy ra khi cập nhật mật khẩu: " . $conn->error;
                 }
             } else {
-                echo "Mật khẩu mới và xác nhận mật khẩu không khớp.";
+                $message = "Mật khẩu mới và xác nhận mật khẩu không khớp.";
             }
         } else {
-            echo "Mật khẩu hiện tại không đúng.";
+            $message = "Mật khẩu hiện tại không đúng.";
         }
     } else {
-        echo "Người dùng không tồn tại.";
+        $message = "Người dùng không tồn tại.";
     }
 }
 
@@ -60,6 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 $conn->close();
 ?>
 
+<!-- Phần HTML -->
 <div class="tt">
     <div class="content">
         <h2>Đổi mật khẩu</h2>
@@ -75,5 +79,9 @@ $conn->close();
 
             <button type="submit">Đổi mật khẩu</button>
         </form>
+        <!-- Thêm phần thông báo -->
+        <div id="message" style="color: <?php echo $message_color; ?>;">
+            <?php echo $message; ?>
+        </div>
     </div>
 </div>

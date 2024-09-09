@@ -58,9 +58,9 @@ function capnhatPets($id, $name, $price, $priceSale, $gender, $quantity, $urlImg
 function layDanhSachDonHang() {
     global $conn;
     // Truy vấn để lấy danh sách đơn hàng
-    $sql = "SELECT o.idOrder AS order_id, o.orderDate, o.status AS order_status,
+    $sql = "SELECT o.idOrder AS order_id, o.orderDate, o.status, o.payment AS order_status,
     SUM(od.quantity * od.price) AS total_price,
-        u.fullname, u.phone, u.address
+        u.fullname, u.phone, u.address, o.payment
     FROM orders o
     JOIN order_details od ON o.idOrder = od.order_id
     JOIN pets p ON od.pet_id = p.id

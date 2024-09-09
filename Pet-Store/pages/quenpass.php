@@ -6,8 +6,10 @@ if (isset($_POST['btn1'])) {
 
     // Kiểm tra định dạng email
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $thongbao .= "Email không đúng <br>"; 
     } else {
+        require_once 'config.php';
         require_once 'config.php';
         $sql = "SELECT count(*) FROM users WHERE email = '{$email}'";
         $kq = $conn->query($sql);
@@ -16,6 +18,7 @@ if (isset($_POST['btn1'])) {
         if ($row[0] == 0) {
             $thongbao .= "Email này không phải là thành viên <br>";
         } else {
+            $pass_moi = substr(md5(random_int(0, 9999)), 0, 8);
             $pass_moi = substr(md5(random_int(0, 9999)), 0, 8);
             $sql_update = "UPDATE users SET pass='{$pass_moi}' WHERE email='{$email}'";
             $kq_update = $conn->query($sql_update);
@@ -32,7 +35,12 @@ if (isset($_POST['btn1'])) {
                 try {
                     $mail->isSMTP();
                     $mail->Host = 'smtp.gmail.com';
+                    $mail->Host = 'smtp.gmail.com';
                     $mail->SMTPAuth = true;
+                    $mail->Username = '2251120353@ut.edu.vn';
+                    $mail->Password = 'huylinh2k';
+                    $mail->SMTPSecure = 'TLS';
+                    $mail->Port = 587;
                     $mail->Username = '2251120353@ut.edu.vn';
                     $mail->Password = 'huylinh2k';
                     $mail->SMTPSecure = 'TLS';
@@ -67,6 +75,44 @@ if (isset($_POST['btn1'])) {
     }
 }
 ?>
+<style>
+    .success-message {
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.error-message {
+    background-color: #f44336;
+    color: white;
+    padding: 15px;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+</style>
+<!-- Modal quên mật khẩu -->
+<div id="forgotPasswordModal" class="modal" style="display: none">
+    <div class="modal-content">
+        <span id="closeForgotPasswordModalButton" class="close">&times;</span>
+        <h2>Quên Mật Khẩu</h2>
+        <form id="forgotPasswordForm" method="POST">
+            <div class="form-group">
+                <label for="email">Nhập email</label>
+                <input id="email" class="form-control" name="email" type="email" required>
+            </div>
+            <div class="form-group">
+                <button type="submit" name="btn1">Gửi yêu cầu</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="../asset/js/pass.js"></script>
 <style>
     .success-message {
     background-color: #4CAF50;

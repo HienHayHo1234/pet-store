@@ -165,7 +165,7 @@ require_once "functions.php";
                         require_once 'users.php';
                         break;
                     default:
-                        echo "<p>Chào mừng đến với trang quản trị hệ thống thú cưng!</p>";
+                        require_once 'login.php';
                         break;
                 }
                 ?>
