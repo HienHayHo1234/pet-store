@@ -6,8 +6,11 @@
     bottom: 0;
     left: 0;
     display: flex;
+    display: flex;
     align-items: center;
     justify-content: center;
+    background-color: rgba(0, 0, 0, 0.7); /* Darker background for emphasis */
+    z-index: 1000; /* Ensures modal is on top */
     background-color: rgba(0, 0, 0, 0.7); /* Darker background for emphasis */
     z-index: 1000; /* Ensures modal is on top */
 }
@@ -53,9 +56,13 @@
     right: 15px;
     color: #888;
     font-size: 24px;
+    color: #888;
+    font-size: 24px;
     cursor: pointer;
 }
 
+.close:hover {
+    color: #e74c3c; /* Softer hover effect */
 .close:hover {
     color: #e74c3c; /* Softer hover effect */
 }
@@ -76,6 +83,9 @@ label {
     font-weight: bold;
     color: #555;
     text-align: center; /* Căn giữa nhãn */
+    font-weight: bold;
+    color: #555;
+    text-align: center; /* Căn giữa nhãn */
 }
 
 .login-form input[type="text"],
@@ -84,8 +94,17 @@ label {
     width: 100%;
     padding: 12px;
     margin-bottom: 15px;
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
     border: 1px solid #ddd;
     border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.login-form input[type="checkbox"] {
+    margin-right: 5px;
     font-size: 16px;
     box-sizing: border-box;
 }
@@ -99,10 +118,14 @@ label {
     justify-content: space-between;
     gap: 10px;
     width: 100%;
+    gap: 10px;
+    width: 100%;
 }
 
 .login-form input[type="submit"],
 button {
+    flex: 1;
+    padding: 12px;
     flex: 1;
     padding: 12px;
     border: none;
@@ -110,7 +133,10 @@ button {
     background-color: #007bff;
     color: #fff;
     font-size: 16px;
+    font-size: 16px;
     cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth hover transition */
+    width: 100%; /* Đảm bảo các button chiếm toàn bộ chiều rộng */
     transition: background-color 0.3s ease; /* Smooth hover transition */
     width: 100%; /* Đảm bảo các button chiếm toàn bộ chiều rộng */
 }
@@ -126,8 +152,26 @@ button:hover {
     text-align: center;
 }
 
+.login-error-message {
+    color: #e74c3c;
+    margin-top: 10px;
+    text-align: center;
+}
+
 p {
     margin-top: 20px;
+    color: #555;
+    text-align: center; /* Căn giữa đoạn văn */
+}
+
+p a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+p a:hover {
+    text-decoration: underline;
     color: #555;
     text-align: center; /* Căn giữa đoạn văn */
 }
