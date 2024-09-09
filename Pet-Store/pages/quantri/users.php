@@ -1,14 +1,6 @@
 <?php
 require '../../config/config.php'; // Kết nối cơ sở dữ liệu
 
-session_start();
-
-// Kiểm tra xem người dùng đã đăng nhập chưa
-if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
-    header('Location: login.php'); // Chuyển hướng đến trang đăng nhập nếu chưa đăng nhập
-    exit();
-}
-
 // Xử lý yêu cầu xóa người dùng
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete'])) {
     $id = $_POST['id'];

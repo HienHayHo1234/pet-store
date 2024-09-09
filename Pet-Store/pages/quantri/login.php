@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if (isset($_POST['login'])) {
+if (isset($_POST['loginAdmin'])) {
     // Tiếp nhận user và pass từ form
     $username = trim(strip_tags($_POST['username']));
     $password = trim(strip_tags($_POST['password']));
@@ -27,7 +27,7 @@ if (isset($_POST['login'])) {
             $_SESSION['admin_username'] = $user['username'];
             $_SESSION['admin_group'] = $user['idgroup'];
 
-            header("Location: index.php"); // Chuyển đến trang chủ admin
+            header("Location: index.php");
             exit();
         } else {
             $_SESSION['error'] = "Mật khẩu không đúng";
@@ -45,34 +45,28 @@ if (isset($_POST['login'])) {
     <link rel="stylesheet" href="../../asset/css/login.css">
 </head>
 <body>
-    <div class="login-modal-content">
-        <h2>Đăng Nhập Admin</h2>
-        <?php
-        if (isset($_SESSION['error'])) {
-            echo '<div class="login-error-message">' . $_SESSION['error'] . '</div>';
-            unset($_SESSION['error']);
-        }
-        ?>
-        <form id="loginForm" class="login-form">
-            <div class="form-group-item">
-                <label for="login-username">Tên đăng nhập:</label>
-                <input type="text" id="login-username" name="username" required>
-            </div>
-            <div class="form-group-item">
-                <label for="login-password">Mật khẩu:</label>
-                <input type="password" id="login-password" name="password" required>
-            </div>
-            <div class="form-group-item">
-                <label>
-                    <input type="checkbox" name="status"> Ghi nhớ đăng nhập
-                </label>
-            </div>
-            <hr>
-            <div class="login-button-container">
-                <input type="submit" value="Đăng Nhập">
-                <button type="reset">Xóa</button>
-            </div>
-        </form>
+    <!-- Modal Form Đăng Nhập -->
+    <div id="loginModal" class="login-modal">
+        <div class="login-modal-content">
+            <h2>Đăng Nhập Admin</h2>
+
+            <form id="loginForm" class="login-form" action="" method="POST">
+                <div class="form-group-item" style="padding-bottom: 10px">
+                    <label for="login-username">Tên đăng nhập:</label>
+                    <input type="text" id="login-username" name="username" required>
+                </div>
+                <div class="form-group-item" style="width: 98%">
+                    <label for="login-password">Mật khẩu:</label>
+                    <input type="password" id="login-password" name="password" required>
+                </div>
+                <hr>
+                <div class="login-button-container" style="width: 70%">
+                    <input type="submit" name="loginAdmin" value="Đăng Nhập">
+                    <button type="reset">Xóa</button>
+                </div>
+                <div id="error-message" class="login-error-message"></div>
+            </form>
+        </div>
     </div>
 </body>
 </html>
