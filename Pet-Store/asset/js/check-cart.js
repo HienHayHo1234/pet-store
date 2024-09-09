@@ -28,3 +28,6 @@ function displayCartIcon(quantity) {
 document.addEventListener("DOMContentLoaded", function() {
     checkCartItems();
 });
+
+
+// Gọi hàm này sau khi thêm hoặc bớt sản phẩm
