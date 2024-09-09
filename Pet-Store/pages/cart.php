@@ -191,6 +191,22 @@ function getUserInfo($user_id) {
                     </div>
                 </div>
             </div>
+            <!-- Modal thông tin chuyển khoản -->
+            <div id="bankModal" class="modal-bank" style="display: none;">
+                <div class="modal-bank-content">
+                    <span class="close">&times;</span>
+                    <h3>Thông tin chuyển khoản ngân hàng</h3>
+                    <p>Vui lòng chuyển khoản tới tài khoản sau:</p>
+                    <p><strong>Ngân hàng:</strong> Vietcombank</p>
+                    <p><strong>Số tài khoản:</strong> 123456789</p>
+                    <p><strong>Chủ tài khoản:</strong> Nguyễn Văn A</p>
+                    <p><strong>Nội dung chuyển khoản:</strong> Thanh toán đơn hàng ABC123</p>
+                    <p><strong>Chủ tài khoản:</strong> Thực hiện thanh toán vào ngay tài khoản ngân hàng của chúng tôi. Vui lòng sử dụng Mã đơn hàng của bạn trong phần Nội dung thanh toán. Đơn hàng sẽ được giao sau khi tiền đã chuyển.</p>
+                    <button id="confirm-payment">Xác nhận đã chuyển khoản</button>
+                </div>
+            </div>
+
+
 
             <!-- Hiển thị tổng số tiền -->
             <label for="name-invoice-form" class="total-amount nameInForm" style="display: none">
