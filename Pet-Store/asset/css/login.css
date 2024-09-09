@@ -25,16 +25,24 @@
     max-width: 400px;
     box-sizing: border-box;
     text-align: center; /* Căn giữa tất cả nội dung bên trong */
+<<<<<<< HEAD
     max-height: 660px;
 
+=======
+>>>>>>> 5f321fd (dang nhap dang ky)
 }
 
 .login-modal h2 {
     margin-top: 0;
     color: #333; /* Darker text for contrast */
+<<<<<<< HEAD
     background-color: transparent;
     border-bottom: 1px solid #ddd;
     font-size: 24px;
+=======
+    font-size: 24px;
+    border-bottom: 1px solid #ddd;
+>>>>>>> 5f321fd (dang nhap dang ky)
     padding-bottom: 10px;
     text-align: center; /* Căn giữa tiêu đề */
 }
@@ -56,6 +64,10 @@
     display: flex;
     flex-direction: column;
     align-items: center; /* Căn giữa các phần tử trong form */
+<<<<<<< HEAD
+=======
+    margin-top: 20px;
+>>>>>>> 5f321fd (dang nhap dang ky)
     text-align: center; /* Căn giữa nội dung form */
 }
 
