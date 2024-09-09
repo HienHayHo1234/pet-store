@@ -87,7 +87,6 @@ if (isset($_POST['btn1'])) {
     right: 20px;
     z-index: 1000;
 }
-
 </style>
 <!-- Modal quên mật khẩu -->
 <div id="forgotPasswordModal" class="modal" style="display: none">
