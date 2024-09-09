@@ -143,6 +143,7 @@
                 <th>Mã Đơn Hàng</th>
                 <th>Ngày Đặt</th>
                 <th>Tổng Tiền</th>
+                <th>Phương Thức Thanh Toán</th>
                 <th>Trạng Thái</th>
                 <th>Người Nhận</th>
                 <th>SĐT</th>
@@ -161,6 +162,7 @@
                 <td><?= htmlspecialchars($row['order_id']) ?></td>
                 <td><?= htmlspecialchars($row['orderDate']) ?></td>
                 <td><?= number_format($row['total_price'], 0, ',', '.') ?> VND</td>
+                <td><?= htmlspecialchars($row['payment']) ?></td>
                 <td style = "color:red;"><?= htmlspecialchars($row['order_status']) ?></td>
                 <td><?= htmlspecialchars($row['fullname']) ?></td>
                 <td><?= htmlspecialchars($row['phone']) ?></td>

@@ -49,31 +49,47 @@ function showOrderAllForm() {
         behavior: 'smooth'
     });
 }
-function btnClose() {
-    var orderForm = document.getElementById('orderForm');
-    orderForm.style.display = 'none';
+
+function closeOrderForm() {
+    // Ẩn form
+    document.getElementById('orderForm').style.display = 'none';
 }
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('orderFormElement');
-    const infoMessage = document.getElementById('infoMessage');
-    const formCompleteMessage = document.getElementById('formCompleteMessage');
     const submitButton = document.querySelector('.btn-submit');
 
     function validateForm() {
         const name = document.getElementById('name').value.trim();
         const address = document.getElementById('address').value.trim();
         const phone = document.getElementById('phone').value.trim();
+        const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
+        const submitButton = document.querySelector('.btn-submit');
 
-        if (name && address && phone) {
-            infoMessage.style.display = 'none';
-            formCompleteMessage.style.display = 'block';
-            submitButton.style.display = 'inline-block';
+        if (name && address && phone && paymentMethod) {
+            // Tất cả các trường đã được điền
+            if (submitButton) {
+                submitButton.style.display = 'block';
+                submitButton.disabled = false;
+            }
         } else {
-            infoMessage.style.display = 'block';
-            formCompleteMessage.style.display = 'none';
-            submitButton.style.display = 'none';
+            // Còn trường chưa được điền
+            if (submitButton) {
+                submitButton.style.display = 'none'; // Ẩn nút khi chưa điền đủ thông tin
+                submitButton.disabled = true;
+            }
         }
     }
+
+    // Thêm event listener cho các trường input
+    document.getElementById('name').addEventListener('input', validateForm);
+    document.getElementById('address').addEventListener('input', validateForm);
+    document.getElementById('phone').addEventListener('input', validateForm);
+    document.querySelectorAll('input[name="paymentMethod"]').forEach(radio => {
+        radio.addEventListener('change', validateForm);
+    });
+
+    // Gọi validateForm lần đầu để set trạng thái ban đầu
+    validateForm();
 
     form.addEventListener('input', validateForm);
 
@@ -217,13 +233,6 @@ function removeFromCartUI(petId) {
     const cartItem = document.querySelector(`.invoice-item[data-id="${petId}"]`);
     if (cartItem) {
         cartItem.remove();
-    }
-}
-
-function closeOrderForm() {
-    const orderForm = document.getElementById('orderForm');
-    if (orderForm) {
-        orderForm.style.display = 'none';
     }
 }
 
