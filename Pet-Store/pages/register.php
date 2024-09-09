@@ -1,77 +1,79 @@
 <?php
 // Xử lý yêu cầu đăng ký nếu có dữ liệu POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    header('Content-Type: application/json');
+    if (isset($_POST['register'])) {
+        header('Content-Type: application/json');
 
-    // Kết nối đến cơ sở dữ liệu
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "pet-store";
+        // Kết nối đến cơ sở dữ liệu
+        $servername = "localhost";
+        $username = "root";
+        $password = "";
+        $dbname = "pet-store";
 
-    $conn = new mysqli($servername, $username, $password, $dbname);
+        $conn = new mysqli($servername, $username, $password, $dbname);
 
-    // Kiểm tra kết nối
-    if ($conn->connect_error) {
-        die(json_encode(['success' => false, 'error' => 'Kết nối đến cơ sở dữ liệu thất bại.']));
-    }
+        // Kiểm tra kết nối
+        if ($conn->connect_error) {
+            die(json_encode(['success' => false, 'error' => 'Kết nối đến cơ sở dữ liệu thất bại.']));
+        }
 
-    // Lấy dữ liệu từ form
-    $user = $conn->real_escape_string($_POST['username']);
-    $email = $conn->real_escape_string($_POST['email']);
-    $password = $_POST['password'];
-    $confirmPassword = $_POST['confirmPassword'];
+        // Lấy dữ liệu từ form
+        $user = $conn->real_escape_string($_POST['username']);
+        $email = $conn->real_escape_string($_POST['email']);
+        $password = $_POST['password'];
+        $confirmPassword = $_POST['confirmPassword'];
 
-    // Kiểm tra mật khẩu xác nhận
-    if ($password !== $confirmPassword) {
-        echo json_encode([
-            'success' => false, 
-            'errors' => [
-                'confirmPassword' => 'Mật khẩu và xác nhận mật khẩu không khớp.'
-            ]
-        ]);
+        // Kiểm tra mật khẩu xác nhận
+        if ($password !== $confirmPassword) {
+            echo json_encode([
+                'success' => false, 
+                'errors' => [
+                    'confirmPassword' => 'Mật khẩu và xác nhận mật khẩu không khớp.'
+                ]
+            ]);
+            $conn->close();
+            exit();
+        }
+
+        // Mã hóa mật khẩu
+        $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+
+        // Kiểm tra tên người dùng đã tồn tại
+        $queryUser = "SELECT * FROM users WHERE username = '$user'";
+        $resultUser = $conn->query($queryUser);
+
+        // Kiểm tra email đã tồn tại
+        $queryEmail = "SELECT * FROM users WHERE email = '$email'";
+        $resultEmail = $conn->query($queryEmail);
+
+        if ($resultUser->num_rows > 0) {
+            echo json_encode([
+                'success' => false, 
+                'errors' => [
+                    'username' => 'Tên người dùng đã tồn tại.'
+                ]
+            ]);
+        } elseif ($resultEmail->num_rows > 0) {
+            echo json_encode([
+                'success' => false, 
+                'errors' => [
+                    'email' => 'Email đã được sử dụng.'
+                ]
+            ]);
+        } else {
+            // Thêm người dùng mới vào cơ sở dữ liệu
+            $query = "INSERT INTO users (username, email, pass) VALUES ('$user', '$email', '$hashedPassword')";
+
+            if ($conn->query($query) === TRUE) {
+                echo json_encode(['success' => true]);
+            } else {
+                echo json_encode(['success' => false, 'error' => 'Đăng ký thất bại.']);
+            }
+        }
+
         $conn->close();
         exit();
     }
-
-    // Mã hóa mật khẩu
-    $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-
-    // Kiểm tra tên người dùng đã tồn tại
-    $queryUser = "SELECT * FROM users WHERE username = '$user'";
-    $resultUser = $conn->query($queryUser);
-
-    // Kiểm tra email đã tồn tại
-    $queryEmail = "SELECT * FROM users WHERE email = '$email'";
-    $resultEmail = $conn->query($queryEmail);
-
-    if ($resultUser->num_rows > 0) {
-        echo json_encode([
-            'success' => false, 
-            'errors' => [
-                'username' => 'Tên người dùng đã tồn tại.'
-            ]
-        ]);
-    } elseif ($resultEmail->num_rows > 0) {
-        echo json_encode([
-            'success' => false, 
-            'errors' => [
-                'email' => 'Email đã được sử dụng.'
-            ]
-        ]);
-    } else {
-        // Thêm người dùng mới vào cơ sở dữ liệu
-        $query = "INSERT INTO users (username, email, pass) VALUES ('$user', '$email', '$hashedPassword')";
-
-        if ($conn->query($query) === TRUE) {
-            echo json_encode(['success' => true]);
-        } else {
-            echo json_encode(['success' => false, 'error' => 'Đăng ký thất bại.']);
-        }
-    }
-
-    $conn->close();
-    exit();
 }
 ?>
 
@@ -100,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <label for="register-confirmPassword">Xác nhận mật khẩu</label><br>
                 <input type="password" id="register-confirmPassword" name="confirmPassword" required><br>
                 <div class="login-button-container">
-                    <button type="submit" name="btn1" value="Đăng ký">Đăng ký</button>
+                    <button type="submit" name="register" value="Đăng ký">Đăng ký</button>
                     <button type="reset">Xóa</button>
                 </div>
                 <div id="error-message-register" style="color: red;"></div>

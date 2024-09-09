@@ -9,14 +9,17 @@ document.addEventListener('DOMContentLoaded', function() {
     
     const usernameError = document.createElement('div');
     const emailError = document.createElement('div');
+    const passwordError = document.createElement('div');
     const confirmPasswordError = document.createElement('div');
 
     usernameError.style.color = 'red';
     emailError.style.color = 'red';
+    passwordError.style.color = 'red';
     confirmPasswordError.style.color = 'red';
 
     usernameInput.parentNode.insertBefore(usernameError, usernameInput.nextSibling);
     emailInput.parentNode.insertBefore(emailError, emailInput.nextSibling);
+    passwordInput.parentNode.insertBefore(passwordError, passwordInput.nextSibling);
     confirmPasswordInput.parentNode.insertBefore(confirmPasswordError, confirmPasswordInput.nextSibling);
 
     // Xử lý khi gửi form đăng ký
@@ -26,9 +29,11 @@ document.addEventListener('DOMContentLoaded', function() {
         // Xóa thông báo lỗi trước đó
         usernameError.innerHTML = '';
         emailError.innerHTML = '';
+        passwordError.innerHTML = '';
         confirmPasswordError.innerHTML = '';
 
         const formData = new FormData(registerForm);
+        formData.append('register', 'true'); // Thêm trường register
 
         fetch('../pages/register.php', {
             method: 'POST',
