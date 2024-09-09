@@ -13,30 +13,30 @@ if (!$conn) {
 }
 
 try {
-    $itemCount = 0;
+    $totalQuantity = 0;
 
     if (isset($_SESSION['user_id'])) {
         // Người dùng đã đăng nhập
         $user_id = $_SESSION['user_id'];
         
         $stmt = $conn->prepare("
-            SELECT COUNT(*) as itemCount
+            SELECT SUM(cart_items.quantity) as totalQuantity
             FROM cart
             JOIN cart_items ON cart.id = cart_items.cart_id
             WHERE cart.user_id = ?
         ");
         $stmt->execute([$user_id]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        $itemCount = $result['itemCount'];
+        $totalQuantity = $result['totalQuantity'] ?? 0;
     } else {
         // Khách (guest)
-        if (isset($_SESSION['guest_cart'])) {
-            // Đếm số lượng sản phẩm trong giỏ hàng của khách
-            $itemCount = array_sum($_SESSION['guest_cart']);
+        if (isset($_SESSION['guest_cart']) && is_array($_SESSION['guest_cart'])) {
+            // Tính tổng số lượng sản phẩm trong giỏ hàng của khách
+            $totalQuantity = array_sum($_SESSION['guest_cart']);
         }
     }
 
-    echo json_encode(['itemCount' => $itemCount]);
+    echo json_encode(['totalQuantity' => $totalQuantity]);
 } catch (PDOException $e) {
     error_log($e->getMessage());
     echo json_encode(['error' => "Có lỗi xảy ra khi kiểm tra giỏ hàng."]);

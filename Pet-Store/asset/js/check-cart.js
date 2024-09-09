@@ -5,8 +5,8 @@ function checkCartItems() {
         if (xhr.status === 200) {
             try {
                 const response = JSON.parse(xhr.responseText);
-                if (response.itemCount > 0) {
-                    displayCartIcon();
+                if (response.totalQuantity > 0) {
+                    displayCartIcon(response.totalQuantity);
                 }
             } catch (error) {
                 console.error('Response không phải là JSON hợp lệ:', xhr.responseText);
@@ -20,16 +20,10 @@ function checkCartItems() {
     xhr.send();
 }
 
-function displayCartIcon() {
-    let cartIcon = document.querySelector('.new-icon-cart');
-    if (!cartIcon) {
-        cartIcon = document.createElement('img');
-        cartIcon.className = 'new-icon-cart';
-        cartIcon.src = '../asset/images/icon/new-cart.png';
-        document.querySelector('.nav-cart').appendChild(cartIcon);
-    }
+function displayCartIcon(quantity) {
+    let cartIcon = document.querySelector('.cart-count');
+    cartIcon.textContent = quantity;
 }
-
 
 document.addEventListener("DOMContentLoaded", function() {
     checkCartItems();
