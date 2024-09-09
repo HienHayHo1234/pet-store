@@ -41,12 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .then(response => response.json())
         .then(data => {
-            console.log(data); // In dữ liệu phản hồi ra console để kiểm tra
-
             if (data.success) {
-                // Hiển thị thông báo thành công dạng alert
-                alert('Đăng ký thành công!');
-
                 // Đóng modal đăng ký và mở modal đăng nhập khi thành công
                 closeRegisterModal();
                 openLoginModal();

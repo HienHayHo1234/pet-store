@@ -424,5 +424,56 @@ function showConfirmModal(message, onConfirm) {
         }
     };
 }
+// Xử lý modal chuyển khoản ngân hàng
+// Xử lý modal chuyển khoản ngân hàng
+// Xử lý modal chuyển khoản ngân hàng
+// Xử lý modal chuyển khoản ngân hàng
+document.addEventListener('DOMContentLoaded', () => {
+    const bankModal = document.getElementById('bankModal');
+    const closeModal = bankModal.querySelector('.close');
+    const confirmPaymentButton = document.getElementById('confirm-payment');
+
+    // Lấy checkbox chuyển khoản ngân hàng
+    const bankCheckbox = document.getElementById('bank');
+
+    // Hiển thị modal khi người dùng chọn phương thức thanh toán "Chuyển khoản"
+    bankCheckbox.addEventListener('change', () => {
+        if (bankCheckbox.checked) {
+            bankModal.style.display = 'block';
+        } else {
+            bankModal.style.display = 'none';
+        }
+    });
+
+    // Đóng modal khi người dùng nhấn vào nút đóng
+    closeModal.addEventListener('click', () => {
+        bankModal.style.display = 'none';
+        // Đặt lại trạng thái của checkbox nếu modal bị đóng mà không xác nhận
+        bankCheckbox.checked = false;
+    });
+
+    // Đóng modal khi người dùng nhấn vào nút "Xác nhận đã chuyển khoản"
+    confirmPaymentButton.addEventListener('click', (event) => {
+        // Ngăn chặn hành vi mặc định
+        event.preventDefault();
+
+        // Đánh dấu checkbox chuyển khoản ngân hàng là đã chọn
+        bankCheckbox.checked = true;
+
+        // Ẩn modal
+        bankModal.style.display = 'none';
+    });
+
+    // Đóng modal khi người dùng nhấn ra ngoài vùng modal
+    window.addEventListener('click', (event) => {
+        if (event.target === bankModal) {
+            bankModal.style.display = 'none';
+            // Đặt lại trạng thái của checkbox nếu modal bị đóng mà không xác nhận
+            bankCheckbox.checked = false;
+        }
+    });
+});
+
+
 
 
