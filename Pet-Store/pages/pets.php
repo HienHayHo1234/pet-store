@@ -106,7 +106,7 @@ try {
 #filterForm {
     border: 1px solid #ddd;
     border-radius: 8px;
-    width: 630px; /* Đảm bảo form không quá rộng */
+    width: 670px; /* Đảm bảo form không quá rộng */
     background-color: #f9f9f9; /* Nền màu sáng cho form */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Tạo bóng cho form */
     display: flex; /* Sử dụng flexbox để xếp ngang */
