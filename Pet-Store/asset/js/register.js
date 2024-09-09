@@ -1,47 +1,71 @@
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM fully loaded and parsed');
+
     const registerForm = document.getElementById('registerForm');
-    const errorMessage = document.getElementById('error-message');
+    const usernameInput = document.getElementById('register-username');
+    const emailInput = document.getElementById('register-email');
+    const passwordInput = document.getElementById('register-password');
+    const confirmPasswordInput = document.getElementById('register-confirmPassword');
+    
+    const usernameError = document.createElement('div');
+    const emailError = document.createElement('div');
+    const confirmPasswordError = document.createElement('div');
 
-    if (registerForm) {
-        registerForm.addEventListener('submit', function(event) {
-            event.preventDefault();
+    usernameError.style.color = 'red';
+    emailError.style.color = 'red';
+    confirmPasswordError.style.color = 'red';
 
-            const formData = new FormData(this);
+    usernameInput.parentNode.insertBefore(usernameError, usernameInput.nextSibling);
+    emailInput.parentNode.insertBefore(emailError, emailInput.nextSibling);
+    confirmPasswordInput.parentNode.insertBefore(confirmPasswordError, confirmPasswordInput.nextSibling);
 
-            fetch('register.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data.success) {
-                    alert(data.message);
-                    closeRegisterModal();
-                    openLoginModal();
+    // Xử lý khi gửi form đăng ký
+    registerForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        // Xóa thông báo lỗi trước đó
+        usernameError.innerHTML = '';
+        emailError.innerHTML = '';
+        confirmPasswordError.innerHTML = '';
+
+        const formData = new FormData(registerForm);
+
+        fetch('../pages/register.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data); // In dữ liệu phản hồi ra console để kiểm tra
+
+            if (data.success) {
+                // Hiển thị thông báo thành công dạng alert
+                alert('Đăng ký thành công!');
+
+                // Đóng modal đăng ký và mở modal đăng nhập khi thành công
+                closeRegisterModal();
+                openLoginModal();
+            } else {
+                // Hiển thị thông báo lỗi cụ thể
+                if (data.errors) {
+                    if (data.errors.username) {
+                        usernameError.innerHTML = data.errors.username;
+                    }
+                    if (data.errors.email) {
+                        emailError.innerHTML = data.errors.email;
+                    }
+                    if (data.errors.confirmPassword) {
+                        confirmPasswordError.innerHTML = data.errors.confirmPassword;
+                    }
                 } else {
-                    errorMessage.textContent = data.error || "Đã xảy ra lỗi không xác định.";
+                    console.error('Đăng ký thất bại.');
                 }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                errorMessage.textContent = "Đã xảy ra lỗi khi gửi yêu cầu.";
-            });
+            }
+        })
+        .catch(error => {
+            console.error('Đã xảy ra lỗi khi gửi yêu cầu.', error);
         });
-    }
-
-    // Các hàm mở/đóng modal và xử lý nút quay lại
-    window.openLoginModal = function() {
-        document.getElementById('loginModal').style.display = 'block';
-    };
-
-    window.closeLoginModal = function() {
-        document.getElementById('loginModal').style.display = 'none';
-    };
+    });
 
     window.openRegisterModal = function() {
         document.getElementById('registerModal').style.display = 'block';
@@ -51,16 +75,27 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('registerModal').style.display = 'none';
     };
 
-    const closeRegisterModalButton = document.getElementById('closeRegisterModalButton');
+    window.openLoginModal = function() {
+        document.getElementById('loginModal').style.display = 'block';
+    };
+
+    window.closeLoginModal = function() {
+        document.getElementById('loginModal').style.display = 'none';
+    };
+
+    // Gắn sự kiện lắng nghe cho nút đóng modal đăng ký
     if (closeRegisterModalButton) {
-        closeRegisterModalButton.addEventListener('click', closeRegisterModal);
+        closeRegisterModalButton.addEventListener('click', function() {
+            closeRegisterModal();
+            closeLoginModal(); // Đóng cả hai modal khi nhấn nút X trong modal đăng ký
+        });
     }
 
-    const backToLogin = document.getElementById('backToLogin');
+    // Xử lý nút quay lại từ modal đăng ký
     if (backToLogin) {
-        backToLogin.addEventListener('click', function() {
+        backToLogin.onclick = function() {
             closeRegisterModal();
             openLoginModal();
-        });
+        };
     }
 });

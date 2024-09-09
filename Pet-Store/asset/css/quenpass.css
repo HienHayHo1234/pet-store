@@ -16,10 +16,10 @@
 .forgot-password-modal-content {
     position: relative;
     background-color: #fff; /* Màu nền của modal */
-    padding: 40px;
+    padding: 30px;
     border: 1px solid #ddd; /* Đường viền modal nhẹ hơn */
     width: 100%;
-    max-width: 400px; /* Chiều rộng tối đa lớn hơn */
+    max-width: 300px; /* Chiều rộng tối đa lớn hơn */
 }
 
 .close {
