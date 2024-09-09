@@ -4,32 +4,6 @@ session_start();
 // Kiểm tra trạng thái đăng nhập
 $logged_in = isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true;
 
-// Hàm để lấy số lượng sản phẩm trong giỏ hàng
-function getCartItemCount() {
-    if (isset($_SESSION['user_id'])) {
-        // Người dùng đã đăng nhập
-        global $conn;
-        try {
-            $stmt = $conn->prepare("
-                SELECT SUM(cart_items.quantity) as totalQuantity
-                FROM cart
-                JOIN cart_items ON cart.id = cart_items.cart_id
-                WHERE cart.user_id = :user_id
-            ");
-            $stmt->bindParam(':user_id', $_SESSION['user_id']);
-            $stmt->execute();
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            return $result['totalQuantity'] ?? 0;
-        } catch (PDOException $e) {
-            error_log("Error counting cart items: " . $e->getMessage());
-            return 0;
-        }
-    } elseif (isset($_SESSION['guest_cart']) && is_array($_SESSION['guest_cart'])) {
-        // Khách (guest)
-        return array_sum($_SESSION['guest_cart']);
-    }
-    return 0;
-}
 ?>
 <link rel="stylesheet" href="../asset/css/index.css">
 <link rel="stylesheet" href="../asset/css/banner.css">
@@ -86,7 +60,7 @@ function getCartItemCount() {
         <a class="text-cart dropdown-btn" href="../pages/index.php?page=cart">
             <div class="cart-icon-wrapper">
                 <img src="../asset/images/icon/cart-ico.png" alt="Cart Icon" />
-                <span class="cart-count"><?php echo getCartItemCount(); ?></span>
+                <span class="cart-count"></span>
             </div>
             Giỏ hàng
         </a>  
