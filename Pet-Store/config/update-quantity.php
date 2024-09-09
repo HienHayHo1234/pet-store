@@ -15,6 +15,7 @@ if (isset($_POST['id']) && isset($_POST['quantity'])) {
 
     try {
         if ($is_logged_in) {
+            // Xử lý cho người dùng đã đăng nhập
             $user_id = $_SESSION['user_id'];
             
             // Lấy cart_id
@@ -28,9 +29,24 @@ if (isset($_POST['id']) && isset($_POST['quantity'])) {
 
             $cart_id = $cart['cart_id'];
 
-            // Cập nhật số lượng trong database
-            $stmt = $conn->prepare("UPDATE cart_items SET quantity = ? WHERE cart_id = ? AND pet_id = ?");
-            $stmt->execute([$quantity, $cart_id, $pet_id]);
+            // Kiểm tra xem bản ghi có tồn tại
+            $stmt = $conn->prepare("SELECT COUNT(*) FROM cart_items WHERE cart_id = ? AND pet_id = ?");
+            $stmt->execute([$cart_id, $pet_id]);
+            $count = $stmt->fetchColumn();
+
+            if ($count == 0) {
+                // Nếu không tồn tại, thêm mới
+                $stmt = $conn->prepare("INSERT INTO cart_items (cart_id, pet_id, quantity) VALUES (?, ?, ?)");
+                $stmt->execute([$cart_id, $pet_id, $quantity]);
+            } else {
+                // Nếu tồn tại, cập nhật
+                $stmt = $conn->prepare("UPDATE cart_items SET quantity = ? WHERE cart_id = ? AND pet_id = ?");
+                $stmt->execute([$quantity, $cart_id, $pet_id]);
+                $affectedRows = $stmt->rowCount();
+                if ($affectedRows == 0) {
+                    throw new Exception("Không có bản ghi nào được cập nhật.");
+                }
+            }
 
             // Lấy thông tin giỏ hàng mới từ database
             $stmt = $conn->prepare("
@@ -42,44 +58,42 @@ if (isset($_POST['id']) && isset($_POST['quantity'])) {
             $stmt->execute([$cart_id]);
             $cartItems = $stmt->fetchAll(PDO::FETCH_ASSOC);
         } else {
-            // Xử lý giỏ hàng trong session cho người dùng chưa đăng nhập
-            if (!isset($_SESSION['cart'])) {
-                $_SESSION['cart'] = [];
-            }
-            
-            // Cập nhật số lượng trong session
-            $_SESSION['cart'][$pet_id] = $quantity;
-
+            // Xử lý giỏ hàng cho khách không đăng nhập
+            $cart = isset($_COOKIE['guest_cart']) ? json_decode(gzuncompress(base64_decode($_COOKIE['guest_cart'])), true) : [];
+        
             // Lấy thông tin sản phẩm từ database
             $stmt = $conn->prepare("SELECT id, name, price, priceSale, urlImg FROM pets WHERE id = ?");
             $stmt->execute([$pet_id]);
             $pet = $stmt->fetch(PDO::FETCH_ASSOC);
-
+        
             if (!$pet) {
-                throw new Exception("Không tìm thấy sản phẩm.");
+                echo json_encode(['success' => false, 'message' => 'Không tìm thấy sản phẩm.']);
+                exit;
             }
+        
+            $price = $pet['priceSale'] > 0 ? $pet['priceSale'] : $pet['price'];
+            $cart[$pet_id] = [
+                'pet_id' => $pet['id'],
+                'name' => $pet['name'],
+                'price' => $price,
+                'urlImg' => $pet['urlImg'],
+                'quantity' => $quantity
+            ];
+        
+            // Cập nhật cookie với giỏ hàng mới
+            $encoded_cart = base64_encode(gzcompress(json_encode($cart)));
+            setcookie('guest_cart', $encoded_cart, time() + (86400 * 30), '/', '', true, true);
+        
+            $cartItems = array_values($cart);
+        }
 
-            // Cập nhật thông tin giỏ hàng trong session
-            $cartItems = [];
-            foreach ($_SESSION['cart'] as $id => $qty) {
-                $stmt->execute([$id]);
-                $item = $stmt->fetch(PDO::FETCH_ASSOC);
-                if ($item) {
-                    $item['quantity'] = $qty;
-                    $item['item_price'] = $item['priceSale'] > 0 ? $item['priceSale'] : $item['price'];
-                    $cartItems[] = $item;
-                }
-            }
+        // Tính tổng giá trị giỏ hàng
+        $totalAmount = 0;
+        foreach ($cartItems as $item) {
+            $totalAmount += $item['price'] * $item['quantity'];
         }
 
         $_SESSION['cart-items'] = $cartItems;
-
-        $totalAmount = 0;
-        if (!empty($cartItems)) {
-            foreach ($cartItems as $item) {
-                $totalAmount += $item['item_price'] * $item['quantity'];
-            }
-        }
 
         echo json_encode(['success' => true, 'totalAmount' => number_format($totalAmount, 0, ',', '.') . 'đ']);
     } catch (Exception $e) {
