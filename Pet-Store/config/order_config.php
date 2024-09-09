@@ -17,10 +17,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $name = htmlspecialchars(strip_tags($_POST['name'] ?? ''), ENT_QUOTES, 'UTF-8');
         $address = htmlspecialchars(strip_tags($_POST['address'] ?? ''), ENT_QUOTES, 'UTF-8');
         $phone = htmlspecialchars(strip_tags($_POST['phone'] ?? ''), ENT_QUOTES, 'UTF-8');
+        $payment = htmlspecialchars(strip_tags($_POST['paymentMethod'] ?? ''), ENT_QUOTES, 'UTF-8');
         $total_amount = filter_var(str_replace(['đ', ','], '', $_POST['total_amount'] ?? '0'), FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
         $pet_ids = json_decode($_POST['pet_ids'] ?? '[]', true);
 
-        if (empty($name) || empty($address) || empty($phone) || empty($pet_ids)) {
+        if (empty($name) || empty($address) || empty($phone) || empty($payment) || empty($pet_ids)) {
             throw new Exception("Vui lòng điền đầy đủ thông tin.");
         }
 
@@ -28,6 +29,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true && isset($_SESSION['user_id'])) {
             $user_id = $_SESSION['user_id'];
             $is_logged_in = true;
+
+            // kiểm tra user có thông tin cá nhân hay không
+            $stmt = $conn->prepare("SELECT fullname, address, phone FROM users WHERE id = ?");
+            $stmt->execute([$user_id]);
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            if (empty($user['fullname']) || empty($user['address']) || empty($user['phone'])) {
+                // nhập thông tin cá nhân từ form
+                $stmt = $conn->prepare("UPDATE users SET fullname = ?, address = ?, phone = ? WHERE id = ?");
+                $stmt->execute([$name, $address, $phone, $user_id]);
+            }
         } else {
             $is_logged_in = false;
             
@@ -51,9 +62,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         // Create new order
-        $stmt = $conn->prepare("INSERT INTO orders (user_id, totalAmount, status) VALUES (?, ?, ?)");
+        $stmt = $conn->prepare("INSERT INTO orders (user_id, totalAmount, status, payment) VALUES (?, ?, ?, ?)");
         $status = 'Đang xử lý';
-        $stmt->execute([$user_id, $total_amount, $status]);
+        $stmt->execute([$user_id, $total_amount, $status, $payment]);
         $order_id = $conn->lastInsertId();
 
         // Add order details

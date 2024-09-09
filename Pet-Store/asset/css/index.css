@@ -246,3 +246,105 @@ nav li.dropdown {
     right: 52%;
     transform: translateY(-90%);
 }
+
+/* lọc */
+.loc {
+    background-color: rgb(255, 250, 245);
+    display: flex;
+    justify-content: left;
+}
+
+#filterForm {
+    background-color: #FFFFFF; /* Nền trắng cho form */
+    border-radius: 10px;
+    margin-left: 5%;
+    padding: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    width: 50%; /* Tăng chiều rộng tối đa */
+    max-width: 1200px; /* Giới hạn chiều rộng tối đa */
+    display: flex;
+    flex-wrap: wrap; /* Cho phép các phần tử xuống dòng nếu cần */
+    align-items: flex-end; /* Căn chỉnh các phần tử theo cạnh dưới */
+    gap: 20px;
+}
+
+.filter-container {
+    display: flex;
+    flex-grow: 1; /* Cho phép container mở rộng */
+    gap: 20px;
+}
+
+.filter-group {
+    flex: 1 1 200px; /* Cho phép các nhóm mở rộng nhưng có kích thước tối thiểu */
+}
+
+.filter-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #4A4A4A; /* Màu chữ đậm hơn */
+}
+
+.filter-group select {
+    width: 100%;
+    padding: 12px; /* Tăng padding để tạo thanh nhập lớn hơn */
+    border: 1px solid #E0E0E0; /* Viền nhẹ nhàng hơn */
+    border-radius: 5px;
+    font-size: 16px;
+    color: #4A4A4A;
+    background-color: #F9F9F9; /* Nền nhẹ cho select */
+    transition: all 0.3s ease;
+}
+
+.filter-group select:focus {
+    border-color: #FFB74D; /* Màu cam nhẹ khi focus */
+    outline: 0;
+    box-shadow: 0 0 0 3px rgba(255, 183, 77, 0.25);
+}
+
+.button-group {
+    display: flex;
+    gap: 15px;
+    margin-left: auto; /* Đẩy nút sang bên phải */
+}
+
+.btn-filter, .btn-reset {
+    padding: 12px 25px; /* Tăng kích thước nút */
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-filter {
+    background-color: #FF9800; /* Màu cam đậm */
+    color: white;
+}
+
+.btn-reset {
+    background-color: #78909C; /* Màu xám nhẹ */
+    color: white;
+}
+
+.btn-filter:hover, .btn-reset:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+    #filterForm {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .filter-container {
+        flex-direction: column;
+    }
+
+    .button-group {
+        margin-left: 0;
+        justify-content: center;
+    }
+}
