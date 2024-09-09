@@ -21,11 +21,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             // Tạo mật khẩu mới
             $pass_moi = md5(random_int(0, 9999));
-            $pass_moi = substr($pass_moi, 0, 8);
+            $pass_moi_hashed = password_hash($pass_moi, PASSWORD_DEFAULT);
 
             $sql_update = "UPDATE users SET pass = :pass WHERE email = :email";
             $stmt_update = $conn->prepare($sql_update);
-            $stmt_update->bindParam(':pass', $pass_moi);
+            $stmt_update->bindParam(':pass', $pass_moi_hashed);
             $stmt_update->bindParam(':email', $email);
             $stmt_update->execute();
 

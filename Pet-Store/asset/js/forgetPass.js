@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     const response = JSON.parse(xhr.responseText);
                     if (response.success) {
                         closeForgotPasswordModal(); // Đóng modal quên mật khẩu
-                        openLoginModal(); // Mở modal đăng nhập
+                        displayError('Đã gửi mật khẩu mới'); // Hiển thị thông báo thành công
                     } else {
                         displayError(response.message); // Hiển thị thông báo lỗi từ server
                     }
@@ -49,13 +49,45 @@ document.addEventListener('DOMContentLoaded', function() {
         forgotPasswordModal.style.display = 'none';
     }
 
-    function openLoginModal() {
-        const loginModal = document.getElementById('loginModal');
-        loginModal.style.display = 'block';
-    }
+    // Thêm đoạn này vào đầu file hoặc trong DOMContentLoaded event listener
+    const style = document.createElement('style');
+    style.textContent = `
+        .forget-pass-popup {
+            display: none;
+            position: fixed;
+            top: 10%;
+            right: 20px;
+            background-color: #f8f8f8;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 1000111;
+        }
+        .forget-pass-popup-message {
+            color: #333;
+            font-size: 14px;
+        }
+    `;
+    document.head.appendChild(style);
 
+    // Hàm displayError cập nhật
     function displayError(message) {
-        alert(message); // Có thể thay thế bằng cách hiển thị thông báo lỗi trên trang web
+        let popup = document.querySelector('.forget-pass-popup');
+        if (!popup) {
+            popup = document.createElement('div');
+            popup.className = 'forget-pass-popup';
+            const popupMessage = document.createElement('span');
+            popupMessage.className = 'forget-pass-popup-message';
+            popup.appendChild(popupMessage);
+            document.body.appendChild(popup);
+        }
+        const popupMessage = popup.querySelector('.forget-pass-popup-message');
+        popupMessage.textContent = message;
+        popup.style.display = 'block';
+        setTimeout(function() {
+            popup.style.display = 'none';
+        }, 2000);
     }
 
     document.getElementById('closeForgotPasswordModalButton').addEventListener('click', function() {
