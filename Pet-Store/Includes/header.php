@@ -60,7 +60,7 @@ $logged_in = isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true;
         <a class="text-cart dropdown-btn" href="../pages/index.php?page=cart">
             <div class="cart-icon-wrapper">
                 <img src="../asset/images/icon/cart-ico.png" alt="Cart Icon" />
-                <span class="cart-count" ></span>
+                <span class="cart-count"></span>
             </div>
             Giỏ hàng
         </a>  
