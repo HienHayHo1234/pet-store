@@ -196,7 +196,7 @@
                 <td><?= $row['priceSale'] ? number_format($row['priceSale'], 0, ',', '.') . ' VND' : 'Không có' ?></td>
                 <td><?= $row['gender'] == 1 ? 'Đực' : 'Cái' ?></td>
                 <td><?= $row['quantity'] ?></td>
-                <td><img src="<?php echo htmlspecialchars($row['urlImg']); ?>" alt="<?= $row['name'] ?>"></td>
+                <td><img src="<?php echo '../' . htmlspecialchars($row['urlImg']); ?>" alt="<?= $row['name'] ?>"></td>
                 <td><?= $row['idLoai'] ?></td>
                 <td><?= $row['hot'] == 1 ? 'Hot' : 'Không' ?></td>
                 <td class="description" data-full-text="<?= htmlspecialchars($row['description']) ?>">
