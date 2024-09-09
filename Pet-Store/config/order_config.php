@@ -28,6 +28,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true && isset($_SESSION['user_id'])) {
             $user_id = $_SESSION['user_id'];
             $is_logged_in = true;
+
+            // kiểm tra user có thông tin cá nhân hay không
+            $stmt = $conn->prepare("SELECT fullname, address, phone FROM users WHERE id = ?");
+            $stmt->execute([$user_id]);
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            if (empty($user['fullname']) || empty($user['address']) || empty($user['phone'])) {
+                // nhập thông tin cá nhân từ form
+                $stmt = $conn->prepare("UPDATE users SET fullname = ?, address = ?, phone = ? WHERE id = ?");
+                $stmt->execute([$name, $address, $phone, $user_id]);
+            }
         } else {
             $is_logged_in = false;
             
