@@ -1,7 +1,29 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM fully loaded and parsed');
 
+    console.log('DOM fully loaded and parsed');
+
     const registerForm = document.getElementById('registerForm');
+    const usernameInput = document.getElementById('register-username');
+    const emailInput = document.getElementById('register-email');
+    const passwordInput = document.getElementById('register-password');
+    const confirmPasswordInput = document.getElementById('register-confirmPassword');
+    
+    const usernameError = document.createElement('div');
+    const emailError = document.createElement('div');
+    const confirmPasswordError = document.createElement('div');
+
+    usernameError.style.color = 'red';
+    emailError.style.color = 'red';
+    confirmPasswordError.style.color = 'red';
+
+    usernameInput.parentNode.insertBefore(usernameError, usernameInput.nextSibling);
+    emailInput.parentNode.insertBefore(emailError, emailInput.nextSibling);
+    confirmPasswordInput.parentNode.insertBefore(confirmPasswordError, confirmPasswordInput.nextSibling);
+
+    // Xử lý khi gửi form đăng ký
+    registerForm.addEventListener('submit', function(event) {
+        event.preventDefault();
     const usernameInput = document.getElementById('register-username');
     const emailInput = document.getElementById('register-email');
     const passwordInput = document.getElementById('register-password');
@@ -29,6 +51,12 @@ document.addEventListener('DOMContentLoaded', function() {
         confirmPasswordError.innerHTML = '';
 
         const formData = new FormData(registerForm);
+        // Xóa thông báo lỗi trước đó
+        usernameError.innerHTML = '';
+        emailError.innerHTML = '';
+        confirmPasswordError.innerHTML = '';
+
+        const formData = new FormData(registerForm);
 
         fetch('../pages/register.php', {
             method: 'POST',
@@ -36,12 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .then(response => response.json())
         .then(data => {
-            console.log(data); // In dữ liệu phản hồi ra console để kiểm tra
-
             if (data.success) {
-                // Hiển thị thông báo thành công dạng alert
-                alert('Đăng ký thành công!');
-
                 // Đóng modal đăng ký và mở modal đăng nhập khi thành công
                 closeRegisterModal();
                 openLoginModal();
@@ -64,7 +87,14 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .catch(error => {
             console.error('Đã xảy ra lỗi khi gửi yêu cầu.', error);
+                    console.error('Đăng ký thất bại.');
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Đã xảy ra lỗi khi gửi yêu cầu.', error);
         });
+    });
     });
 
     window.openRegisterModal = function() {
@@ -84,7 +114,20 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     // Gắn sự kiện lắng nghe cho nút đóng modal đăng ký
+    window.openLoginModal = function() {
+        document.getElementById('loginModal').style.display = 'block';
+    };
+
+    window.closeLoginModal = function() {
+        document.getElementById('loginModal').style.display = 'none';
+    };
+
+    // Gắn sự kiện lắng nghe cho nút đóng modal đăng ký
     if (closeRegisterModalButton) {
+        closeRegisterModalButton.addEventListener('click', function() {
+            closeRegisterModal();
+            closeLoginModal(); // Đóng cả hai modal khi nhấn nút X trong modal đăng ký
+        });
         closeRegisterModalButton.addEventListener('click', function() {
             closeRegisterModal();
             closeLoginModal(); // Đóng cả hai modal khi nhấn nút X trong modal đăng ký
@@ -92,10 +135,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Xử lý nút quay lại từ modal đăng ký
+    // Xử lý nút quay lại từ modal đăng ký
     if (backToLogin) {
+        backToLogin.onclick = function() {
         backToLogin.onclick = function() {
             closeRegisterModal();
             openLoginModal();
+        };
         };
     }
 });
