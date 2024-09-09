@@ -81,7 +81,7 @@ try {
     $user_id = $user['id'];
 
     // Lấy thông tin đơn hàng, ẩn đơn hàng đã xóa
-    $order_sql = "SELECT o.idOrder, o.orderDate, o.totalAmount, o.status 
+    $order_sql = "SELECT o.idOrder, o.orderDate, o.totalAmount, o.status, o.payment
                   FROM orders o 
                   WHERE o.user_id = ? AND o.status != 'Đã xóa'
                   ORDER BY o.orderDate DESC";
@@ -119,6 +119,7 @@ try {
                 <h3 class="order-guest__title">Đơn hàng #<?= htmlspecialchars($order['idOrder']) ?></h3>
                 <p class="order-guest__info"><span>Ngày đặt:</span> <span><?= htmlspecialchars($order['orderDate']) ?></span></p>
                 <p class="order-guest__info"><span>Tổng tiền:</span> <span><?= number_format($order['totalAmount'], 0, ',', '.') ?> đ</span></p>
+                <p class="order-guest__info"><span>Phương thức thanh toán:</span> <span><?= htmlspecialchars($order['payment']) ?></span></p>
                 <p class="order-guest__info"><span>Trạng thái:</span> <span><?= htmlspecialchars($order['status']) ?></span></p>
                 
                 <!-- Hiển thị nút hủy nếu đơn hàng đang xử lý -->

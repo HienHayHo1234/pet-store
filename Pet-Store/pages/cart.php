@@ -73,6 +73,7 @@ function getUserInfo($user_id) {
 
 <link rel="stylesheet" href="../asset/css/cart.css?v=<?php echo time(); ?>">
 <link rel="stylesheet" href="../asset/css/admin.css?v=<?php echo time(); ?>">
+<link rel="stylesheet" href="../asset/css/payment.css?v=<?php echo time(); ?>">
 
 <div class="cart-flex">
     <!-- -----------bảng invoice -------------->
@@ -154,17 +155,10 @@ function getUserInfo($user_id) {
 
     <!-- ---------------------------form đặt hàng---------------------- -->
     <div class="cart-form" id="orderForm" style="display: none;">
-        <!-- hình người giao -->
-        <div>
-            <p id="infoMessage" class="text-chat">HÃY ĐIỀN THÔNG TIN GIAO HÀNG</p>
-            <p id="formCompleteMessage" class="text-chat" style="display: none;">
-                HÃY ĐƯA THÔNG TIN CHO TÔI
-            </p>
-            <img class="img-note" src="../asset/images/background/background-cart.png" alt="">
-        </div>
-
-        <!-- nút xóa -->
-        <img onclick="btnClose()" class="btn-close" src="../asset/images/icon/close.png" alt="">
+        <!-- Thêm nút đóng ở đây -->
+        <button type="button" class="close-form-btn" onclick="closeOrderForm()">
+            <img src="../asset/images/icon/close.png" alt="Đóng">
+        </button>
 
         <form id="orderFormElement" action="" method="post" class="order-form">
             <h2>Đặt hàng sản phẩm</h2>
@@ -180,6 +174,23 @@ function getUserInfo($user_id) {
             <label for="phone">Số điện thoại:</label>
             <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" inputmode="numeric" required placeholder="0123456789" title="Vui lòng nhập số điện thoại gồm 10 chữ số"
                 value="<?php echo htmlspecialchars($user_info['phone'] ?? ''); ?>">
+
+            <!-- nút muốn thanh toán loại nào -->
+            <div class="payment-method-group">
+                <p class="payment-method-title">Phương thức thanh toán:</p>
+                <div class="payment-method-options">
+                    <div class="payment-method-option">
+                        <input type="radio" id="cod" name="paymentMethod" value="Thanh toán khi nhận hàng">
+                        <span class="radio-custom"></span>
+                        <label for="cod">Thanh toán khi nhận hàng</label>
+                    </div>
+                    <div class="payment-method-option">
+                        <input type="radio" id="bank" name="paymentMethod" value="Chuyển khoản">
+                        <span class="radio-custom"></span>
+                        <label for="bank">Chuyển khoản ngân hàng</label>
+                    </div>
+                </div>
+            </div>
 
             <!-- Hiển thị tổng số tiền -->
             <label for="name-invoice-form" class="total-amount nameInForm" style="display: none">
