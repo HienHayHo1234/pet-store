@@ -1,8 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM fully loaded and parsed');
 
-    console.log('DOM fully loaded and parsed');
-
     const registerForm = document.getElementById('registerForm');
     const usernameInput = document.getElementById('register-username');
     const emailInput = document.getElementById('register-email');
@@ -89,14 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .catch(error => {
             console.error('Đã xảy ra lỗi khi gửi yêu cầu.', error);
-                    console.error('Đăng ký thất bại.');
-                }
-            }
-        })
-        .catch(error => {
-            console.error('Đã xảy ra lỗi khi gửi yêu cầu.', error);
         });
-    });
     });
 
     window.openRegisterModal = function() {
@@ -116,20 +107,7 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     // Gắn sự kiện lắng nghe cho nút đóng modal đăng ký
-    window.openLoginModal = function() {
-        document.getElementById('loginModal').style.display = 'block';
-    };
-
-    window.closeLoginModal = function() {
-        document.getElementById('loginModal').style.display = 'none';
-    };
-
-    // Gắn sự kiện lắng nghe cho nút đóng modal đăng ký
     if (closeRegisterModalButton) {
-        closeRegisterModalButton.addEventListener('click', function() {
-            closeRegisterModal();
-            closeLoginModal(); // Đóng cả hai modal khi nhấn nút X trong modal đăng ký
-        });
         closeRegisterModalButton.addEventListener('click', function() {
             closeRegisterModal();
             closeLoginModal(); // Đóng cả hai modal khi nhấn nút X trong modal đăng ký
@@ -137,13 +115,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Xử lý nút quay lại từ modal đăng ký
-    // Xử lý nút quay lại từ modal đăng ký
     if (backToLogin) {
-        backToLogin.onclick = function() {
         backToLogin.onclick = function() {
             closeRegisterModal();
             openLoginModal();
-        };
         };
     }
 });
