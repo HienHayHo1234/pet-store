@@ -25,29 +25,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Xử lý khi gửi form đăng ký
     registerForm.addEventListener('submit', function(event) {
         event.preventDefault();
-    const usernameInput = document.getElementById('register-username');
-    const emailInput = document.getElementById('register-email');
-    const passwordInput = document.getElementById('register-password');
-    const confirmPasswordInput = document.getElementById('register-confirmPassword');
-    
-    const usernameError = document.createElement('div');
-    const emailError = document.createElement('div');
-    const passwordError = document.createElement('div');
-    const confirmPasswordError = document.createElement('div');
-
-    usernameError.style.color = 'red';
-    emailError.style.color = 'red';
-    passwordError.style.color = 'red';
-    confirmPasswordError.style.color = 'red';
-
-    usernameInput.parentNode.insertBefore(usernameError, usernameInput.nextSibling);
-    emailInput.parentNode.insertBefore(emailError, emailInput.nextSibling);
-    passwordInput.parentNode.insertBefore(passwordError, passwordInput.nextSibling);
-    confirmPasswordInput.parentNode.insertBefore(confirmPasswordError, confirmPasswordInput.nextSibling);
-
-    // Xử lý khi gửi form đăng ký
-    registerForm.addEventListener('submit', function(event) {
-        event.preventDefault();
 
         // Xóa thông báo lỗi trước đó
         usernameError.innerHTML = '';
@@ -64,7 +41,12 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .then(response => response.json())
         .then(data => {
+            console.log(data); // In dữ liệu phản hồi ra console để kiểm tra
+
             if (data.success) {
+                // Hiển thị thông báo thành công dạng alert
+                alert('Đăng ký thành công!');
+
                 // Đóng modal đăng ký và mở modal đăng nhập khi thành công
                 closeRegisterModal();
                 openLoginModal();
