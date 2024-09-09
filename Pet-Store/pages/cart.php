@@ -6,6 +6,10 @@ if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true && isset($_
     // Người dùng đã đăng nhập, sử dụng user_id từ session
     $user_id = $_SESSION['user_id'];
     $is_logged_in = true;
+
+    // lấy thông tin user
+    $user_info = getUserInfo($user_id);
+
 } else {
     // Người dùng chưa đăng nhập
     $is_logged_in = false;
@@ -58,6 +62,13 @@ function getGuestCart() {
     return [];
 }
 
+// Hàm lấy thông tin user
+function getUserInfo($user_id) {
+    global $conn;
+    $stmt = $conn->prepare("SELECT fullname, address, phone FROM users WHERE id = :user_id");
+    $stmt->execute(['user_id' => $user_id]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
 ?>
 
 <link rel="stylesheet" href="../asset/css/cart.css?v=<?php echo time(); ?>">
@@ -159,13 +170,16 @@ function getGuestCart() {
             <h2>Đặt hàng sản phẩm</h2>
 
             <label for="name">Tên của bạn:</label>
-            <input type="text" id="name" name="name" required placeholder="Nhập tên của bạn" title="Vui lòng nhập tên của bạn">
+            <input type="text" id="name" name="name" required placeholder="Nhập tên của bạn" title="Vui lòng nhập tên của bạn" 
+                value="<?php echo htmlspecialchars($user_info['fullname'] ?? ''); ?>">
 
             <label for="address">Địa chỉ giao hàng:</label>
-            <input type="text" id="address" name="address" required placeholder="Nhập địa chỉ giao hàng" title="Vui lòng nhập địa chỉ giao hàng">
+            <input type="text" id="address" name="address" required placeholder="Nhập địa chỉ giao hàng" title="Vui lòng nhập địa chỉ giao hàng"
+                value="<?php echo htmlspecialchars($user_info['address'] ?? ''); ?>">
 
             <label for="phone">Số điện thoại:</label>
-            <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" inputmode="numeric" required placeholder="0123456789" title="Vui lòng nhập số điện thoại gồm 10 chữ số">
+            <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" inputmode="numeric" required placeholder="0123456789" title="Vui lòng nhập số điện thoại gồm 10 chữ số"
+                value="<?php echo htmlspecialchars($user_info['phone'] ?? ''); ?>">
 
             <!-- Hiển thị tổng số tiền -->
             <label for="name-invoice-form" class="total-amount nameInForm" style="display: none">
@@ -178,10 +192,16 @@ function getGuestCart() {
             <!-- Thêm input hidden cho pet_ids -->
             <input type="hidden" id="pet_ids" name="pet_ids">
 
+            <?php if ($is_logged_in): ?>
             <!-- nút gửi -->
+            <button type="button" class="btn-submit">
+                <img src="../asset/images/icon/take-form.png" alt="Gửi">
+            </button>
+            <?php else: ?>
             <button type="button" class="btn-submit" style="display: none">
                 <img src="../asset/images/icon/take-form.png" alt="Gửi">
             </button>
+            <?php endif; ?>
         </form>
     </div>
     <div id="popup-notification-invoice" class="popup-notification">
