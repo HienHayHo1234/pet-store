@@ -1,11 +1,46 @@
 <?php
+session_start();
 
-// Nhận biến $page để biết người dùng đang truy cập trang gì
-$page = trim(strip_tags($_GET['page'] ?? ''));
+// Kiểm tra xem người dùng đã đăng nhập với tư cách admin chưa
+if (!isset($_SESSION['admin_id']) || !isset($_SESSION['admin_username'])) {
+    // Nếu chưa đăng nhập, chuyển hướng đến trang đăng nhập
+    header("Location: login.php");
+    exit();
+}
 
-// Nhúng file chứa các hàm kết nối cơ sở dữ liệu
-require_once "functions.php";
+// Kiểm tra xem người dùng có phải là admin không (giả sử admin có idgroup là 1)
+if (!isset($_SESSION['admin_group']) || $_SESSION['admin_group'] != 1) {
+    // Nếu không phải admin, đăng xuất và chuyển hướng đến trang đăng nhập
+    session_unset();
+    session_destroy();
+    header("Location: login.php?error=unauthorized");
+    exit();
+}
 
+// Tùy chọn: Kiểm tra thời gian không hoạt động
+$inactive = 1800; // 30 phút
+if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > $inactive)) {
+    // Nếu quá thời gian không hoạt động, đăng xuất
+    session_unset();
+    session_destroy();
+    header("Location: login.php?error=timeout");
+    exit();
+}
+$_SESSION['last_activity'] = time(); // Cập nhật thời gian hoạt động
+
+// Tùy chọn: Tái tạo ID phiên để ngăn chặn fixation attacks
+if (!isset($_SESSION['created'])) {
+    $_SESSION['created'] = time();
+} else if (time() - $_SESSION['created'] > 1800) { // Giảm xuống 30 giây để test
+    session_regenerate_id(true);
+    $_SESSION['created'] = time();
+}
+
+// Định nghĩa biến $page
+$page = isset($_GET['page']) ? $_GET['page'] : '';
+
+// Nếu mọi kiểm tra đều pass, admin có thể truy cập trang này
+require 'functions.php';
 ?>
 
 <!DOCTYPE html>
@@ -135,10 +170,10 @@ require_once "functions.php";
         <div class="noidung">
             <aside>
                 <ul>
-                    <li><a href="?page=pets_ds">Danh sách thú cưng</a></li>
-                    <li><a href="?page=pets_them">Thêm thú cưng</a></li>   
-                    <li><a href="?page=orders">Danh sách đơn hàng</a></li>
-                    <li><a href="?page=users">Quản lý người dùng</a></li>
+                    <li><a href="index.php?page=pets_ds">Danh sách thú cưng</a></li>
+                    <li><a href="index.php?page=pets_them">Thêm thú cưng</a></li>   
+                    <li><a href="index.php?page=orders">Danh sách đơn hàng</a></li>
+                    <li><a href="index.php?page=users">Quản lý người dùng</a></li>
                 </ul>
             </aside>
 
@@ -165,7 +200,7 @@ require_once "functions.php";
                         require_once 'users.php';
                         break;
                     default:
-                        require_once 'login.php';
+                        echo "<p>Chào mừng đến với trang quản trị hệ thống thú cưng!</p>";
                         break;
                 }
                 ?>
