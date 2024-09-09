@@ -130,20 +130,40 @@ function showPopup(message, type = "success") {
 
  // cập nhật lại số lượng
  function updateQuantity(itemId, quantity) {
+    console.log(`Đang gửi yêu cầu cập nhật: itemId=${itemId}, quantity=${quantity}`);
+
     const xhr = new XMLHttpRequest();
     xhr.open('POST', '../config/update-quantity.php', true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.send(`id=${itemId}&quantity=${quantity}`);
     
     xhr.onload = function() {
+
         if (xhr.status === 200) {
-            const response = JSON.parse(xhr.responseText);
-            if (response.success) {
-            } else {
-                alert('Lỗi: ' + response.message);
+            try {
+                const response = JSON.parse(xhr.responseText);
+                if (response.success) {
+                    console.log('Cập nhật thành công');
+                    // Thêm code xử lý khi cập nhật thành công (nếu cần)
+                } else {
+                    console.error('Lỗi từ server:', response.message);
+                    alert('Lỗi: ' + response.message);
+                }
+            } catch (e) {
+                console.error('Lỗi khi parse JSON:', e);
+                alert('Lỗi khi xử lý phản hồi từ server');
             }
+        } else {
+            console.error('Lỗi khi gửi yêu cầu. Status:', xhr.status);
+            alert('Lỗi khi gửi yêu cầu đến server');
         }
     };
+
+    xhr.onerror = function() {
+        console.error('Lỗi mạng khi gửi yêu cầu');
+        alert('Có lỗi xảy ra khi kết nối đến server');
+    };
+
+    xhr.send(`id=${itemId}&quantity=${quantity}`);
 }
 
 // Cập nhật tổng tiền

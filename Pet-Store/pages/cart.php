@@ -200,9 +200,6 @@ function getUserInfo($user_id) {
                 Tổng số tiền: <span id="total-amount-form">0đ</span>
             </label>
 
-            <!-- Thêm input hidden cho pet_ids -->
-            <input type="hidden" id="pet_ids" name="pet_ids">
-
             <?php if ($is_logged_in): ?>
             <!-- nút gửi -->
             <button type="button" class="btn-submit">
