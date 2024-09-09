@@ -35,6 +35,19 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 3000);
     }
 
+    // Hiển thị thông báo thành công hoặc lỗi
+    function displayMessage(message, type) {
+        const messageBox = document.createElement('div');
+        messageBox.textContent = message;
+        messageBox.className = type === 'success' ? 'success-message' : 'error-message';
+        document.body.appendChild(messageBox);
+
+        // Tự động ẩn sau vài giây
+        setTimeout(() => {
+            messageBox.remove();
+        }, 3000);
+    }
+
     // Mở modal quên mật khẩu
     function openForgotPasswordModal() {
         const forgotPasswordModal = document.getElementById('forgotPasswordModal');
@@ -88,6 +101,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     closeForgotPasswordModal(); // Đóng modal quên mật khẩu
                     openLoginModal(); // Mở modal đăng nhập
                     displayMessage('Gửi mail thành công!', 'success'); // Hiển thị thông báo thành công
+                    displayMessage('Gửi mail thành công!', 'success'); // Hiển thị thông báo thành công
                 } else {
                     displayMessage('Có lỗi xảy ra, vui lòng thử lại.', 'error'); // Hiển thị thông báo lỗi
                 }
@@ -109,9 +123,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     displayMessage('Gửi mail thành công!', 'success'); // Hiển thị thông báo thành công
                 } else {
                     displayMessage('Có lỗi xảy ra, vui lòng thử lại.', 'error'); // Hiển thị thông báo lỗi
+                    displayMessage('Có lỗi xảy ra, vui lòng thử lại.', 'error'); // Hiển thị thông báo lỗi
                 }
             })
             .catch(() => {
+                displayMessage('Có lỗi xảy ra khi gửi yêu cầu.', 'error'); // Hiển thị thông báo lỗi
                 displayMessage('Có lỗi xảy ra khi gửi yêu cầu.', 'error'); // Hiển thị thông báo lỗi
             });
         });

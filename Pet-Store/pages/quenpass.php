@@ -67,6 +67,28 @@ if (isset($_POST['btn1'])) {
     }
 }
 ?>
+<style>
+    .success-message {
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.error-message {
+    background-color: #f44336;
+    color: white;
+    padding: 15px;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+</style>
 <!-- Modal quên mật khẩu -->
 <div id="forgotPasswordModal" class="modal" style="display: none">
     <div class="modal-content">
