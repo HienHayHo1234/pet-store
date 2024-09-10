@@ -1,52 +1,142 @@
 function showOrderForm(productId) {
     // Hiển thị form đặt hàng
     var orderForm = document.getElementById('orderForm');
+    var orderFormElement = document.getElementById('orderFormElement');
+
     orderForm.style.display = '';
 
-    // Thêm hoặc cập nhật trường hidden input cho pet_id
-    var petIdInput = document.getElementById('pet_id');
-    if (!petIdInput) {
-        petIdInput = document.createElement('input');
-        petIdInput.type = 'hidden';
-        petIdInput.id = 'pet_id';
-        petIdInput.name = 'pet_id';
-        orderForm.appendChild(petIdInput);
-    }
-    petIdInput.value = productId;
+    // Thêm hoặc cập nhật trường hidden input cho pet_ids
+    var petIdsInput = document.getElementById('pet_ids') || document.createElement('input');
+    petIdsInput.type = 'hidden';
+    petIdsInput.id = 'pet_ids';
+    petIdsInput.name = 'pet_ids';
+    petIdsInput.value = JSON.stringify([productId]);
 
+    // Lấy số lượng sản phẩm
+    const invoiceItem = document.querySelector(`.invoice-item[data-id="${productId}"]`);
+    const quantityElement = invoiceItem.querySelector('#quantity');
+    const quantity = quantityElement.innerText.trim();
+
+    // Thêm hoặc cập nhật trường hidden input cho số lượng
+    var quantityInput = document.getElementById('pet_quantities') || document.createElement('input');
+    quantityInput.type = 'hidden';
+    quantityInput.id = 'pet_quantities';
+    quantityInput.name = 'pet_quantities';
+    quantityInput.value = JSON.stringify([quantity]);
+
+    // Lấy giá trị genders
+    const genderElement = invoiceItem.querySelector(`.gender-pet input[type="radio"]:checked`);
+    const gender = genderElement.value;
+
+    // Thêm hoặc cập nhật trường hidden input cho gender
+    var genderInput = document.getElementById('gender') || document.createElement('input');
+    genderInput.type = 'hidden';
+    genderInput.id = 'gender';
+    genderInput.name = 'gender';
+    genderInput.value = JSON.stringify([gender]);
+
+    // Thêm inputs vào form
+    orderFormElement.appendChild(petIdsInput);
+    orderFormElement.appendChild(quantityInput);
+    orderFormElement.appendChild(genderInput);
+    
     // Gán giá trị productId vào hidden input và cập nhật tổng giá
     updateTotalPriceForm(productId);
 
     // Cuộn trang đến form đặt hàng
-    orderForm.scrollIntoView({
-        behavior: 'smooth'
-    });
+    orderForm.scrollIntoView({ behavior: 'smooth' });
 }
+
 function showOrderAllForm() {
     // Hiển thị form đặt hàng
     var orderForm = document.getElementById('orderForm');
+    var orderFormElement = document.getElementById('orderFormElement');
+
     orderForm.style.display = '';
+    
+    // Lấy tất cả petId và số lượng từ các sản phẩm trong giỏ hàng
+    var petIdsAndQuantities = getAllPetIdsAndQuantities();
 
-    // Lấy tất cả petId từ các sản phẩm trong giỏ hàng
-    var petIds = getAllPetIds();
-
-    // Gán danh sách petId vào một input hidden
+    // Thêm hoặc cập nhật trường hidden input cho pet_ids
     var petIdsInput = document.getElementById('pet_ids');
     if (!petIdsInput) {
         petIdsInput = document.createElement('input');
         petIdsInput.type = 'hidden';
         petIdsInput.id = 'pet_ids';
         petIdsInput.name = 'pet_ids';
-        orderForm.querySelector('form').appendChild(petIdsInput);
+        orderFormElement.appendChild(petIdsInput);
     }
-    petIdsInput.value = JSON.stringify(petIds);
 
+    petIdsInput.value = JSON.stringify(petIdsAndQuantities.ids);
+
+    // Thêm hoặc cập nhật trường hidden input cho pet_quantities
+    var quantitiesInput = document.getElementById('pet_quantities');
+    if (!quantitiesInput) {
+        quantitiesInput = document.createElement('input');
+        quantitiesInput.type = 'hidden';
+        quantitiesInput.id = 'pet_quantities';
+        quantitiesInput.name = 'pet_quantities';
+        orderFormElement.appendChild(quantitiesInput);
+    }
+
+    quantitiesInput.value = JSON.stringify(petIdsAndQuantities.quantities);
+
+    // Thêm hoặc cập nhật trường hidden input cho genders
+    var gendersInput = document.getElementById('gender');
+    if (!gendersInput) {
+        gendersInput = document.createElement('input');
+        gendersInput.type = 'hidden';
+        gendersInput.id = 'gender';
+        gendersInput.name = 'gender';
+        orderFormElement.appendChild(gendersInput);
+    }
+
+    gendersInput.value = JSON.stringify(petIdsAndQuantities.genders);
     // Cập nhật tổng giá trị đơn hàng
     updateTotalPriceAllForm();
 
     // Cuộn trang đến form đặt hàng
     orderForm.scrollIntoView({
         behavior: 'smooth'
+    });
+}
+
+function submitOrder() {
+    const form = document.getElementById('orderFormElement');
+    const formData = new FormData(form);
+
+    const totalAmountElement = document.getElementById('total-amount-form');
+    if (totalAmountElement) {
+        const totalAmount = totalAmountElement.innerText.replace(/[^0-9]/g, '');
+        formData.append('total_amount', totalAmount);
+    }
+
+    fetch('../config/order_config.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.text(); // Chuyển từ response.json() thành response.text()
+    })
+    .then(text => {
+        console.log('Raw response:', text); // Log raw response
+        const data = JSON.parse(text); // Phân tích JSON thủ công
+        if (data.success) {
+            localStorage.setItem('orderMessage', data.message);
+            localStorage.setItem('orderSuccess', 'true');
+            closeOrderForm();
+            location.reload();
+        } else {
+            localStorage.setItem('orderMessage', data.message);
+            localStorage.setItem('orderSuccess', 'false');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Đã xảy ra lỗi khi gửi đơn hàng: ' + error.message);
     });
 }
 
@@ -179,56 +269,6 @@ function calculateTotalAmount() {
     return total;
 }
 
-// Hàm gửi yêu cầu đến server
-function submitOrder() {
-    const form = document.getElementById('orderFormElement');
-    const formData = new FormData(form);
-    
-    formData.append('action', 'addtoorder');
-    
-    // Kiểm tra xem có pet_ids hay không
-    const petIdsInput = document.getElementById('pet_ids');
-    if (petIdsInput && petIdsInput.value) {
-        formData.append('pet_ids', petIdsInput.value);
-    } else {
-        // Nếu không có pet_ids, thử lấy từ pet_id (cho trường hợp đặt hàng một sản phẩm)
-        const petIdInput = document.getElementById('pet_id');
-        if (petIdInput && petIdInput.value) {
-            formData.append('pet_ids', JSON.stringify([petIdInput.value]));
-        } else {
-            console.error('Không tìm thấy pet_ids hoặc pet_id');
-            alert('Không có sản phẩm nào được chọn để đặt hàng.');
-            return;
-        }
-    }
-    
-    const totalAmount = document.getElementById('total-amount-form').innerText;
-    formData.append('total_amount', totalAmount.replace(/[^\d]/g, ''));
-    
-    fetch('../config/order_config.php', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            // Lưu thông báo vào localStorage
-            localStorage.setItem('orderMessage', data.message);
-            localStorage.setItem('orderSuccess', 'true');
-            
-            // Đóng form đặt hàng và reload trang
-            closeOrderForm();
-            location.reload();
-        } else {
-            alert('Có lỗi xảy ra: ' + data.message);
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Đã xảy ra lỗi khi gửi đơn hàng.');
-    });
-}
-
 function removeFromCartUI(petId) {
     const cartItem = document.querySelector(`.invoice-item[data-id="${petId}"]`);
     if (cartItem) {
@@ -254,37 +294,56 @@ function updateTotalCartAmount() {
     }
 }
 
-function getAllPetIds() {
-    var petIds = [];
+function getAllPetIdsAndQuantities() {
+    const petIds = [];
+    const quantities = [];
+    const genders = [];
     const checkboxes = document.querySelectorAll('.checkbox-btn-cart');
+    let hasChecked = false;
 
-    if (checkboxes && checkboxes.length > 0) {
+    // Kiểm tra checkboxes có checkbox nào được checked hay không
+    checkboxes.forEach(function(checkbox) {
+        if (checkbox.checked) {
+            hasChecked = true;
+        }
+    });
+
+    if (hasChecked) {
         // Nếu có checkboxes, chỉ lấy các pet đã được chọn
         checkboxes.forEach(function(checkbox) {
             if (checkbox.checked) {
-                var petId = checkbox.getAttribute('data-id');
-                if (petId) {
-                    petIds.push(petId);
+                const invoiceItem = checkbox.closest('.invoice-item');
+                if (invoiceItem) {
+                    const petId = invoiceItem.getAttribute('data-id');
+                    const quantity = invoiceItem.querySelector('#quantity').innerText.trim();
+                    const gender = invoiceItem.querySelector('.gender-pet input[type="radio"]:checked').value;
+                    console.log("Checkbox checked: ", petId, quantity, gender); // Debug info
+                    if (petId && quantity !== '0' && gender) {
+                        petIds.push(petId);
+                        quantities.push(quantity);
+                        genders.push(gender);
+                    }
                 }
             }
         });
     } else {
-        // Nếu không có checkboxes, lấy tất cả pet trong giỏ hàng
+        // Nếu không có checkboxes, lấy tất cả các pet trong cart
         const cartItems = document.querySelectorAll('.invoice-item');
+    
         cartItems.forEach(function(item) {
-            var petId = item.getAttribute('data-id');
-            if (petId) {
+            const petId = item.getAttribute('data-id');
+            const quantity = item.querySelector('#quantity').innerText.trim();
+            const gender = item.querySelector('.gender-pet input[type="radio"]:checked').value;
+
+            if (petId && quantity !== '0' && gender) {
                 petIds.push(petId);
+                quantities.push(quantity);
+                genders.push(gender);
             }
         });
     }
 
-    // Kiểm tra nếu không có pet nào được chọn
-    if (petIds.length === 0) {
-        console.warn('Không có pet nào được chọn');
-    }
-
-    return petIds;
+    return { ids: petIds, quantities: quantities, genders: genders };
 }
 
 function removeAllFromCartUI() {

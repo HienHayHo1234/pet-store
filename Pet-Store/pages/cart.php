@@ -24,7 +24,7 @@ try {
     if ($is_logged_in) {
         // Truy vấn các mặt hàng trong giỏ hàng của người dùng từ database
         $stmt = $conn->prepare("
-            SELECT pets.id, pets.name, pets.price, pets.priceSale, pets.urlImg, cart_items.quantity, cart_items.price as item_price
+            SELECT pets.id, pets.name, pets.price, pets.priceSale, pets.urlImg, cart_items.quantity, cart_items.price as item_price, cart_items.genderCart
             FROM cart
             JOIN cart_items ON cart.cart_id = cart_items.cart_id
             JOIN pets ON cart_items.pet_id = pets.id 
@@ -86,7 +86,7 @@ function getUserInfo($user_id) {
 
         <div class="container-invoice-list">
             <?php foreach ($cartItems as $item): ?>
-            <div class="invoice-item" data-id="<?php echo htmlspecialchars($item['pet_id'] ?? $item['id']); ?>">
+            <div class="invoice-item" data-id="<?php echo htmlspecialchars($item['pet_id'] ?? $item['id']); ?>" data-gender="<?php echo htmlspecialchars($item['genderCart'] ?? ''); ?>">
                 <input type="checkbox" class="checkbox-btn-cart" data-id="<?php echo htmlspecialchars($item['pet_id'] ?? $item['id']); ?>"
                     onclick="selectItem('<?php echo htmlspecialchars($item['pet_id'] ?? $item['id']); ?>')">
 
@@ -98,14 +98,21 @@ function getUserInfo($user_id) {
                 <div class="invoice-text">
                     <p class="name-pet-cart"><?php echo htmlspecialchars($item['name']); ?></p>
                     <p>Giá: <?php echo number_format($is_logged_in ? ($item['priceSale'] ?? $item['price']) : $item['price'], 0, ',', '.'); ?>đ</p>
-                    <p class="count">
-                        Số lượng:
+                    <p class="totalPrice" data-id="<?php echo $item['pet_id'] ?? $item['id']; ?>">Tổng giá:
+                        <?php echo number_format(($is_logged_in ? ($item['priceSale'] ?? $item['price']) : $item['price']) * $item['quantity'], 0, ',', '.'); ?>đ</p>
+                </div>
+
+                <div class="btn-container">
+                    <div class="gender-pet">
+                        <input type="radio" name="gender-<?php echo htmlspecialchars($item['pet_id'] ?? $item['id']); ?>" value="1" <?php echo ($item['genderCart'] == '1') ? 'checked' : ''; ?>> Đực
+                        <input type="radio" name="gender-<?php echo htmlspecialchars($item['pet_id'] ?? $item['id']); ?>" value="0" <?php echo ($item['genderCart'] == '0') ? 'checked' : ''; ?>> Cái
+                    </div>
+
+                    <div class="count">
                         <button class="quantity-btn minus" data-id="<?php echo $item['pet_id'] ?? $item['id']; ?>">-</button>
                         <span id="quantity"><?php echo htmlspecialchars($item['quantity']); ?></span>
                         <button class="quantity-btn plus" data-id="<?php echo $item['pet_id'] ?? $item['id']; ?>">+</button>
-                    </p>
-                    <p class="totalPrice" data-id="<?php echo $item['pet_id'] ?? $item['id']; ?>">Tổng giá:
-                        <?php echo number_format(($is_logged_in ? ($item['priceSale'] ?? $item['price']) : $item['price']) * $item['quantity'], 0, ',', '.'); ?>đ</p>
+                    </div>
                 </div>
 
                 <button class="btn-cancel-pet"
@@ -199,9 +206,6 @@ function getUserInfo($user_id) {
             <label for="total-amount-form" class="total-amount">
                 Tổng số tiền: <span id="total-amount-form">0đ</span>
             </label>
-
-            <!-- Thêm input hidden cho pet_ids -->
-            <input type="hidden" id="pet_ids" name="pet_ids">
 
             <?php if ($is_logged_in): ?>
             <!-- nút gửi -->

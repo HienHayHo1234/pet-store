@@ -2,7 +2,6 @@
 require 'config.php';
 
 session_start();
-
 // Gửi header JSON
 header('Content-Type: application/json');
 
@@ -20,8 +19,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $payment = htmlspecialchars(strip_tags($_POST['paymentMethod'] ?? ''), ENT_QUOTES, 'UTF-8');
         $total_amount = filter_var(str_replace(['đ', ','], '', $_POST['total_amount'] ?? '0'), FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
         $pet_ids = json_decode($_POST['pet_ids'] ?? '[]', true);
+        $pet_quantities = json_decode($_POST['pet_quantities'] ?? '[]', true);
+        $gender = json_decode($_POST['gender'] ?? '[]', true);
 
-        if (empty($name) || empty($address) || empty($phone) || empty($payment) || empty($pet_ids)) {
+        // Đảm bảo các giá trị là mảng
+        $pet_ids = is_array($pet_ids) ? $pet_ids : [];
+        $pet_quantities = is_array($pet_quantities) ? $pet_quantities : [];
+        $gender = is_array($gender) ? $gender : [];
+
+        if (empty($name) || empty($address) || empty($phone) || empty($payment) || empty($pet_ids) || empty($pet_quantities) || empty($gender)) {
             throw new Exception("Vui lòng điền đầy đủ thông tin.");
         }
 
@@ -68,20 +74,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $order_id = $conn->lastInsertId();
 
         // Add order details
-        $stmt = $conn->prepare("INSERT INTO order_details (order_id, pet_id, quantity, price) VALUES (?, ?, ?, ?)");
-        foreach ($pet_ids as $pet_id) {
+        $stmt = $conn->prepare("INSERT INTO order_details (order_id, pet_id, genderOrder, quantity, price) VALUES (?, ?, ?, ?, ?)");
+        
+        // Đảm bảo $pet_ids, $pet_quantities và $gender có cùng độ dài
+        $count = min(count($pet_ids), count($pet_quantities), count($gender));
+
+        for ($i = 0; $i < $count; $i++) {
+            $pet_id = $pet_ids[$i];
+            $quantity = $pet_quantities[$i];
+            $genderOrder = $gender[$i]; // Đổi tên biến để tránh xung đột
+
             $pet_stmt = $conn->prepare("SELECT price, priceSale FROM pets WHERE id = ?");
             $pet_stmt->execute([$pet_id]);
             $pet = $pet_stmt->fetch(PDO::FETCH_ASSOC);
             
             if ($pet) {
                 $price = $pet['priceSale'] > 0 ? $pet['priceSale'] : $pet['price'];
-                $stmt->execute([$order_id, $pet_id, 1, $price]);
+                $stmt->execute([$order_id, $pet_id, $genderOrder, $quantity, $price]);
                 
                 if ($is_logged_in) {
                     $delete_stmt = $conn->prepare("DELETE FROM cart_items WHERE cart_id = (SELECT cart_id FROM cart WHERE user_id = ?) AND pet_id = ?");
                     $delete_stmt->execute([$user_id, $pet_id]);
                 }
+            } else {
+                // Log hoặc xử lý trường hợp không tìm thấy pet
+                error_log("Không tìm thấy pet với ID: $pet_id");
             }
         }
         

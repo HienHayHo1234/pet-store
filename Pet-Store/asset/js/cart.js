@@ -129,12 +129,14 @@ function showPopup(message, type = "success") {
 
  // cập nhật lại số lượng
  function updateQuantity(itemId, quantity) {
+    console.log(`Đang gửi yêu cầu cập nhật: itemId=${itemId}, quantity=${quantity}`);
+
     const xhr = new XMLHttpRequest();
     xhr.open('POST', '../config/update-quantity.php', true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.send(`id=${itemId}&quantity=${quantity}`);
     
     xhr.onload = function() {
+
         if (xhr.status === 200) {
             const response = JSON.parse(xhr.responseText);
             if (response.success ) {
@@ -142,8 +144,18 @@ function showPopup(message, type = "success") {
             } else {
                 alert('Lỗi: ' + response.message);
             }
+        } else {
+            console.error('Lỗi khi gửi yêu cầu. Status:', xhr.status);
+            alert('Lỗi khi gửi yêu cầu đến server');
         }
     };
+
+    xhr.onerror = function() {
+        console.error('Lỗi mạng khi gửi yêu cầu');
+        alert('Có lỗi xảy ra khi kết nối đến server');
+    };
+
+    xhr.send(`id=${itemId}&quantity=${quantity}`);
 }
 
 
@@ -226,15 +238,27 @@ function handlePlusClick() {
 }
 
 function updateInvoice(itemId, quantity) {
-    const invoiceItem = document.querySelector(`.totalPrice[data-id="${itemId}"]`);
-    const pricePerItem = parseInt(invoiceItem.previousElementSibling.previousElementSibling.innerText.replace(/[^0-9]/g, ''), 10);
+    const invoiceItem = document.querySelector(`.invoice-item[data-id="${itemId}"]`);
+    if (!invoiceItem) {
+        console.error(`Không tìm thấy invoice item với id ${itemId}`);
+        return;
+    }
 
+    const priceElement = invoiceItem.querySelector('.invoice-text p:nth-child(2)');
+    const totalPriceElement = invoiceItem.querySelector('.totalPrice');
+
+    if (!priceElement || !totalPriceElement) {
+        console.error('Không tìm thấy phần tử giá hoặc tổng giá');
+        return;
+    }
+
+    const pricePerItem = parseInt(priceElement.innerText.replace(/[^0-9]/g, ''), 10);
     const totalPrice = pricePerItem * quantity;
-    invoiceItem.innerText = `Tổng giá: ${totalPrice.toLocaleString('vi-VN')}đ`;
+
+    totalPriceElement.innerText = `Tổng giá: ${totalPrice.toLocaleString('vi-VN')}đ`;
 
     // Kiểm tra nếu không có checkbox nào được chọn
     const allCheckboxes = document.querySelectorAll('.checkbox-btn-cart');
-            
     let anyChecked = false;
     allCheckboxes.forEach(cb => {
         if (cb.checked) {
@@ -247,6 +271,12 @@ function updateInvoice(itemId, quantity) {
         updateTotalAmount();
     } else {
         updateTotalAmountSelected();
+    }
+
+    // Cập nhật số lượng hiển thị
+    const quantitySpan = invoiceItem.querySelector('#quantity');
+    if (quantitySpan) {
+        quantitySpan.textContent = quantity;
     }
 }
     
@@ -426,6 +456,57 @@ function showConfirmModal(message, onConfirm) {
             closeModal();
         }
     };
+}
+
+// cập nhật giới tính
+document.addEventListener('DOMContentLoaded', function() {
+    const genderInputs = document.querySelectorAll('.gender-pet input[type="radio"]');
+    genderInputs.forEach(input => {
+        input.addEventListener('change', function() {
+            const itemId = this.closest('.invoice-item').getAttribute('data-id');
+            const gender = this.value;
+            updateGenderCart(itemId, gender);
+        });
+    });
+});
+
+function updateGenderCart(itemId, gender) {
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', '../config/update-gender-cart.php', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    
+    xhr.onload = function() {
+
+        if (xhr.status === 200) {
+            try {
+                const response = JSON.parse(xhr.responseText);
+                console.log('Parsed response:', response);
+                if (response.success) {
+                    // Cập nhật data-gender attribute
+                    const invoiceItem = document.querySelector(`.invoice-item[data-id="${itemId}"]`);
+                    if (invoiceItem) {
+                        invoiceItem.dataset.gender = gender;
+                    } else {
+                        console.error(`Không tìm thấy invoice item với id ${itemId}`);
+                    }
+                } else {
+                    console.error('Lỗi từ server:', response.message);
+                }
+            } catch (e) {
+                console.error('Lỗi khi parse JSON:', e);
+                console.error('Response text gây lỗi:', xhr.responseText);
+            }
+        } else {
+            console.error('Lỗi khi gửi yêu cầu. Status:', xhr.status);
+        }
+    };
+
+    xhr.onerror = function() {
+        console.error('Lỗi mạng khi gửi yêu cầu');
+        alert('Có lỗi xảy ra khi kết nối đến server');
+    };
+
+    xhr.send(`pet_id=${itemId}&genderCart=${gender}`);
 }
 
 
