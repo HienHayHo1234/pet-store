@@ -5,7 +5,7 @@ function checkCartItems() {
         if (xhr.status === 200) {
             try {
                 const response = JSON.parse(xhr.responseText);
-                if (response.totalQuantity > 0) {
+                if (response.totalQuantity >= 0) {
                     displayCartIcon(response.totalQuantity);
                 }
             } catch (error) {
