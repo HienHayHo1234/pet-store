@@ -87,7 +87,11 @@
 </head>
 <body>
     <h4>THÊM THÚ CƯNG</h4>
-    <form action="" method="post">
+    <form action="" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label>ID Thú Cưng</label>
+            <input name="id" type="text" required />
+        </div>
         <div class="form-group">
             <label>Tên thú cưng</label>
             <input name="name" type="text" required />
@@ -134,36 +138,62 @@
 
     <?php
     if (isset($_POST['btn'])) {
+        $id = $_POST['id'];
         $name = $_POST['name'];
         $price = $_POST['price'];
         $priceSale = $_POST['priceSale'];
         $gender = $_POST['gender'];
         $quantity = $_POST['quantity'];
-        $urlImg = $_POST['urlImg'];
         $idLoai = $_POST['idLoai'];
         $description = $_POST['description'];
         $hot = $_POST['hot'];
 
+        $uploadDir = '../../asset/uploads/'; // Đường dẫn tương đối đến thư mục uploads
+
+        // Handle file upload
+        if (isset($_FILES['urlImg']) && $_FILES['urlImg']['error'] == 0) {
+            $fileTmpPath = $_FILES['urlImg']['tmp_name'];
+            $fileName = basename($_FILES['urlImg']['name']);
+            $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+
+            // Kiểm tra loại tệp (chỉ cho phép hình ảnh)
+            $allowedExts = ['jpg', 'jpeg', 'png', 'gif'];
+            if (in_array($fileExtension, $allowedExts)) {
+                $newFileName = uniqid() . '.' . $fileExtension; // Tạo tên file mới để tránh trùng lặp
+                $dest_path = $uploadDir . $newFileName;
+
+                // Di chuyển tệp từ thư mục tạm thời đến thư mục uploads
+                if (move_uploaded_file($fileTmpPath, $dest_path)) {
+                    $urlImg = '../asset/uploads/' . $newFileName; // Cập nhật đường dẫn mới
+                } else {
+                    echo 'Có lỗi xảy ra khi tải lên hình ảnh mới.';
+                    exit();
+                }
+            } else {
+                echo 'Loại tệp không được phép. Chỉ cho phép hình ảnh.';
+                exit();
+            }
+        } else {
+            echo 'No file uploaded or there was an error uploading the file.';
+            exit();
+        }
+
         // Xử lý dữ liệu đầu vào
+        $id = trim(strip_tags($id));
         $name = trim(strip_tags($name));
         settype($price, "float");
         settype($priceSale, "float");
         settype($gender, "int");
         settype($quantity, "int");
         settype($hot, "int");
-        $urlImg = trim(strip_tags($urlImg));
         $idLoai = trim(strip_tags($idLoai));
         $description = trim(strip_tags($description));
 
         // Gọi hàm thêm thú cưng
         require_once 'functions.php';
-        $kq = themPets($id,$name, $price, $priceSale, $gender, $quantity, $urlImg, $idLoai, $description, $hot);
+        $kq = themPets($id, $name, $price, $priceSale, $gender, $quantity, $urlImg, $idLoai, $description, $hot);
 
-        // Kiểm tra kết quả và chuyển hướng
-        if ($kq) {
-            header("location: index.php?page=pets_ds");
-            exit();
-        }
+    
     }
     ?>
 </body>
