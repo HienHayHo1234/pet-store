@@ -1,124 +1,19 @@
-/* Reset và thiết lập cơ bản */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-
-
-/* Container chính */
 .container-index-user-flex {
     display: flex;
-    height: 100vh;
-    width: 100vw;
-    overflow: hidden;
-    background-color: #f0f4f8; /* Thêm màu nền nhẹ nhàng */
+    flex-direction: row;
+    padding: 3vb;
+    min-height: 80vh;
 }
 
-/* Khung cho nav */
+/* -----------------------------------khung cho nav-------------------------- */
 .cnt-col {
-    flex: 1;
-    background-color: #ffffff;
-    padding: 2rem;
-    transition: all 0.3s ease;
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1); /* Thêm bóng đổ nhẹ */
+    flex: 3;
 }
 
-.cnt-col:hover {
-    flex: 1.2;
-}
 
-/* Khung cho content */
+/* -----------------------------------khung cho content-------------------------- */
 .content-col {
-    flex: 4;
-    display: flex;
-    flex-direction: column;
-    padding: 2rem;
-    background-color: #ffffff;
-    transition: all 0.3s ease;
-    max-width: 1200px; /* Giới hạn chiều rộng tối đa */
-    margin: 0 auto; /* Căn giữa theo chiều ngang */
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.05); /* Thêm bóng đổ nhẹ */
-    border-radius: 10px; /* Bo góc nhẹ */
-}
-
-.content-col:hover {
-   transform: scale(1.05);
-}
-
-/* Styles cho các phần tử bên trong */
-h2 {
-    color: #2c3e50;
-    margin-bottom: 1.5rem;
-    font-weight: 600;
-    border-bottom: 2px solid #3498db;
-    padding-bottom: 0.5rem;
-    text-align: center; /* Căn giữa tiêu đề */
-}
-
-p {
-    margin-bottom: 1rem;
-    color: #34495e;
-}
-
-a {
-    color: #3498db;
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-a:hover {
-    color: #2980b9;
-}
-
-/* Scrollbar tùy chỉnh */
-::-webkit-scrollbar {
-    width: 8px;
-}
-
-::-webkit-scrollbar-track {
-    background: #f1f1f1;
-}
-
-::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: #555;
-}
-
-/* Responsive design */
-@media (max-width: 768px) {
-    .container-index-user-flex {
-        flex-direction: column;
-    }
-
-    .cnt-col, .content-col {
-        flex: none;
-        width: 100%;
-        height: auto; /* Thay đổi từ 50vh thành auto */
-        max-height: 50vh; /* Thêm max-height */
-    }
-
-    .content-col {
-        margin: 1rem; /* Thêm margin cho mobile */
-        width: calc(100% - 2rem); /* Điều chỉnh chiều rộng */
-    }
-}
-
-/* Animation */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.cnt-col, .content-col {
-    animation: fadeIn 0.5s ease-out forwards;
-}
-
-.content-col {
-    animation-delay: 0.2s;
+    flex: 7;
+    justify-content: center;
+    align-items: center;
 }

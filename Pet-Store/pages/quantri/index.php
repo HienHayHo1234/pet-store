@@ -50,20 +50,19 @@ require 'functions.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản trị website</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
     * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-        font-family: 'Poppins', sans-serif;
+        font-family: 'Roboto', 'Arial', sans-serif;
     }
 
     html, body {
         height: 100%;
         width: 100%;
-        background-color: #f4f7f6;
-        color: #333;
+        background-color: #f5f7fa;
+        color: #2c3e50;
     }
 
     .container {
@@ -74,18 +73,17 @@ require 'functions.php';
     }
 
     header {
-        height: 70px;
-        background-color: #2c3e50;
+        height: 80px;
+        background-color: #3498db;
         display: flex;
-        align-items: center;
         justify-content: center;
-        padding: 0 30px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        align-items: center;
+        box-shadow: 0 2px 10px rgba(52, 152, 219, 0.2);
     }
 
     header h1 {
         color: white;
-        font-size: 1.8rem;
+        font-size: 2.2rem;
         font-weight: 500;
     }
 
@@ -96,34 +94,34 @@ require 'functions.php';
     }
 
     aside {
-        background-color: #34495e;
-        width: 250px;
+        background-color: #2c3e50;
+        padding: 25px;
+        width: 240px;
         overflow-y: auto;
-        transition: all 0.3s ease;
     }
 
     aside ul {
         list-style: none;
-        padding: 20px 0;
     }
 
     aside ul li {
-        margin-bottom: 10px;
+        margin-bottom: 15px;
     }
 
     aside ul li a {
         color: #ecf0f1;
         text-decoration: none;
-        font-size: 1rem;
-        padding: 12px 25px;
+        font-size: 1.1rem;
+        padding: 12px 15px;
         display: block;
+        background-color: #34495e;
+        border-radius: 8px;
         transition: all 0.3s ease;
-        border-left: 4px solid transparent;
     }
 
-    aside ul li a:hover, aside ul li a.active {
-        background-color: #2c3e50;
-        border-left-color: #3498db;
+    aside ul li a:hover {
+        background-color: #3498db;
+        transform: translateX(5px);
     }
 
     main {
@@ -144,7 +142,7 @@ require 'functions.php';
         text-align: center;
         font-size: 0.9rem;
         color: #7f8c8d;
-        padding: 15px;
+        padding: 20px;
         background-color: #ecf0f1;
         border-top: 1px solid #bdc3c7;
     }
@@ -157,22 +155,7 @@ require 'functions.php';
 
     footer a:hover {
         color: #2980b9;
-    }
-
-    /* Responsive design */
-    @media (max-width: 768px) {
-        aside {
-            width: 70px;
-        }
-
-        aside ul li a {
-            padding: 15px;
-            text-align: center;
-        }
-
-        aside ul li a span {
-            display: none;
-        }
+        text-decoration: underline;
     }
 </style>
 
@@ -181,16 +164,16 @@ require 'functions.php';
 <body>
     <div class="container">
         <header>
-            <h1>QUẢN TRỊ WEBSITE</h1>
+            <h1>Quản trị Website</h1>
         </header>
 
         <div class="noidung">
             <aside>
                 <ul>
-                    <li><a href="index.php?page=pets_ds"><i class="fas fa-paw"></i> <span>Danh sách thú cưng</span></a></li>
-                    <li><a href="index.php?page=pets_them"><i class="fas fa-plus"></i> <span>Thêm thú cưng</span></a></li>   
-                    <li><a href="index.php?page=orders"><i class="fas fa-shopping-cart"></i> <span>Danh sách đơn hàng</span></a></li>
-                    <li><a href="index.php?page=users"><i class="fas fa-users"></i> <span>Quản lý người dùng</span></a></li>
+                    <li><a href="index.php?page=pets_ds">Danh sách thú cưng</a></li>
+                    <li><a href="index.php?page=pets_them">Thêm thú cưng</a></li>   
+                    <li><a href="index.php?page=orders">Danh sách đơn hàng</a></li>
+                    <li><a href="index.php?page=users">Quản lý người dùng</a></li>
                 </ul>
             </aside>
 
@@ -223,11 +206,7 @@ require 'functions.php';
                 ?>
             </main>
         </div>
-        <footer>
-            <p>&copy; 2023 Quản trị Website Thú Cưng. Thiết kế bởi <a href="#">Your Name</a></p>
-        </footer>
     </div>
-    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
 </body>
 
 </html>
