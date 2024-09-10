@@ -61,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 <link rel="stylesheet" href="../asset/css/profile.css">
 <body>
-    <div class="tt">
+    < style="align-items: center;  width: 60%; margin: 10px auto;">
         <div class="content">
             <h2>Thông Tin Tài Khoản</h2>
             <form id="profileForm" class="profile" action="" method="post">
