@@ -64,7 +64,7 @@ $conn->close();
 ?>
 
 <!-- Phần HTML -->
-<div class="tt">
+<div style="align-items: center;  width: 40%; margin: 10px auto;">
     <div class="content">
         <h2>Đổi mật khẩu</h2>
         <form class="profile" action="" method="post">
