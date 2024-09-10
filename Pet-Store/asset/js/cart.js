@@ -9,7 +9,6 @@ function removeFromCart(petId) {
         sendCartRequest('remove', petId);
     });
 }
-
 // Hàm gửi yêu cầu đến server
 function sendCartRequest(action, petId) {
     var xhr = new XMLHttpRequest();
@@ -29,7 +28,7 @@ function sendCartRequest(action, petId) {
                     location.reload();
                 } else {
                     showPopup(response.message, 'success');
-                    updateCartDisplay();
+                    updateCartDisplay(response.cartCount);
                 }
             } else {
                 showPopup("Có lỗi xảy ra: " + response.message, "error");
@@ -113,7 +112,6 @@ function updateCartSummary() {
         cartCountElement.textContent = totalQuantity;
     }
 }
-
 // Hàm hiển thị cửa sổ popup
 function showPopup(message, type = "success") {
     var popup = document.getElementById('popup-notification');
@@ -121,6 +119,7 @@ function showPopup(message, type = "success") {
     popupMessage.textContent = message;
     popup.className = 'popup-notification ' + type;
     popup.style.display = 'block';
+    checkCartItems();
 
     // Tự động ẩn popup sau 2 giây
     setTimeout(function() {
@@ -139,18 +138,11 @@ function showPopup(message, type = "success") {
     xhr.onload = function() {
 
         if (xhr.status === 200) {
-            try {
-                const response = JSON.parse(xhr.responseText);
-                if (response.success) {
-                    console.log('Cập nhật thành công');
-                    // Thêm code xử lý khi cập nhật thành công (nếu cần)
-                } else {
-                    console.error('Lỗi từ server:', response.message);
-                    alert('Lỗi: ' + response.message);
-                }
-            } catch (e) {
-                console.error('Lỗi khi parse JSON:', e);
-                alert('Lỗi khi xử lý phản hồi từ server');
+            const response = JSON.parse(xhr.responseText);
+            if (response.success ) {
+                checkCartItems();
+            } else {
+                alert('Lỗi: ' + response.message);
             }
         } else {
             console.error('Lỗi khi gửi yêu cầu. Status:', xhr.status);
@@ -165,6 +157,7 @@ function showPopup(message, type = "success") {
 
     xhr.send(`id=${itemId}&quantity=${quantity}`);
 }
+
 
 // Cập nhật tổng tiền
 function updateTotalAmount() {
@@ -214,6 +207,8 @@ document.addEventListener('DOMContentLoaded', function() {
         button.removeEventListener('click', handlePlusClick);
         button.addEventListener('click', handlePlusClick);
     });
+    checkCartItems();
+    
 });
 
 function handleMinusClick() {

@@ -12,32 +12,37 @@ if (!$conn) {
     exit;
 }
 
-try {
-    $itemCount = 0;
-
+function getTotalQuantity() {
     if (isset($_SESSION['user_id'])) {
         // Người dùng đã đăng nhập
-        $user_id = $_SESSION['user_id'];
-        
-        $stmt = $conn->prepare("
-            SELECT COUNT(*) as itemCount
-            FROM cart
-            JOIN cart_items ON cart.id = cart_items.cart_id
-            WHERE cart.user_id = ?
-        ");
-        $stmt->execute([$user_id]);
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        $itemCount = $result['itemCount'];
-    } else {
-        // Khách (guest)
-        if (isset($_SESSION['guest_cart'])) {
-            // Đếm số lượng sản phẩm trong giỏ hàng của khách
-            $itemCount = array_sum($_SESSION['guest_cart']);
+        global $conn;
+        try {
+            $stmt = $conn->prepare("
+                SELECT SUM(cart_items.quantity) as totalQuantity
+                FROM cart
+                JOIN cart_items ON cart.cart_id = cart_items.cart_id
+                WHERE cart.user_id = :user_id
+            ");
+            $stmt->bindParam(':user_id', $_SESSION['user_id']);
+            $stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return (int)($result['totalQuantity'] ?? 0);
+        } catch (PDOException $e) {
+            error_log("Error counting cart items: " . $e->getMessage());
+            return 0;
         }
+    } elseif (isset($_COOKIE['guest_cart'])) {
+        // Khách (guest)
+        $guestCart = json_decode(gzuncompress(base64_decode($_COOKIE['guest_cart'])), true);
+        return (int)array_sum(array_column($guestCart, 'quantity'));
     }
+    return 0;
+}
 
-    echo json_encode(['itemCount' => $itemCount]);
-} catch (PDOException $e) {
+try {
+    $totalQuantity = getTotalQuantity();
+    echo json_encode(['totalQuantity' => $totalQuantity]);
+} catch (Exception $e) {
     error_log($e->getMessage());
     echo json_encode(['error' => "Có lỗi xảy ra khi kiểm tra giỏ hàng."]);
 }

@@ -3,6 +3,7 @@ session_start();
 
 // Kiểm tra trạng thái đăng nhập
 $logged_in = isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true;
+
 ?>
 <link rel="stylesheet" href="../asset/css/index.css">
 <link rel="stylesheet" href="../asset/css/banner.css">
@@ -57,17 +58,12 @@ $logged_in = isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true;
     <ul class="nav-right">
     <li class="nav-cart dropdown">
         <a class="text-cart dropdown-btn" href="../pages/index.php?page=cart">
-            <img src="../asset/images/icon/cart-ico.png" alt="Cart Icon" />
+            <div class="cart-icon-wrapper">
+                <img src="../asset/images/icon/cart-ico.png" alt="Cart Icon" />
+                <span class="cart-count"></span>
+            </div>
             Giỏ hàng
-        </a>
-        <?php if (!$logged_in): ?>
-        <div class="dropdown-content">
-            <a href="../pages/index.php?page=order_guest">
-                <img src="../asset/images/icon/userprofile.png" style="vertical-align: middle;" />
-                Lịch sử đặt hàng
-            </a>
-        </div>
-        <?php endif; ?>
+        </a>  
     </li>
 
  
@@ -114,6 +110,10 @@ $logged_in = isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true;
             <?php echo htmlspecialchars($user['username']); ?>
         </a>
         <div class="dropdown-content">
+            <a href="../pages/index.php?page=index_user&pageuser=orders">
+                <img src="../asset/images/icon/order.png" style="vertical-align: middle;" />
+                Lịch sử đặt hàng
+            </a>
             <a href="../pages/index.php?page=index_user">
                 <img src="../asset/images/icon/userprofile.png" style="vertical-align: middle;" />
                 Thông tin
@@ -132,6 +132,13 @@ $logged_in = isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true;
             Tài khoản
         </a>
         <div class="dropdown-content">
+        <?php if (!$logged_in): ?>
+            <a href="../pages/index.php?page=order_guest">
+                <img src="../asset/images/icon/order.png" style="vertical-align: middle;" />
+                Lịch sử đặt hàng
+            </a>
+        <?php endif; ?>
+        
             <a href="" onclick="openLoginModal(); return false;">
                 <img class="circle-button" src="../asset/images/icon/login-ico.png" alt="Login" style="vertical-align: middle;">
                 Đăng nhập

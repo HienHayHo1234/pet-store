@@ -6,7 +6,7 @@ $id = $_GET['id'] ?? '';
 $id = htmlspecialchars($id);
 
 // Lấy thông tin chi tiết của thú cưng từ cơ sở dữ liệu
-$pet = layChiTietPets($id); // Bạn cần tạo hàm `layChiTietPets` trong file `functions.php`
+$pet = layChiTietPets($id);
 
 // Xử lý khi form được gửi
 if (isset($_POST['btn'])) {
@@ -15,11 +15,40 @@ if (isset($_POST['btn'])) {
     $priceSale = $_POST['priceSale'] ?? null;
     $gender = $_POST['gender'];
     $quantity = $_POST['quantity'];
-    $urlImg = $_POST['urlImg'];
+    $urlImg = $pet['urlImg']; // Giữ đường dẫn ảnh cũ
     $idLoai = $_POST['idLoai'];
     $description = $_POST['description'];
     $hot = $_POST['hot'] ?? 0;
-    
+
+    $uploadDir = '../../asset/uploads/'; // Đường dẫn tương đối đến thư mục uploads
+
+    // Xử lý tệp hình ảnh mới
+    if (isset($_FILES['urlImgNew']) && $_FILES['urlImgNew']['error'] == 0) {
+        $fileTmpPath = $_FILES['urlImgNew']['tmp_name'];
+        $fileName = basename($_FILES['urlImgNew']['name']);
+        $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+        
+        // Kiểm tra loại tệp (chỉ cho phép hình ảnh)
+        $allowedExts = ['jpg', 'jpeg', 'png', 'gif'];
+        if (in_array($fileExtension, $allowedExts)) {
+            $newFileName = uniqid() . '.' . $fileExtension; // Tạo tên file mới để tránh trùng lặp
+            $dest_path = $uploadDir . $newFileName;
+            
+            // Di chuyển tệp từ thư mục tạm thời đến thư mục uploads
+            if (move_uploaded_file($fileTmpPath, $dest_path)) {
+                // Xóa file ảnh cũ nếu tồn tại
+                if (file_exists($uploadDir . basename($urlImg))) {
+                    unlink($uploadDir . basename($urlImg));
+                }
+                $urlImg = '../asset/uploads/' . $newFileName; // Cập nhật đường dẫn mới
+            } else {
+                echo 'Có lỗi xảy ra khi tải lên hình ảnh mới.';
+            }
+        } else {
+            echo 'Loại tệp không được phép. Chỉ cho phép hình ảnh.';
+        }
+    }
+
     settype($price, "float");
     settype($priceSale, "float");
     settype($gender, "int");
@@ -35,6 +64,10 @@ if (isset($_POST['btn'])) {
     }
 }
 ?>
+
+
+
+
 
 <!DOCTYPE html>
 <html lang="vi">
@@ -135,7 +168,7 @@ if (isset($_POST['btn'])) {
 </head>
 <body>
     <h4>CHỈNH SỬA THÚ CƯNG</h4>
-    <form action="" method="post">
+    <form action="" method="post" enctype="multipart/form-data">
         <div class="form-group">
             <label for="name">Tên thú cưng</label>
             <input name="name" type="text" id="name" value="<?= htmlspecialchars($pet['name']) ?>" />
@@ -159,11 +192,15 @@ if (isset($_POST['btn'])) {
         </div>
 
         <div class="form-group">
+        <div class="form-group">
             <label for="urlImg">Hình ảnh hiện tại:</label>
-            <img src="<?= htmlspecialchars($pet['urlImg']) ?>" alt="Hình ảnh thú cưng" style="max-width: 200px; height: auto; border-radius: 5px;"/>
+            <img src="<?= htmlspecialchars('../' . $pet['urlImg']) ?>" alt="Hình ảnh thú cưng" style="max-width: 200px; height: auto; border-radius: 5px;"/>
             <label for="urlImgNew">Chọn hình ảnh mới:</label>
             <input name="urlImgNew" type="file" id="urlImgNew" accept="image/*" />
         </div>
+
+
+
 
         <div class="form-group">
             <label for="idLoai">Loại thú cưng</label>

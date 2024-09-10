@@ -381,3 +381,28 @@ function showPopup(message, type = "success") {
 
 // Thêm event listener để kiểm tra và hiển thị popup sau khi trang đã tải
 window.addEventListener('load', checkAndShowOrderPopup);
+
+document.addEventListener('DOMContentLoaded', () => {
+    const bankModal = document.querySelector('.modal-bank');
+    const bankCheckbox = document.getElementById('bank');
+    const closeModal = bankModal.querySelector('.close');
+    const confirmPaymentButton = document.getElementById('confirm-payment');
+
+    function toggleModal(show) {
+        bankModal.style.display = show ? 'block' : 'none';
+    }
+
+    bankCheckbox.addEventListener('change', () => toggleModal(bankCheckbox.checked));
+
+    closeModal.addEventListener('click', () => toggleModal(false));
+
+    confirmPaymentButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        bankCheckbox.checked = true;
+        toggleModal(false);
+    });
+
+    window.addEventListener('click', (event) => {
+        if (event.target === bankModal) toggleModal(false);
+    });
+});
