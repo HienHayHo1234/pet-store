@@ -214,7 +214,8 @@ function addToGuestCart($pet_id, $conn) {
                 'name' => $pet['name'],
                 'price' => $price,
                 'urlImg' => $pet['urlImg'],
-                'quantity' => 1
+                'quantity' => 1,
+                'genderCart' => 0
             );
         }
         

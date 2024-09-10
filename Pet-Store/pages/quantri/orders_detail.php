@@ -7,7 +7,7 @@ function layChiTietDonHang($order_id) {
     global $conn;
     // Truy vấn để lấy chi tiết đơn hàng
     $sql = "SELECT o.idOrder AS order_id, o.orderDate, o.status AS order_status, 
-                   p.name AS pet_name, od.quantity, od.price, (od.quantity * od.price) AS item_total
+                   p.name AS pet_name, od.quantity, od.price, (od.quantity * od.price) AS item_total, od.genderOrder
             FROM orders o
             JOIN order_details od ON o.idOrder = od.order_id
             JOIN pets p ON od.pet_id = p.id
@@ -121,6 +121,7 @@ $details = layChiTietDonHang($order_id);
             <thead>
                 <tr>
                     <th>Sản phẩm</th>
+                    <th>Giới tính</th>
                     <th>Số lượng</th>
                     <th>Đơn giá</th>
                     <th>Tổng giá</th>
@@ -134,6 +135,7 @@ $details = layChiTietDonHang($order_id);
                     ?>
                     <tr>
                         <td><?= htmlspecialchars($detail['pet_name']) ?></td>
+                        <td><?= isset($detail['genderOrder']) ? ($detail['genderOrder'] == 1 ? 'Đực' : 'Cái') : 'Không xác định' ?></td>
                         <td><?= $detail['quantity'] ?></td>
                         <td><?= number_format($detail['price'], 0, ',', '.') ?> VND</td>
                         <td><?= number_format($detail['item_total'], 0, ',', '.') ?> VND</td>

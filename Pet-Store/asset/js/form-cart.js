@@ -24,9 +24,21 @@ function showOrderForm(productId) {
     quantityInput.name = 'pet_quantities';
     quantityInput.value = JSON.stringify([quantity]);
 
+    // Lấy giá trị genders
+    const genderElement = invoiceItem.querySelector(`.gender-pet input[type="radio"]:checked`);
+    const gender = genderElement.value;
+
+    // Thêm hoặc cập nhật trường hidden input cho gender
+    var genderInput = document.getElementById('gender') || document.createElement('input');
+    genderInput.type = 'hidden';
+    genderInput.id = 'gender';
+    genderInput.name = 'gender';
+    genderInput.value = JSON.stringify([gender]);
+
     // Thêm inputs vào form
     orderFormElement.appendChild(petIdsInput);
     orderFormElement.appendChild(quantityInput);
+    orderFormElement.appendChild(genderInput);
     
     // Gán giá trị productId vào hidden input và cập nhật tổng giá
     updateTotalPriceForm(productId);
@@ -69,6 +81,17 @@ function showOrderAllForm() {
 
     quantitiesInput.value = JSON.stringify(petIdsAndQuantities.quantities);
 
+    // Thêm hoặc cập nhật trường hidden input cho genders
+    var gendersInput = document.getElementById('gender');
+    if (!gendersInput) {
+        gendersInput = document.createElement('input');
+        gendersInput.type = 'hidden';
+        gendersInput.id = 'gender';
+        gendersInput.name = 'gender';
+        orderFormElement.appendChild(gendersInput);
+    }
+
+    gendersInput.value = JSON.stringify(petIdsAndQuantities.genders);
     // Cập nhật tổng giá trị đơn hàng
     updateTotalPriceAllForm();
 
@@ -82,19 +105,12 @@ function submitOrder() {
     const form = document.getElementById('orderFormElement');
     const formData = new FormData(form);
 
-    // Thêm total_amount vào FormData
     const totalAmountElement = document.getElementById('total-amount-form');
     if (totalAmountElement) {
         const totalAmount = totalAmountElement.innerText.replace(/[^0-9]/g, '');
         formData.append('total_amount', totalAmount);
     }
 
-    // Log FormData để kiểm tra
-    for (let [key, value] of formData.entries()) {
-        console.log(key, value);
-    }
-
-    // Gửi request
     fetch('../config/order_config.php', {
         method: 'POST',
         body: formData
@@ -103,19 +119,11 @@ function submitOrder() {
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        return response.text(); // Đổi từ response.json() thành response.text()
+        return response.text(); // Chuyển từ response.json() thành response.text()
     })
     .then(text => {
         console.log('Raw response:', text); // Log raw response
-        try {
-            return JSON.parse(text); // Manually parse JSON
-        } catch (error) {
-            console.error('JSON parsing error:', error);
-            throw new Error('Invalid JSON response from server');
-        }
-    })
-    .then(data => {
-        // Xử lý data như bình thường
+        const data = JSON.parse(text); // Phân tích JSON thủ công
         if (data.success) {
             localStorage.setItem('orderMessage', data.message);
             localStorage.setItem('orderSuccess', 'true');
@@ -289,9 +297,18 @@ function updateTotalCartAmount() {
 function getAllPetIdsAndQuantities() {
     const petIds = [];
     const quantities = [];
+    const genders = [];
     const checkboxes = document.querySelectorAll('.checkbox-btn-cart');
+    let hasChecked = false;
 
-    if (checkboxes && checkboxes.checked) {
+    // Kiểm tra checkboxes có checkbox nào được checked hay không
+    checkboxes.forEach(function(checkbox) {
+        if (checkbox.checked) {
+            hasChecked = true;
+        }
+    });
+
+    if (hasChecked) {
         // Nếu có checkboxes, chỉ lấy các pet đã được chọn
         checkboxes.forEach(function(checkbox) {
             if (checkbox.checked) {
@@ -299,12 +316,12 @@ function getAllPetIdsAndQuantities() {
                 if (invoiceItem) {
                     const petId = invoiceItem.getAttribute('data-id');
                     const quantity = invoiceItem.querySelector('#quantity').innerText.trim();
-    
-                    console.log("Checkbox checked: ", petId, quantity); // Debug info
-    
-                    if (petId && quantity !== '0') {
+                    const gender = invoiceItem.querySelector('.gender-pet input[type="radio"]:checked').value;
+                    console.log("Checkbox checked: ", petId, quantity, gender); // Debug info
+                    if (petId && quantity !== '0' && gender) {
                         petIds.push(petId);
                         quantities.push(quantity);
+                        genders.push(gender);
                     }
                 }
             }
@@ -315,16 +332,18 @@ function getAllPetIdsAndQuantities() {
     
         cartItems.forEach(function(item) {
             const petId = item.getAttribute('data-id');
-            const quantity = item.querySelector('#quantity').innerText.trim(); // Use "item" here
-    
-            if (petId && quantity !== '0') {
+            const quantity = item.querySelector('#quantity').innerText.trim();
+            const gender = item.querySelector('.gender-pet input[type="radio"]:checked').value;
+
+            if (petId && quantity !== '0' && gender) {
                 petIds.push(petId);
                 quantities.push(quantity);
+                genders.push(gender);
             }
         });
     }
 
-    return { ids: petIds, quantities: quantities };
+    return { ids: petIds, quantities: quantities, genders: genders };
 }
 
 function removeAllFromCartUI() {
